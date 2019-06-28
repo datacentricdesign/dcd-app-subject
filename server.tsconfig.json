@@ -16,5 +16,5 @@
       "dom"
     ]
   },
-  "include": ["server.ts", "prerender.ts","passport-dcd.js"]
+  "include": ["server.ts", "prerender.ts"]
 }
