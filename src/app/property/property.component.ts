@@ -1,6 +1,6 @@
 import { Component, Inject, Optional,PLATFORM_ID,Input, OnInit, ComponentFactoryResolver} from '@angular/core';
-import { Thing } from '../../../dcd/entities/thing'
-import { Property, PropertyType } from '.../../../dcd/entities/property'
+import { Thing } from 'dcd-sdk-js'
+import { Property, PropertyType } from 'dcd-sdk-js'
 
 import { ClientService } from '../client.service';
 import {isPlatformServer} from "@angular/common";
