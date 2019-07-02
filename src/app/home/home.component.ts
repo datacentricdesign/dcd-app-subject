@@ -1,7 +1,7 @@
 import { Component, Inject, Optional,PLATFORM_ID, OnInit} from '@angular/core';
 
-import { Thing } from 'dcd-sdk-js'
-import { Property } from 'dcd-sdk-js'
+
+import { Thing,Property } from '.../../../classes'
 
 
 import {
