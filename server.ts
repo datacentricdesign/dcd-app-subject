@@ -21,6 +21,8 @@ import * as dotenv from 'dotenv'
 import * as findconfig from 'find-config'
 import * as fetch from 'node-fetch'
 
+console.log('test_server')
+
 // Faster server renders w/ Prod mode (dev mode never needed)
 enableProdMode();
 
