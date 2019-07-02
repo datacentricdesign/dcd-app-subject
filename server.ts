@@ -16,12 +16,11 @@ import * as bodyParser from 'body-parser'
 import * as session from 'express-session'
 import * as refresh from 'passport-oauth2-refresh'
 import * as passport from 'passport'
-import {Strategy} from 'dcd-sdk-javascript'
+import {Strategy} from 'dcd-sdk-js'
 import * as dotenv from 'dotenv'
 import * as findconfig from 'find-config'
 import * as fetch from 'node-fetch'
 
-console.log('test_server')
 
 // Faster server renders w/ Prod mode (dev mode never needed)
 enableProdMode();
