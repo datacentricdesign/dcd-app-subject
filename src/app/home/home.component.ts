@@ -59,13 +59,13 @@ export class HomeComponent implements OnInit {
     }
 
     FillArrayThings(things : Thing[]) : void{
-      //this.http.get('/api/things')
-      this.http.get('http://localhost:8080/api/things')
+      this.http.get('/api/things')
+      // this.http.get('http://localhost:8080/api/things')
       .toPromise().then(data => {
         console.log('promise1 : ',data)
         data['things'].forEach(thing => {
-          //this.http.get('/api/things/'+thing.id)
-          this.http.get('http://localhost:8080/api/things/'+thing.id)
+          this.http.get('/api/things/'+thing.id)
+          // this.http.get('http://localhost:8080/api/things/'+thing.id)
         .toPromise().then(data => {
         console.log('promise2',data)
         things.push(new Thing({
@@ -122,8 +122,8 @@ export class HomeComponent implements OnInit {
 
     delete_thing(thing:Thing){
       if ( confirm( "Delete " + thing.thing_name +" ?" ) ) {
-      //this.http.delete('/api/things/'+thing.thing_id)
-       this.http.delete('http://localhost:8080/api/things/'+thing.thing_id)
+      this.http.delete('/api/things/'+thing.thing_id)
+       // this.http.delete('http://localhost:8080/api/things/'+thing.thing_id)
        .toPromise().then(data => {
          console.log(data)
          window.location.reload(); //TODO make a reload req ?
@@ -133,8 +133,8 @@ export class HomeComponent implements OnInit {
 
     delete_property(thing:Thing,property:Property){
       if ( confirm( "Delete "+property.property_name+" ?" ) ) {
-        //this.http.delete('/api/things/'+thing.thing_id+'/properties/'+property.property_id)
-        this.http.delete('http://localhost:8080/api/things/'+thing.thing_id+'/properties/'+property.property_id)
+        this.http.delete('/api/things/'+thing.thing_id+'/properties/'+property.property_id)
+        // this.http.delete('http://localhost:8080/api/things/'+thing.thing_id+'/properties/'+property.property_id)
        .toPromise().then(data => {
          console.log(data)
          window.location.reload(); //TODO make a reload req ?

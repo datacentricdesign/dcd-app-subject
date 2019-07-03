@@ -31,13 +31,13 @@ export class NavbarComponent {
   }
 
   BrowserUniversalInit(){
-    //this.http.get('/api/user')
-  this.http.get('http://localhost:8080/api/user')
+    this.http.get('/api/user')
+  // this.http.get('http://localhost:8080/api/user')
   .toPromise().then(data => {
   console.log('promise0',data)
   const userId = data['sub'].split('dcd:persons:')[1]
-  //this.http.get('/api/persons/'+userId)
-  this.http.get('http://localhost:8080/api/persons/'+userId)
+  this.http.get('/api/persons/'+userId)
+  // this.http.get('http://localhost:8080/api/persons/'+userId)
   .toPromise().then(data => {
   console.log('promise0',data)
   this.name =data['person'].name
