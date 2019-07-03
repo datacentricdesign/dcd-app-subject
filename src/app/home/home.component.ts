@@ -59,12 +59,12 @@ export class HomeComponent implements OnInit {
     }
 
     FillArrayThings(things : Thing[]) : void{
-      this.http.get('/api/things')
+      this.http.get('api/things')
       // this.http.get('http://localhost:8080/api/things')
       .toPromise().then(data => {
         console.log('promise1 : ',data)
         data['things'].forEach(thing => {
-          this.http.get('/api/things/'+thing.id)
+          this.http.get('api/things/'+thing.id)
           // this.http.get('http://localhost:8080/api/things/'+thing.id)
         .toPromise().then(data => {
         console.log('promise2',data)
