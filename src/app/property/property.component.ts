@@ -43,7 +43,7 @@ export class PropertyComponent implements OnInit {
             const from : number = rangeDates[0].getTime(); 
             const to : number = rangeDates[1].getTime() + 24*60*60*1000 ; 
             console.log('from :',from,'to :',to)
-            this.http.get('/api/things/'+this.ChildThing.thing_id+'/properties/'+this.ChildProperty.property_id+'?from='+from+'&to='+to)
+            this.http.get('api/things/'+this.ChildThing.thing_id+'/properties/'+this.ChildProperty.property_id+'?from='+from+'&to='+to)
             // this.http.get('http://localhost:8080/api/things/'+this.ChildThing.thing_id+'/properties/'+this.ChildProperty.property_id+'?from='+from+'&to='+to)
             .toPromise().then(data => {
               console.log('Promise4',data)
@@ -127,14 +127,15 @@ export class PropertyComponent implements OnInit {
     }
 
     BrowserUniversalInit(){
-            this.http.get('http://localhost:8080/mapsKey')
+            //this.http.get('http://localhost:8080/mapsKey')
+            this.http.get('mapsKey')
             .toPromise().then(data => {
               console.log(data)
             })
             const to : number = (new Date).getTime(); //current UNIX timestamp (in ms)
             const from : number = 0 //to - 24*60*60*1000 //1 day before UNIX timestamp (in ms)
             console.log('from :',from,'to :',to)
-            this.http.get('/api/things/'+this.ChildThing.thing_id+'/properties/'+this.ChildProperty.property_id+'?from='+from+'&to='+to)
+            this.http.get('api/things/'+this.ChildThing.thing_id+'/properties/'+this.ChildProperty.property_id+'?from='+from+'&to='+to)
             // this.http.get('http://localhost:8080/api/things/'+this.ChildThing.thing_id+'/properties/'+this.ChildProperty.property_id+'?from='+from+'&to='+to)
             .toPromise().then(data => {
               console.log('Promise3',data)

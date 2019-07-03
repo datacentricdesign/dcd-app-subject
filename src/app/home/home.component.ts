@@ -122,7 +122,7 @@ export class HomeComponent implements OnInit {
 
     delete_thing(thing:Thing){
       if ( confirm( "Delete " + thing.thing_name +" ?" ) ) {
-      this.http.delete('/api/things/'+thing.thing_id)
+      this.http.delete('api/things/'+thing.thing_id)
        // this.http.delete('http://localhost:8080/api/things/'+thing.thing_id)
        .toPromise().then(data => {
          console.log(data)
@@ -133,7 +133,7 @@ export class HomeComponent implements OnInit {
 
     delete_property(thing:Thing,property:Property){
       if ( confirm( "Delete "+property.property_name+" ?" ) ) {
-        this.http.delete('/api/things/'+thing.thing_id+'/properties/'+property.property_id)
+        this.http.delete('api/things/'+thing.thing_id+'/properties/'+property.property_id)
         // this.http.delete('http://localhost:8080/api/things/'+thing.thing_id+'/properties/'+property.property_id)
        .toPromise().then(data => {
          console.log(data)
@@ -143,7 +143,7 @@ export class HomeComponent implements OnInit {
     }
 
     nav_thing(thing:Thing){
-      this.router.navigate(['/subject/page/thing'], { //id: thing.thing_id,
+      this.router.navigate(['/page/thing'], { //id: thing.thing_id,
         state:{data:thing.json()}});
     }
  
