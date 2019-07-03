@@ -98,7 +98,8 @@ const strategyOptions = {
 // * NOTE :: leave this as require() since this file is built Dynamically from webpack
 const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('./server/main');
 
-  const template = readFileSync(join(__dirname, '..', 'dist', 'browser', 'index.html')).toString();
+  //const template = readFileSync(join(__dirname, '..', 'dist', 'browser', 'index.html')).toString();
+  const template = readFileSync(join(__dirname, '..', 'dist', 'browser','subject', 'index.html')).toString();
   app.engine('html', (_, options, callback) => {
     const opts = {
         document: template,
@@ -120,7 +121,8 @@ const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('./server/main');
 });
 
 app.set('view engine', 'html');
-app.set('views', join(DIST_FOLDER, 'browser'));
+//app.set('views', join(DIST_FOLDER, 'browser'));
+app.set('views', join(DIST_FOLDER, 'browser','subject'));
 
 
 // Server static files from /browser

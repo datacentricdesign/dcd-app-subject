@@ -73,7 +73,7 @@ import { APP_BASE_HREF} from '@angular/common';
   ],
   providers: [
     ClientService,
-    { provide: APP_BASE_HREF, useValue: '/subject/' },
+    //{ provide: APP_BASE_HREF, useValue: '/subject/' },
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
