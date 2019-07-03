@@ -127,6 +127,10 @@ export class PropertyComponent implements OnInit {
     }
 
     BrowserUniversalInit(){
+            this.http.get('http://localhost:8080/mapsKey')
+            .toPromise().then(data => {
+              console.log(data)
+            })
             const to : number = (new Date).getTime(); //current UNIX timestamp (in ms)
             const from : number = 0 //to - 24*60*60*1000 //1 day before UNIX timestamp (in ms)
             console.log('from :',from,'to :',to)
@@ -144,7 +148,7 @@ export class PropertyComponent implements OnInit {
               }
             
             switch(this.ChildProperty.property_type) {
-                case PropertyType.LOCATION: {
+                case "LOCATION": {
                     this.chart_type = "MAPS"
                     console.log('type', PropertyType.LOCATION)
                     console.log('dimensions',this.ChildProperty.property_dimensions)
@@ -183,22 +187,23 @@ export class PropertyComponent implements OnInit {
                 }
 
               //3D 
-              case PropertyType.TWELVE_DIMENSIONS:
-              case PropertyType.ELEVEN_DIMENSIONS:
-              case PropertyType.TEN_DIMENSIONS:
-              case PropertyType.NINE_DIMENSIONS:
-              case PropertyType.EIGHT_DIMENSIONS:
-              case PropertyType.SEVEN_DIMENSIONS:
-              case PropertyType.SIX_DIMENSIONS:
-              case PropertyType.FIVE_DIMENSIONS:
-              case PropertyType.FOUR_DIMENSIONS:
-              case PropertyType.THREE_DIMENSIONS:
-              case PropertyType.GYROSCOPE:
-              case PropertyType.GRAVITY:
-              case PropertyType.MAGNETIC_FIELD:
-              case PropertyType.GRAVITY:
-              case PropertyType.ROTATION_VECTOR:
-              case PropertyType.ACCELEROMETER : {
+              case "TWELVE_DIMENSIONS":
+              case "ELEVEN_DIMENSIONS":
+              case "TEN_DIMENSIONS":
+              case "NINE_DIMENSIONS":
+              case "EIGHT_DIMENSIONS":
+              case "SEVEN_DIMENSIONS":
+              case "SIX_DIMENSIONS":
+              case "FIVE_DIMENSIONS":
+              case "FOUR_DIMENSIONS":
+              case "THREE_DIMENSIONS":
+              //case "TWO_DIMENSIONS":
+              case "GYROSCOPE":
+              case "GRAVITY":
+              case "MAGNETIC_FIELD":
+              case "GRAVITY":
+              case "ROTATION_VECTOR":
+              case "ACCELEROMETER" : {
                 this.chart_type = "RADAR"
                 console.log('type',this.ChildProperty.property_type)
                 console.log('dimensions',this.ChildProperty.property_dimensions)

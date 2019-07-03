@@ -1,6 +1,7 @@
-//export { Person,Thing,Property,PropertyType  } from 'dcd-sdk-javascript'
+//export { Person,Thing,Property,PropertyType  } from 'dcd-sdk-js'
+//export const dcd = require('dcd-sdk-js')
 
-///*
+
 export class Person {
     person_id: string;
     person_name: string;
@@ -62,7 +63,7 @@ export class Property {
 }
 
 export enum PropertyType{
-    /*ONE_DIMENSION = "1D",
+    ONE_DIMENSION = "1D",
     TWO_DIMENSIONS = "2D",
     THREE_DIMENSIONS = "3D",
     FOUR_DIMENSIONS = "4D",
@@ -73,8 +74,8 @@ export enum PropertyType{
     NINE_DIMENSIONS = "9D",
     TEN_DIMENSIONS = "10D",
     ELEVEN_DIMENSIONS = "11D",
-    TWELVE_DIMENSIONS = "12D",*/
-    ONE_DIMENSION = "ONE_DIMENSION",
+    TWELVE_DIMENSIONS = "12D",
+    /*ONE_DIMENSION = "ONE_DIMENSION",
     TWO_DIMENSIONS = "TWO_DIMENSIONS",
     THREE_DIMENSIONS = "THREE_DIMENSIONS",
     FOUR_DIMENSIONS = "FOUR_DIMENSIONS",
@@ -85,7 +86,7 @@ export enum PropertyType{
     NINE_DIMENSIONS = "NINE_DIMENSIONS",
     TEN_DIMENSIONS = "TEN_DIMENSIONS",
     ELEVEN_DIMENSIONS = "ELEVEN_DIMENSIONS",
-    TWELVE_DIMENSIONS = "TWELVE_DIMENSIONS",
+    TWELVE_DIMENSIONS = "TWELVE_DIMENSIONS",*/
     ACCELEROMETER = "ACCELEROMETER",
     GYROSCOPE = "GYROSCOPE",
     BINARY = "BINARY",
@@ -174,5 +175,3 @@ export class Thing {
    }
 
 }
-
-//*/

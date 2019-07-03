@@ -1,14 +1,16 @@
 var express = require("express");
-var path = require("path");
 var dotenv = require("dotenv");
 var findconfig = require("find-config");
-var fetch = require("node-fetch");
 var cors = require('cors')
+//import * as dcd from 'dcd-sdk-js'
+//import {Strategy,ThingService,PersonService} from 'dcd-sdk-js'
+var dcd = require('dcd-sdk-js')
 // Faster server renders w/ Prod mode (dev mode never needed)
 dotenv.config({ path: findconfig('.env') });
 // Express server
 var app = express();
 const token = process.env.TOKEN
+const google_maps_key = process.env.MAPS_KEY
 var PORT = process.env.PORT || 8080;
 const backends = {
     api: process.env.API_URL,
@@ -17,100 +19,74 @@ const backends = {
 
 app.use(cors())
 
+app.get('/mapsKey'//,checkAuthentication
+,(req, res) => {
+  console.log('mapsKey')
+  res.send(
+    {key:google_maps_key}
+    )
+  });
+
 app.get('/api/things', //checkAuthentication,
     async (req, res, next) => {
         console.log('api/things')
-        const thingsAPI = backends.api + '/things';
-        fetch(thingsAPI, {
-          headers: {Authorization: 'bearer ' +token}
-        })
-          .then((res) => {
-              return res.ok ? res.json() : res.text()
-          })
-          .then((body) => {
-              res.send(body)
-              // response.body = typeof body === 'string' ? body : JSON.stringify(body, null, 2)
-          })
-          .catch(err => next(err));
+        const result = await dcd.ThingService.readAll(token)
+        res.send(result)
     });
 
    app.get('/api/things/:thingId', //checkAuthentication,
     async (req, res, next) => {
         const thingId = req.params.thingId;
         console.log('api/things/'+thingId)
-        const thingAPI = backends.api + '/things/' + thingId;
-        fetch(thingAPI, {
-          headers: {Authorization: 'bearer ' +token}
-        })
-          .then((res) => {
-              return res.ok ? res.json() : res.text()
-          })
-          .then((body) => {
-              res.send(body)
-          })
-          .catch(err => next(err));
+        const result = await dcd.ThingService.read(thingId,token)
+        res.send(result)
     });
 
 
 app.get('/api/user', //checkAuthentication,
     async (req, res, next) => {
         console.log('api/user')
-        const userAPI = backends.user
-        fetch(userAPI, {
-            headers: {Authorization: 'bearer ' +token}
-          })
-            .then((res) => {
-                return res.ok ? res.json() : res.text()
-            })
-            .then((body) => {
-                res.send(body)
-                // response.body = typeof body === 'string' ? body : JSON.stringify(body, null, 2)
-            })
-            .catch(err => next(err));
+        const result = await dcd.PersonService.readUser(token)
+        res.send(result)
     });
 
     app.get('/api/persons/:userId', //checkAuthentication,
     async (req, res, next) => {
         const userId = req.params.userId;
         console.log('api/user/'+userId)
-        const userNameAPI = backends.api+'/persons/'+userId
-        fetch(userNameAPI, {
-            headers: {Authorization: 'bearer ' +token}
-          })
-            .then((res) => {
-                return res.ok ? res.json() : res.text()
-            })
-            .then((body) => {
-                res.send(body)
-                // response.body = typeof body === 'string' ? body : JSON.stringify(body, null, 2)
-            })
-            .catch(err => next(err));
+        const result = await dcd.PersonService.readUserId(userId,token)
+        res.send(result)
     });
 
     app.get('/api/things/:thingId/properties/:propertyId', //checkAuthentication,
     async (req, res, next) => {
-        console.log('api/things/'+req.params.thingId+'/properties/'+req.params.propertyId)
-        let readPropertyAPI = backends.api + '/things/' + req.params.thingId
-            + '/properties/' + req.params.propertyId;
-        if (req.query.from !== undefined && req.query.to !== undefined) {
-            readPropertyAPI += '?from=' + req.query.from + '&to=' + req.query.to;
-        }
-        const data = {
-            valid: {body: ''}, invalid: {body: ''}, empty: {body: ''}
-        };
-
-        fetch(readPropertyAPI, {
-          headers: {Authorization: 'bearer ' +token}
-        })
-          .then((res) => {
-              return res.ok ? res.json() : res.text()
-          })
-          .then((body) => {
-              res.send(body)
-              // response.body = typeof body === 'string' ? body : JSON.stringify(body, null, 2)
-          })
-          .catch(err => next(err));
+        const thingId = req.params.thingId
+        const propertyId = req.params.propertyId
+        const from = req.query.from
+        const to = req.query.to 
+        console.log('api/things/'+thingId+'/properties/'+propertyId+'?from=' + from + '&to=' + to);
+        const result = await dcd.ThingService.readProperty(thingId,propertyId,from,to,token)
+        res.send(result)
     });
+
+    app.delete('/api/things/:thingId',//checkAuthentication,
+    async (req, res, next) => {
+        const thingId = req.params.thingId
+        console.log('delete','api/things/'+thingId)
+        const result = await dcd.ThingService.deleteThing(thingId,token)
+        res.send(result)
+        }
+      );
+
+    app.delete('/api/things/:thingId/properties/:propertyId',//checkAuthentication,
+    async (req, res, next) => {
+        const thingId = req.params.thingId
+        const propertyId = req.params.propertyId
+        console.log('delete','api/things/'+thingId+'/properties/'+propertyId)
+        const result = await dcd.ThingService.deleteProperty(thingId,propertyId,token)
+        res.send(result)
+        }
+      );
 
 
 // Start up the Node server

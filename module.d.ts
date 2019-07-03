@@ -1,0 +1,1 @@
+declare module 'dcd-sdk-js' //see how it works

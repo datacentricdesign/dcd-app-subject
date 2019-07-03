@@ -3,6 +3,8 @@ import { Component, Inject, Optional,PLATFORM_ID, OnInit} from '@angular/core';
 
 import { Thing,Property } from '.../../../classes'
 
+import { Router} from '@angular/router';
+
 
 import {
   HttpClient,
@@ -34,6 +36,7 @@ export class HomeComponent implements OnInit {
   //constructor(private service: ClientService, private injector: Injector) { 
   constructor(
     //private service: ClientService, 
+    private router: Router,
     private http: HttpClient,
     @Inject(PLATFORM_ID) private platformId: Object,
     @Optional() @Inject('serverUrl') protected serverUrl: string,
@@ -115,6 +118,33 @@ export class HomeComponent implements OnInit {
         this.property_picked = property*/
         this.setChild(thing,property).then(()=>this.display_property = true)
         
+    }
+
+    delete_thing(thing:Thing){
+      if ( confirm( "Delete " + thing.thing_name +" ?" ) ) {
+      //this.http.delete('/api/things/'+thing.thing_id)
+       this.http.delete('http://localhost:8080/api/things/'+thing.thing_id)
+       .toPromise().then(data => {
+         console.log(data)
+         window.location.reload(); //TODO make a reload req ?
+       })
+    }
+    }
+
+    delete_property(thing:Thing,property:Property){
+      if ( confirm( "Delete "+property.property_name+" ?" ) ) {
+        //this.http.delete('/api/things/'+thing.thing_id+'/properties/'+property.property_id)
+        this.http.delete('http://localhost:8080/api/things/'+thing.thing_id+'/properties/'+property.property_id)
+       .toPromise().then(data => {
+         console.log(data)
+         window.location.reload(); //TODO make a reload req ?
+       })
+     }
+    }
+
+    nav_thing(thing:Thing){
+      this.router.navigate(['/subject/page/thing'], { //id: thing.thing_id,
+        state:{data:thing.json()}});
     }
  
   

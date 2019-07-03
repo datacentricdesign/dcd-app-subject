@@ -19,8 +19,9 @@ const {AppServerModuleNgFactory, LAZY_MODULE_MAP} = require('./server/main');
 const BROWSER_FOLDER = join(process.cwd(), 'browser');
 
 // Load the index.html file containing referances to your application bundle.
-const index = readFileSync(join('browser', 'index.html'), 'utf8');
+const index = readFileSync(join('browser', 'index.html'), 'utf8')
 
+.replace('<head>', `<head><base href="${'/subject/'}">`); // not sure if it's important
 let previousRender = Promise.resolve();
 
 // Iterate each route path

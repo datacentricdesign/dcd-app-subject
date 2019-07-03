@@ -1,5 +1,5 @@
 import 'zone.js/dist/zone-node';
-import { enableProdMode } from '@angular/core';
+import { enableProdMode, ComponentFactoryResolver } from '@angular/core';
 
 // Express Engine
 import { ngExpressEngine } from '@nguniversal/express-engine';
@@ -16,10 +16,9 @@ import * as bodyParser from 'body-parser'
 import * as session from 'express-session'
 import * as refresh from 'passport-oauth2-refresh'
 import * as passport from 'passport'
-import {Strategy} from 'dcd-sdk-js'
+import {Strategy,ThingService,PersonService} from 'dcd-sdk-js'
 import * as dotenv from 'dotenv'
 import * as findconfig from 'find-config'
-import * as fetch from 'node-fetch'
 
 
 // Faster server renders w/ Prod mode (dev mode never needed)
@@ -38,12 +37,8 @@ const baseUrl = process.env.BASE_URL || '';
 
 const serverUrl = process.env.SERVER_URL;
 
-const backends = {
-  api: process.env.API_URL,
-  user:process.env.USER_URL
-};
-
-//const Strategy = dcd.Strategy
+//GoogleMaps key :
+const google_maps_key = process.env.MAPS_KEY
 
 const strategyOptions = {
     authorizationURL: process.env.OAUTH2_AUTH_URL,
@@ -135,13 +130,10 @@ app.get('*.*', express.static(join(DIST_FOLDER, 'browser'), {
 
 // These routes use the Universal engine
 
-app.get('/',(req, res) => {
-res.redirect(baseUrl + '/');
-});
-
 app.get(baseUrl+'/',checkAuthentication,
 async (req, res, next) => {
   //console.log(req)
+    console.log('baseUrl')
     res.render('index', { req });
 });
 // page because the redirection of '/*' crash beacuase there are many other redirection  
@@ -164,10 +156,9 @@ res.redirect(req.session.redirectTo)
 }
 );
 
-//This shows home page
+//This shows home page TODO
 app.get('/error', (req, res) => {
     res.render('error', {
-        backends: backends,
         baseUrl: serverUrl + baseUrl,
         message: 'Unknown Error',
         error: {status: 0}
@@ -175,109 +166,76 @@ app.get('/error', (req, res) => {
 });
 
 //Recup data
-app.get('/api/hello',checkAuthentication
+app.get('/mapsKey',checkAuthentication
 ,(req, res) => {
-  console.log('api/hello')
-  res.send({data:"hello"})
+  console.log('mapsKey')
+  res.send(
+    {key:google_maps_key}
+    )
   });
 
 app.get('/api/things', checkAuthentication,
     async (req, res, next) => {
         console.log('api/things')
-        const thingsAPI = backends.api + '/things';
-        fetch(thingsAPI, {
-          headers: {Authorization: 'bearer ' +req.user.accessToken}
-        })
-          .then((res) => {
-              return res.ok ? res.json() : res.text()
-          })
-          .then((body) => {
-              res.send(body)
-              // response.body = typeof body === 'string' ? body : JSON.stringify(body, null, 2)
-          })
-          .catch(err => next(err));
+        const result = await ThingService.readAll(req.user.accessToken)
+        res.send(result)
     });
 
    app.get('/api/things/:thingId', checkAuthentication,
     async (req, res, next) => {
         const thingId = req.params.thingId;
         console.log('api/things/'+thingId)
-        const thingAPI = backends.api + '/things/' + thingId;
-        const data = {
-            valid: {body: ''}, invalid: {body: ''}, empty: {body: ''}
-        };
-        fetch(thingAPI, {
-          headers: {Authorization: 'bearer ' +req.user.accessToken}
-        })
-          .then((res) => {
-              return res.ok ? res.json() : res.text()
-          })
-          .then((body) => {
-              res.send(body)
-          })
-          .catch(err => next(err));
+        const result = await ThingService.read(thingId,req.user.accessToken)
+        res.send(result)
     });
 
 
     app.get('/api/user', checkAuthentication,
     async (req, res, next) => {
         console.log('api/user')
-        const userAPI = backends.user
-        fetch(userAPI, {
-            headers: {Authorization: 'bearer ' +req.user.accessToken}
-          })
-            .then((res) => {
-                return res.ok ? res.json() : res.text()
-            })
-            .then((body) => {
-                res.send(body)
-                // response.body = typeof body === 'string' ? body : JSON.stringify(body, null, 2)
-            })
-            .catch(err => next(err));
+        const result = await PersonService.readUser(req.user.accessToken)
+        res.send(result)
     });
 
     app.get('/api/persons/:userId', checkAuthentication,
     async (req, res, next) => {
         const userId = req.params.userId;
         console.log('api/user/'+userId)
-        const userNameAPI = backends.api+'/persons/'+userId
-        fetch(userNameAPI, {
-            headers: {Authorization: 'bearer ' +req.user.accessToken}
-          })
-            .then((res) => {
-                return res.ok ? res.json() : res.text()
-            })
-            .then((body) => {
-                res.send(body)
-                // response.body = typeof body === 'string' ? body : JSON.stringify(body, null, 2)
-            })
-            .catch(err => next(err));
+        const result = await PersonService.readUserId(userId,req.user.accessToken)
+        res.send(result)
     });
 
     app.get('/api/things/:thingId/properties/:propertyId', checkAuthentication,
     async (req, res, next) => {
-        console.log('api/things/'+req.params.thingId+'/properties/'+req.params.propertyId)
-        let readPropertyAPI = backends.api + '/things/' + req.params.thingId
-            + '/properties/' + req.params.propertyId;
-        if (req.query.from !== undefined && req.query.to !== undefined) {
-            readPropertyAPI += '?from=' + req.query.from + '&to=' + req.query.to;
-        }
-        const data = {
-            valid: {body: ''}, invalid: {body: ''}, empty: {body: ''}
-        };
-
-        fetch(readPropertyAPI, {
-          headers: {Authorization: 'bearer ' +req.user.accessToken}
-        })
-          .then((res) => {
-              return res.ok ? res.json() : res.text()
-          })
-          .then((body) => {
-              res.send(body)
-              // response.body = typeof body === 'string' ? body : JSON.stringify(body, null, 2)
-          })
-          .catch(err => next(err));
+      const thingId = req.params.thingId
+      const propertyId = req.params.propertyId
+      const from = req.query.from
+      const to = req.query.to 
+      console.log('api/things/'+thingId+'/properties/'+propertyId+'?from=' + from + '&to=' + to);
+      const result = await ThingService.readProperty(thingId,propertyId,from,to,req.user.accessToken)
+      res.send(result)
     });
+
+    app.delete('/api/things/:thingId',checkAuthentication,
+    async (req, res, next) => {
+        const thingId = req.params.thingId
+        console.log('delete','api/things/'+thingId)
+        const result = await ThingService.deleteThing(thingId,req.user.accessToken)
+        res.send(result)
+        }
+      );
+
+    app.delete('/api/things/:thingId/properties/:propertyId',checkAuthentication,
+    async (req, res, next) => {
+        const thingId = req.params.thingId
+        const propertyId = req.params.propertyId
+        console.log('delete','api/things/'+thingId+'/properties/'+propertyId)
+        const result = await ThingService.deleteProperty(thingId,propertyId,req.user.accessToken)
+        res.send(result)
+        }
+      );
+
+    
 
 // Start up the Node server
 app.listen(PORT, () => {

@@ -3,7 +3,16 @@
             <div class = thing-card *ngFor="let thing of things"> <!-- Sort things -->
                     <div  class="card card-chart" id = card_i>
                             <div class="card-header card-header-success">
-                                <h4 class="card-title">{{thing.thing_name}}</h4>
+                                <div class = "thing_header">
+                                                                <div class = "thing_title">
+                                                                <h4 class="card-title">{{thing.thing_name}}</h4>
+                                                                </div>
+                                                                <div class = "thing_nav">
+                                                                 <button mat-icon-button color="grey" (click)="nav_thing(thing)"  >
+                                                                        <i class="fas fa-search" ></i>
+                                                                </button>
+                                                                </div>
+                                </div>
                             </div>
                             <div class="card-body">
                                     <h5 *ngIf=!HasProperty(thing) >No property available</h5>
@@ -29,9 +38,8 @@
                                                     <ng-container matColumnDef="settings">
                                                       <th mat-header-cell *matHeaderCellDef></th>
                                                       <td class ="thing_buttons" mat-cell *matCellDef="let element"> 
-                                                          <button mat-raised-button color = "primary" (click)="showDialog_property(thing,element)"  >
+                                                          <button mat-icon-button color = "primary" (click)="showDialog_property(thing,element)"  >
                                                                 <i class="fas fa-clone" ></i>
-                                                              Values
                                                         </button>
                                                       </td>
                                                     </ng-container>
@@ -47,6 +55,11 @@
                                      <i class="fas fa-info-circle"></i> {{descriptionT(thing)}}
                                     </span>
                                 </div>
+                                <div class ="thing_delete">
+                                        <button mat-icon-button color="grey" (click)="delete_thing(thing)"  >
+                                                <i class="fas fa-trash" ></i>
+                                        </button>
+                                </div>
                             </div>
                     </div>
             </div>
@@ -60,10 +73,15 @@
         <app-property *ngIf = display_property  [ChildThing]="thing_picked" [ChildProperty]="property_picked" ></app-property>
         </div>
         <p-footer>
-                <div class="stats">
-                        <span>
-                         <i class="fas fa-info-circle"></i> {{descriptionP(property_picked)}}
-                        </span>
-                    </div>
+                <div class ="property_description">
+                                <span>
+                                                <i class="fas fa-info-circle"></i> {{descriptionP(property_picked)}}
+                                </span>
+                </div>
+                <div class ="property_delete">
+                                <button mat-icon-button color="grey" (click)="delete_property(thing_picked,property_picked)"  >
+                                                <i class="fas fa-trash" ></i>
+                                </button>
+                </div>
         </p-footer>
 </p-dialog>
