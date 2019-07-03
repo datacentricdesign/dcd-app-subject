@@ -159,7 +159,7 @@ res.redirect(req.session.redirectTo)
 );
 
 //This shows home page TODO
-app.get('/error', (req, res) => {
+app.get(baseUrl+'/error', (req, res) => {
     res.render('error', {
         baseUrl: serverUrl + baseUrl,
         message: 'Unknown Error',
@@ -168,7 +168,7 @@ app.get('/error', (req, res) => {
 });
 
 //Recup data
-app.get('/mapsKey',checkAuthentication
+app.get(baseUrl+'/mapsKey',checkAuthentication
 ,(req, res) => {
   console.log('mapsKey')
   res.send(
@@ -176,14 +176,14 @@ app.get('/mapsKey',checkAuthentication
     )
   });
 
-app.get('/api/things', checkAuthentication,
+app.get(baseUrl+'/api/things', checkAuthentication,
     async (req, res, next) => {
         console.log('api/things')
         const result = await ThingService.readAll(req.user.accessToken)
         res.send(result)
     });
 
-   app.get('/api/things/:thingId', checkAuthentication,
+   app.get(baseUrl+'/api/things/:thingId', checkAuthentication,
     async (req, res, next) => {
         const thingId = req.params.thingId;
         console.log('api/things/'+thingId)
@@ -192,14 +192,14 @@ app.get('/api/things', checkAuthentication,
     });
 
 
-    app.get('/api/user', checkAuthentication,
+    app.get(baseUrl+'/api/user', checkAuthentication,
     async (req, res, next) => {
         console.log('api/user')
         const result = await PersonService.readUser(req.user.accessToken)
         res.send(result)
     });
 
-    app.get('/api/persons/:userId', checkAuthentication,
+    app.get(baseUrl+'/api/persons/:userId', checkAuthentication,
     async (req, res, next) => {
         const userId = req.params.userId;
         console.log('api/user/'+userId)
@@ -207,7 +207,7 @@ app.get('/api/things', checkAuthentication,
         res.send(result)
     });
 
-    app.get('/api/things/:thingId/properties/:propertyId', checkAuthentication,
+    app.get(baseUrl+'/api/things/:thingId/properties/:propertyId', checkAuthentication,
     async (req, res, next) => {
       const thingId = req.params.thingId
       const propertyId = req.params.propertyId
@@ -218,7 +218,7 @@ app.get('/api/things', checkAuthentication,
       res.send(result)
     });
 
-    app.delete('/api/things/:thingId',checkAuthentication,
+    app.delete(baseUrl+'/api/things/:thingId',checkAuthentication,
     async (req, res, next) => {
         const thingId = req.params.thingId
         console.log('delete','api/things/'+thingId)
@@ -227,7 +227,7 @@ app.get('/api/things', checkAuthentication,
         }
       );
 
-    app.delete('/api/things/:thingId/properties/:propertyId',checkAuthentication,
+    app.delete(baseUrl+'/api/things/:thingId/properties/:propertyId',checkAuthentication,
     async (req, res, next) => {
         const thingId = req.params.thingId
         const propertyId = req.params.propertyId
