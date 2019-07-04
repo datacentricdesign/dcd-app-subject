@@ -175,3 +175,21 @@ export class Thing {
    }
 
 }
+
+export class Value {
+
+    property_name:string
+    property_id:string
+    dimension : string
+    unit :string
+    data : {value:number,name:Date}[] = []
+    
+    constructor(property_name:string,property_id:string,dimension:string,unit:string,data: {value:number,name:Date}[]){
+        this.property_id = property_id
+        this.property_name = property_name
+        this.dimension=dimension
+        this.unit=unit
+        this.data = data
+    }
+    
+    }

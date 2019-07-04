@@ -27,6 +27,10 @@ import {DialogModule} from 'primeng/dialog';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CalendarModule} from 'primeng/calendar';
 import {SliderModule} from 'primeng/slider';
+import {CheckboxModule} from 'primeng/checkbox';
+
+//Bootstrap
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 // Google Maps
 import { CUSTOM_ELEMENTS_SCHEMA} from '@angular/core'
@@ -34,9 +38,8 @@ import { CUSTOM_ELEMENTS_SCHEMA} from '@angular/core'
 // Ng2 charts
 import { ChartsModule } from 'ng2-charts';
 
-//Href
-
-import { APP_BASE_HREF} from '@angular/common';
+//ngx charts 
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -68,12 +71,15 @@ import { APP_BASE_HREF} from '@angular/common';
     ChartsModule,
     FormsModule,
     CalendarModule,
-    SliderModule
+    SliderModule,
+    NgxChartsModule,
+    NgbModule,
+    CheckboxModule
+    
     
   ],
   providers: [
     ClientService,
-    //{ provide: APP_BASE_HREF, useValue: '/subject/' },
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

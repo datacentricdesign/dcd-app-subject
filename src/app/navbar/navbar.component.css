@@ -11,6 +11,7 @@
     width: 100%;
     min-width: 700px;
     left: 0;
+    z-index: 99;
   }
   .nav-links a {
     background-color: #2684b7;

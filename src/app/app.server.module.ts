@@ -7,10 +7,8 @@ import {AppModule} from './app.module';
 import {AppComponent} from './app.component';
 
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
-import {HttpClientModule} from '@angular/common/http';
 import {UniversalInterceptor} from './universal-interceptor';
 
-import { ClientService } from './client.service';
 
 @NgModule({
   imports: [

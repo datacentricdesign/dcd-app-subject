@@ -20,6 +20,8 @@ import {Strategy,ThingService,PersonService} from 'dcd-sdk-js'
 import * as dotenv from 'dotenv'
 import * as findconfig from 'find-config'
 
+const domino = require('domino');
+
 
 // Faster server renders w/ Prod mode (dev mode never needed)
 enableProdMode();

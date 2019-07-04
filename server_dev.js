@@ -17,9 +17,11 @@ const backends = {
     user:process.env.USER_URL
   };
 
+const baseUrl = process.env.BASE_URL || '';
+
 app.use(cors())
 
-app.get('/mapsKey'//,checkAuthentication
+app.get(baseUrl+'/mapsKey'//,checkAuthentication
 ,(req, res) => {
   console.log('mapsKey')
   res.send(
@@ -27,14 +29,14 @@ app.get('/mapsKey'//,checkAuthentication
     )
   });
 
-app.get('/api/things', //checkAuthentication,
+app.get(baseUrl+'/api/things', //checkAuthentication,
     async (req, res, next) => {
         console.log('api/things')
         const result = await dcd.ThingService.readAll(token)
         res.send(result)
     });
 
-   app.get('/api/things/:thingId', //checkAuthentication,
+   app.get(baseUrl+'/api/things/:thingId', //checkAuthentication,
     async (req, res, next) => {
         const thingId = req.params.thingId;
         console.log('api/things/'+thingId)
@@ -43,14 +45,14 @@ app.get('/api/things', //checkAuthentication,
     });
 
 
-app.get('/api/user', //checkAuthentication,
+app.get(baseUrl+'/api/user', //checkAuthentication,
     async (req, res, next) => {
         console.log('api/user')
         const result = await dcd.PersonService.readUser(token)
         res.send(result)
     });
 
-    app.get('/api/persons/:userId', //checkAuthentication,
+    app.get(baseUrl+'/api/persons/:userId', //checkAuthentication,
     async (req, res, next) => {
         const userId = req.params.userId;
         console.log('api/user/'+userId)
@@ -58,7 +60,7 @@ app.get('/api/user', //checkAuthentication,
         res.send(result)
     });
 
-    app.get('/api/things/:thingId/properties/:propertyId', //checkAuthentication,
+    app.get(baseUrl+'/api/things/:thingId/properties/:propertyId', //checkAuthentication,
     async (req, res, next) => {
         const thingId = req.params.thingId
         const propertyId = req.params.propertyId
@@ -69,7 +71,7 @@ app.get('/api/user', //checkAuthentication,
         res.send(result)
     });
 
-    app.delete('/api/things/:thingId',//checkAuthentication,
+    app.delete(baseUrl+'/api/things/:thingId',//checkAuthentication,
     async (req, res, next) => {
         const thingId = req.params.thingId
         console.log('delete','api/things/'+thingId)
@@ -78,7 +80,7 @@ app.get('/api/user', //checkAuthentication,
         }
       );
 
-    app.delete('/api/things/:thingId/properties/:propertyId',//checkAuthentication,
+    app.delete(baseUrl+'/api/things/:thingId/properties/:propertyId',//checkAuthentication,
     async (req, res, next) => {
         const thingId = req.params.thingId
         const propertyId = req.params.propertyId
