@@ -1,6 +1,8 @@
 //export { Person,Thing,Property,PropertyType  } from 'dcd-sdk-js'
 //export const dcd = require('dcd-sdk-js')
 
+//export const server_url = "http://localhost:8080/subject/"
+export const server_url = ""
 
 export class Person {
     person_id: string;

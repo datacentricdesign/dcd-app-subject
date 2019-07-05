@@ -1,7 +1,7 @@
 import { Component, Inject, PLATFORM_ID, OnInit } from '@angular/core';
 import { isPlatformServer } from "@angular/common";
 import { Router} from '@angular/router';
-import { Thing,Property, Value } from '.../../../classes'
+import { Thing,Property, Value, server_url } from '.../../../classes'
 
 
 import {
@@ -28,17 +28,15 @@ export class ThingComponent implements OnInit {
 
     constructor(
         private router: Router,
-        //private service: ClientService, 
         private http: HttpClient,
         @Inject(PLATFORM_ID)
         private platformId: Object) {
     }
     ngOnInit(): void {
         if (isPlatformServer(this.platformId)) {
-            console.log('Home component server :'); // host on the server  
+            // server side
         }
         else {
-            console.log(history.state.data)
             if(history.state.data === undefined){
                 this.router.navigate(['/subject/page/home'])
             }else{
@@ -55,20 +53,15 @@ export class ThingComponent implements OnInit {
     }
     BrowserUniversalInit() {
         for (let property of this.thing.thing_properties) {
-          console.log(property);
               for(var i = 0; i < this.getDimensionSize(property); i++){
-              //this.http.get('api/things/'+this.ChildThing.thing_id+'/properties/'+this.ChildProperty.property_id+'?from='+from+'&to='+to)
               const to : number = (new Date).getTime(); //current UNIX timestamp (in ms)
               const from : number = 0 //to - 24*60*60*1000 //1 day before UNIX timestamp (in ms)
               const dim_name =  property.property_dimensions[i].name
               const dim_unit = property.property_dimensions[i].unit
               const index = i
 
-              console.log('heeeeey',property.property_dimensions[i])
-              this.http.get('http://localhost:8080/subject/api/things/'+this.thing.thing_id+'/properties/'+property.property_id+'?from='+from+'&to='+to)
+              this.http.get(server_url+'api/things/'+this.thing.thing_id+'/properties/'+property.property_id+'?from='+from+'&to='+to)
               .toPromise().then(data => {
-                console.log('heeeeey',dim_name)
-                console.log('Promise6',data)
                 this.values.push(new Value(
                   property.property_name,
                   property.property_id,
@@ -77,7 +70,6 @@ export class ThingComponent implements OnInit {
                   this.getData(index,data['property'].values)
                   ))
               })
-                //this.values.push(new Value(property.property_name,property.property_id,property.property_dimensions[i].name,property.property_dimensions[i].unit))
               }
         };
     }
@@ -113,18 +105,13 @@ export class ThingComponent implements OnInit {
 
 
     getValues(rangeDates){
-      console.log(rangeDates)
       if(rangeDates.length == 2){
         if(rangeDates[0] !== null && rangeDates[1]!== null){
-            console.log('do get')
             const from : number = rangeDates[0].getTime(); 
             const to : number = rangeDates[1].getTime() + 24*60*60*1000 ; 
-            console.log('from :',from,'to :',to)
             for(let value of this.values){
-              //this.http.get('api/things/'+this.ChildThing.thing_id+'/properties/'+this.ChildProperty.property_id+'?from='+from+'&to='+to)
-              this.http.get('http://localhost:8080/subject/api/things/'+this.thing.thing_id+'/properties/'+value.property_id+'?from='+from+'&to='+to)
+              this.http.get(server_url+'api/things/'+this.thing.thing_id+'/properties/'+value.property_id+'?from='+from+'&to='+to)
               .toPromise().then(data => {
-                console.log('Promise6',data)
               })
             }
 
@@ -154,10 +141,9 @@ colorScheme = {
 };
 
 handleChange(e) {
-console.log('multi',this.multi)
+// e = true or false => checkbox
 this.multi =  []
 for(let value of this.selectedValues){
-console.log(value.data)
 this.multi.push({
 name : value.dimension +' ( '+value.property_name +' )',
 series:value.data
@@ -165,58 +151,7 @@ series:value.data
 }
 }
 
-multi: any[] = [
-  {
-    name: 'Red',
-    series: [
-      {
-        name: new Date(2017, 0, 1, 2, 34, 17),
-        value: 294
-      },
-      {
-        name: new Date(2017, 2, 1, 2, 34, 17),
-        value:  264
-      }
-    ]
-  },
-  {
-    name: 'White',
-    series: [
-      {
-        name: new Date(2017, 0, 1, 2, 34, 17),
-        value: 347
-      },
-      {
-        name: new Date(2017, 1, 1, 2, 34, 17),
-        value: 369
-      },
-      {
-        name: new Date(2017, 2, 1, 2, 34, 17),
-        value:  325
-      }
-    ]
-  },
-  {
-    name: 'Blue',
-    series: [
-      {
-        name: new Date(2017, 0, 1, 2, 34, 17),
-        value: 200
-      },
-      {
-        name: new Date(2017, 1, 1, 2, 34, 17),
-        value: 220
-      },
-      {
-        name: new Date(2017, 2, 1, 2, 34, 17),
-        value:  230
-      },
-      {
-        name: new Date(2017, 4, 1, 2, 34, 17),
-        value:  230
-      }
-    ]
-  }
-];
-  
+multi: any[] = [/*{name: 'Red',series: [{name: new Date(2017, 0, 1, 2, 34, 17),value: 294},{name: new Date(2017, 2, 1, 2, 34, 17),value:  264}]},*/]
+
+
 }

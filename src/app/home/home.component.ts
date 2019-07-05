@@ -1,7 +1,6 @@
 import { Component, Inject, Optional,PLATFORM_ID, OnInit} from '@angular/core';
 
-
-import { Thing,Property } from '.../../../classes'
+import { Thing,Property,server_url } from '.../../../classes'
 
 import { Router} from '@angular/router';
 
@@ -15,11 +14,8 @@ import {
 
 import {isPlatformServer} from "@angular/common";
 
-//import { ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 
 @Component({
-    //changeDetection: ChangeDetectionStrategy.Default,
-    //encapsulation: ViewEncapsulation.Emulated,
     selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.css']
@@ -33,9 +29,7 @@ export class HomeComponent implements OnInit {
   thing_picked:Thing = new Thing ({thing_id:'test'})
   property_picked:Property = new Property({})
 
-  //constructor(private service: ClientService, private injector: Injector) { 
   constructor(
-    //private service: ClientService, 
     private router: Router,
     private http: HttpClient,
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -53,21 +47,15 @@ export class HomeComponent implements OnInit {
     }
 
     BrowserUniversalInit(){
-      this.FillArrayThings(this.things)
-
-      
+      this.FillArrayThings(this.things) 
     }
 
     FillArrayThings(things : Thing[]) : void{
-      this.http.get('api/things')
-      // this.http.get('http://localhost:8080/api/things')
+      this.http.get(server_url+'api/things')
       .toPromise().then(data => {
-        console.log('promise1 : ',data)
         data['things'].forEach(thing => {
-          this.http.get('api/things/'+thing.id)
-          // this.http.get('http://localhost:8080/api/things/'+thing.id)
+          this.http.get(server_url+'api/things/'+thing.id)
         .toPromise().then(data => {
-        console.log('promise2',data)
         things.push(new Thing({
           thing_id : data['thing'].id,
           thing_name : data['thing'].name,
@@ -114,18 +102,14 @@ export class HomeComponent implements OnInit {
     }
 
     showDialog_property(thing : Thing,property : Property) {
-        /*this.thing_picked = thing
-        this.property_picked = property*/
         this.setChild(thing,property).then(()=>this.display_property = true)
         
     }
 
     delete_thing(thing:Thing){
       if ( confirm( "Delete " + thing.thing_name +" ?" ) ) {
-      this.http.delete('api/things/'+thing.thing_id)
-       // this.http.delete('http://localhost:8080/api/things/'+thing.thing_id)
+       this.http.delete(server_url+'api/things/'+thing.thing_id)
        .toPromise().then(data => {
-         console.log(data)
          window.location.reload(); //TODO make a reload req ?
        })
     }
@@ -133,17 +117,15 @@ export class HomeComponent implements OnInit {
 
     delete_property(thing:Thing,property:Property){
       if ( confirm( "Delete "+property.property_name+" ?" ) ) {
-        this.http.delete('api/things/'+thing.thing_id+'/properties/'+property.property_id)
-        // this.http.delete('http://localhost:8080/api/things/'+thing.thing_id+'/properties/'+property.property_id)
+        this.http.delete(server_url+'api/things/'+thing.thing_id+'/properties/'+property.property_id)
        .toPromise().then(data => {
-         console.log(data)
          window.location.reload(); //TODO make a reload req ?
        })
      }
     }
 
     nav_thing(thing:Thing){
-      this.router.navigate(['/page/thing'], { //id: thing.thing_id,
+      this.router.navigate(['/page/thing'], {
         state:{data:thing.json()}});
     }
  

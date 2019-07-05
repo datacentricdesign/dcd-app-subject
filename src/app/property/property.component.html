@@ -1,8 +1,8 @@
 <div class ="property-container">
 <div *ngIf = "chart_type == 'MAPS'" class = "maps">
         <div class = "chart-container">
-        <web-google-maps *ngIf = test [apiKey]="key" [lat]="lat" [lng]="lat" [markers] ="markers" [options]="options"></web-google-maps>
-        <web-google-maps *ngIf = !test [apiKey]="key" [lat]="lat" [lng]="lat" [markers] ="markers" [options]="options"></web-google-maps>
+        <web-google-maps *ngIf = test [apiKey]="key" [lat]="lat" [lng]="lng" [markers] ="markers" [options]="options"></web-google-maps>
+        <web-google-maps *ngIf = !test [apiKey]="key" [lat]="lat" [lng]="lng" [markers] ="markers" [options]="options"></web-google-maps>
         </div>
         <div class = 'data-container'>
                 <div *ngFor = "let data of property_data" class = "data-container-i">

@@ -1,8 +1,7 @@
-import { Component, Inject, Optional,PLATFORM_ID,Input, OnInit, ComponentFactoryResolver} from '@angular/core';
+import { Component, Inject,PLATFORM_ID,Input, OnInit} from '@angular/core';
 
-import { Thing, Property, PropertyType } from '.../../../classes'
+import { Thing, Property, PropertyType, server_url } from '.../../../classes'
 
-import { ClientService } from '../client.service';
 import {isPlatformServer} from "@angular/common";
 
 import { ChartDataSets, ChartType, RadialChartOptions } from 'chart.js';
@@ -14,7 +13,6 @@ import {
     HttpErrorResponse,
     HttpParams,
   } from "@angular/common/http";
-import { ThrowStmt } from '@angular/compiler';
 
 @Component({
     selector: 'app-property',
@@ -36,17 +34,12 @@ export class PropertyComponent implements OnInit {
     test :  boolean = true
 
     getValues(rangeDates){
-      console.log(rangeDates)
       if(rangeDates.length == 2){
         if(rangeDates[0] !== null && rangeDates[1]!== null){
-            console.log('do get')
             const from : number = rangeDates[0].getTime(); 
             const to : number = rangeDates[1].getTime() + 24*60*60*1000 ; 
-            console.log('from :',from,'to :',to)
-            this.http.get('api/things/'+this.ChildThing.thing_id+'/properties/'+this.ChildProperty.property_id+'?from='+from+'&to='+to)
-            // this.http.get('http://localhost:8080/api/things/'+this.ChildThing.thing_id+'/properties/'+this.ChildProperty.property_id+'?from='+from+'&to='+to)
+             this.http.get(server_url+'api/things/'+this.ChildThing.thing_id+'/properties/'+this.ChildProperty.property_id+'?from='+from+'&to='+to)
             .toPromise().then(data => {
-              console.log('Promise4',data)
               this.values = data['property'].values
               this.showSlider = true
             })
@@ -67,10 +60,10 @@ export class PropertyComponent implements OnInit {
       var maxvalue : number = 0
       for(var i = 1; i <= value.length; i++){
         if(i == value.length){
-          console.log('add marker or change radar',i,this.chart_type)
           switch(this.chart_type){
             case "MAPS":
-                console.log('houho')
+                this.lat = value[1]
+                this.lng = value[2]
                 this.markers = {
                   markers:  [{
                     lat: value[1],
@@ -80,15 +73,16 @@ export class PropertyComponent implements OnInit {
                     content: this.ChildThing.thing_name
                     }
                   }],
-                  fitBounds: true,
+                  //fitBounds: true,
                   }
+                  this.options = {zoom: 9};
               break
             case "RADAR":
                   this.radarChartData[0].data = last_data
                   this.radarChartOptions.scale.ticks.max = maxvalue + 1
               break
             case "DEFAULT":
-              console.log('default')
+              //TODO
               break
           }
         }else{
@@ -100,50 +94,41 @@ export class PropertyComponent implements OnInit {
 
   }
     //Maps
-    lat: number = 52.0186
-    lng: number = 4.3782
-    key:string = 'AIzaSyD6TYz32l0J6kFrPTapRm2z5RwGxBBKbFA' //ADD .env by method with server
-    options = {zoom: 1};
+    lat: number
+    lng: number
+    key:string = ''
+    options
     markers : {}
     
     //Radar Chart
-    radarChartOptions: RadialChartOptions;
+    radarChartOptions: RadialChartOptions
     colors = [{backgroundColor: 'rgba(103, 58, 183, .1)',borderColor: 'rgb(103, 58, 183)',pointBackgroundColor: 'rgb(103, 58, 183)',pointBorderColor: '#fff',pointHoverBackgroundColor: '#fff',pointHoverBorderColor: 'rgba(103, 58, 183, .8)'},];
     radarChartType: ChartType = 'radar';
     radarChartLabels: Label[] = []
     radarChartData: ChartDataSets[];
         
-    constructor(private service: ClientService, private http: HttpClient,@Inject(PLATFORM_ID) private platformId: Object,) {}
+    constructor(private http: HttpClient,@Inject(PLATFORM_ID) private platformId: Object,) {}
     
 
     ngOnInit(): void {
-      console.log('childT',this.ChildThing)
-      console.log('childP',this.ChildProperty) 
         if (isPlatformServer(this.platformId)) {
-            console.log('Property component server') 
+          //server side
             } else {
              this.BrowserUniversalInit()
           }
     }
 
     BrowserUniversalInit(){
-            //this.http.get('http://localhost:8080/mapsKey')
-            this.http.get('mapsKey')
+            this.http.get(server_url+'mapsKey')
             .toPromise().then(data => {
-              console.log(data)
+              this.key=data['key']
             })
-            const to : number = (new Date).getTime(); //current UNIX timestamp (in ms)
-            const from : number = 0 //to - 24*60*60*1000 //1 day before UNIX timestamp (in ms)
-            console.log('from :',from,'to :',to)
-            this.http.get('api/things/'+this.ChildThing.thing_id+'/properties/'+this.ChildProperty.property_id+'?from='+from+'&to='+to)
-            // this.http.get('http://localhost:8080/api/things/'+this.ChildThing.thing_id+'/properties/'+this.ChildProperty.property_id+'?from='+from+'&to='+to)
+            const to : number = (new Date).getTime();
+            const from : number = 0
+             this.http.get(server_url+'api/things/'+this.ChildThing.thing_id+'/properties/'+this.ChildProperty.property_id+'?from='+from+'&to='+to)
             .toPromise().then(data => {
-              console.log('Promise3',data)
-              console.log('value length',data['property'].values.length)
-
               var last_values = []
               if(data['property'].values.length > 0){
-                console.log('last value',data['property'].values[data['property'].values.length-1])
                 last_values =  data['property'].values[data['property'].values.length-1]
                 this.date = new Date(data['property'].values[data['property'].values.length-1][0])
               }
@@ -151,11 +136,11 @@ export class PropertyComponent implements OnInit {
             switch(this.ChildProperty.property_type) {
                 case "LOCATION": {
                     this.chart_type = "MAPS"
-                    console.log('type', PropertyType.LOCATION)
-                    console.log('dimensions',this.ChildProperty.property_dimensions)
                     //ADD MARKER IN MAPS
                     const last_lat = last_values[1]
                     const last_lng = last_values[2]
+                    this.lat = last_lat
+                    this.lng = last_lng
                     if(last_lat !== undefined && last_lng !== undefined){
                       this.markers = {
                         markers:  [{
@@ -166,9 +151,10 @@ export class PropertyComponent implements OnInit {
                           content: this.ChildThing.thing_name
                           }
                         }],
-                        fitBounds: true,
+                        //fitBounds: true,
                         }
                     }
+                    this.options = {zoom: 9};
                     //ADD PROPERTY DATA
                     this.property_data.push(
                       {
@@ -206,16 +192,12 @@ export class PropertyComponent implements OnInit {
               case "ROTATION_VECTOR":
               case "ACCELEROMETER" : {
                 this.chart_type = "RADAR"
-                console.log('type',this.ChildProperty.property_type)
-                console.log('dimensions',this.ChildProperty.property_dimensions)
                 var last_data :  number[] = []
                 var maxvalue : number = 0
                 const dim_size : number = this.getDimensionSize(this.ChildProperty)
-                console.log('dim_size',dim_size)
                 for(var i = 0; i < dim_size; i++){
                 //GET LAST VALUES
                     const value = last_values[i+1]
-                    console.log('value',value)
                     //ADD LABELS TO CHART
                     this.radarChartLabels.push(this.ChildProperty.property_dimensions[i].name)
                     // ADD LAST VALUES
@@ -239,12 +221,10 @@ export class PropertyComponent implements OnInit {
             }
                 default: {
                     this.chart_type = "DEFAULT"
-                    console.log('type',this.ChildProperty.property_type)
                     const dim_size : number = this.getDimensionSize(this.ChildProperty)
                     for(var i = 0; i < dim_size; i++){
                     //GET LAST VALUES
                     const value = last_values[i+1]
-                    console.log('value',value)
                     this.property_data.push(
                       {
                       property_dimension : this.ChildProperty.property_dimensions[i].name,

@@ -1,4 +1,5 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import {Component} from '@angular/core';
+import {server_url } from '.../../../classes'
 
 import {
   HttpClient,
@@ -7,9 +8,8 @@ import {
   HttpParams,
 } from "@angular/common/http";
 
-import {Inject, Optional} from '@angular/core';
+import {Inject} from '@angular/core';
 import { PLATFORM_ID} from '@angular/core';
-import {isPlatformBrowser} from "@angular/common";
 import {isPlatformServer} from "@angular/common";
 
 @Component({
@@ -22,7 +22,7 @@ import {isPlatformServer} from "@angular/common";
 
 export class NavbarComponent {
 
-  name : string ='test'
+  name : string = ''
   constructor(private http: HttpClient,@Inject(PLATFORM_ID) private platformId: Object,) {
     if (isPlatformServer(this.platformId)) {
       } else {
@@ -31,18 +31,13 @@ export class NavbarComponent {
   }
 
   BrowserUniversalInit(){
-    this.http.get('api/user')
-  // this.http.get('http://localhost:8080/api/user')
+  this.http.get(server_url+'api/user')
   .toPromise().then(data => {
-  console.log('promise0',data)
   const userId = data['sub'].split('dcd:persons:')[1]
-  this.http.get('api/persons/'+userId)
-  // this.http.get('http://localhost:8080/api/persons/'+userId)
+  this.http.get(server_url+'api/persons/'+userId)
   .toPromise().then(data => {
-  console.log('promise0',data)
   this.name =data['person'].name
   });
-
   });
 
   }

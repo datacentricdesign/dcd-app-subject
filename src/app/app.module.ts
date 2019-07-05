@@ -14,7 +14,6 @@ import {UserComponent} from './user/user.component'
 import { ThingComponent } from "./thing/thing.component";
 
 //Http
-import { ClientService } from './client.service';
 import {  HttpClientModule  } from '@angular/common/http';
 import {  TransferHttpCacheModule } from '@nguniversal/common';
 
@@ -79,7 +78,6 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     
   ],
   providers: [
-    ClientService,
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
