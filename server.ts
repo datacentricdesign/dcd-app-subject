@@ -2,7 +2,6 @@ import 'zone.js/dist/zone-node';
 import { enableProdMode, ComponentFactoryResolver } from '@angular/core';
 
 // Express Engine
-import { ngExpressEngine } from '@nguniversal/express-engine';
 import { renderModuleFactory } from '@angular/platform-server'
 // Import module map for lazy loading
 import { provideModuleMap } from '@nguniversal/module-map-ngfactory-loader';
@@ -20,7 +19,6 @@ import {Strategy,ThingService,PersonService} from 'dcd-sdk-js'
 import * as dotenv from 'dotenv'
 import * as findconfig from 'find-config'
 
-const domino = require('domino');
 
 
 // Faster server renders w/ Prod mode (dev mode never needed)

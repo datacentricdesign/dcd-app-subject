@@ -1,21 +1,26 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import {FormsModule} from '@angular/forms';
 
 //Components
-import {  AppComponent  } from './app.component';
-import {  HomeComponent } from './home/home.component';
-import { AboutComponent } from './about/about.component'
-import { NotificationsComponent } from './notifications/notifications.component'
-import {  NavbarComponent } from './navbar/navbar.component'
-import { PropertyComponent } from './property/property.component'
-import {UserComponent} from './user/user.component'
-import { ThingComponent } from "./thing/thing.component";
+import {AppComponent} from './app.component';
+import {HomeComponent} from './home/home.component';
+import {AboutComponent} from './about/about.component';
+import {NotificationsComponent} from './notifications/notifications.component';
+import { NavbarComponent} from './navbar/navbar.component';
+import {PropertyComponent} from './property/property.component';
+import {UserComponent} from './user/user.component';
+import {ThingComponent} from "./thing/thing.component";
+import {DoubleAxisChartComponent} from './charts/double-axis-chart/double-axis-chart.component';
+import {DoubleDimensionChartComponent} from './charts/double-dimension-chart/double-dimension-chart.component';
+import {GoogleMapsComponent} from './charts/google-maps/google-maps.component';
+import {LineChartComponent} from './charts/line-chart/line-chart.component'
+import {RadarChartComponent} from './charts/radar-chart/radar-chart.component'
 
 //Http
-import {  HttpClientModule  } from '@angular/common/http';
-import {  TransferHttpCacheModule } from '@nguniversal/common';
+import {HttpClientModule} from '@angular/common/http';
+import {TransferHttpCacheModule} from '@nguniversal/common';
 
 // MatUI
 import {MatButtonModule} from '@angular/material/button';
@@ -40,6 +45,8 @@ import { ChartsModule } from 'ng2-charts';
 //ngx charts 
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,7 +56,13 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     NavbarComponent,
     PropertyComponent,
     UserComponent,
-    ThingComponent
+    ThingComponent,
+    DoubleAxisChartComponent,
+    DoubleDimensionChartComponent,
+    GoogleMapsComponent,
+    LineChartComponent,
+    RadarChartComponent
+    
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'my-app'}),

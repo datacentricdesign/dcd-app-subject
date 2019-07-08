@@ -1,7 +1,7 @@
 import { Component, Inject, PLATFORM_ID, OnInit } from '@angular/core';
 import { isPlatformServer } from "@angular/common";
 import { Router} from '@angular/router';
-import { Thing,Property, Value, server_url } from '.../../../classes'
+import { Thing,Property, Dimension, server_url } from '.../../../classes'
 
 
 import {
@@ -22,8 +22,8 @@ export class ThingComponent implements OnInit {
 
     thing : Thing = new Thing({})
     rangeDates: Date[]
-    values:Value[] =[]
-    selectedValues:Value[] = []
+    dimensions:Dimension[] =[]
+    selectedDimensions:Dimension[] = []
     displayedColumns: string[] = ['name', 'type', 'settings'];
 
     constructor(
@@ -62,13 +62,18 @@ export class ThingComponent implements OnInit {
 
               this.http.get(server_url+'api/things/'+this.thing.thing_id+'/properties/'+property.property_id+'?from='+from+'&to='+to)
               .toPromise().then(data => {
-                this.values.push(new Value(
-                  property.property_name,
-                  property.property_id,
+                this.dimensions.push(new Dimension(
+                  data['property'].name,
                   dim_name,
                   dim_unit,
                   this.getData(index,data['property'].values)
                   ))
+
+                  if(data['property'].values.length > 0){
+                  const first_date = new Date(data['property'].values[0][0])
+                  const last_date = new Date(data['property'].values[data['property'].values.length-1][0])
+                  this.rangeDates = [first_date,last_date]
+                  }
               })
               }
         };
@@ -109,8 +114,8 @@ export class ThingComponent implements OnInit {
         if(rangeDates[0] !== null && rangeDates[1]!== null){
             const from : number = rangeDates[0].getTime(); 
             const to : number = rangeDates[1].getTime() + 24*60*60*1000 ; 
-            for(let value of this.values){
-              this.http.get(server_url+'api/things/'+this.thing.thing_id+'/properties/'+value.property_id+'?from='+from+'&to='+to)
+            for(let dimension of this.dimensions){
+              this.http.get(server_url+'api/things/'+this.thing.thing_id+'/properties/'+"TODO"+'?from='+from+'&to='+to)
               .toPromise().then(data => {
               })
             }
@@ -143,9 +148,9 @@ colorScheme = {
 handleChange(e) {
 // e = true or false => checkbox
 this.multi =  []
-for(let value of this.selectedValues){
+for(let value of this.selectedDimensions){
 this.multi.push({
-name : value.dimension +' ( '+value.property_name +' )',
+name : value.dimension,
 series:value.data
 })
 }

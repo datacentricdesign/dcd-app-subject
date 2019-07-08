@@ -40,9 +40,9 @@
                     </tr>
                     </thead>
                     <tbody>
-                            <tr *ngFor="let value of values; index as i" >
+                            <tr *ngFor="let value of dimensions; index as i" >
                                     <th scope="row">
-                                    <p-checkbox name="groupname" [value]="value" [(ngModel)]="selectedValues" (onChange)="handleChange($event)"></p-checkbox>
+                                    <p-checkbox name="groupname" [value]="value" [(ngModel)]="selectedDimensions" (onChange)="handleChange($event)"></p-checkbox>
                                     </th>
                                     <td>{{value.property_name}}</td>
                                     <td>{{value.dimension}}</td>
@@ -64,7 +64,7 @@
                   <h4 class="card-title">{{property.property_name}}</h4>
               </div>
               <div class="card-body">
-                        <app-property  [ChildThing]="thing" [ChildProperty]="property" ></app-property>
+                        <app-property [ChildThing]="thing" [ChildProperty]="property" ></app-property>
               
               </div>
               <div class="card-footer">
