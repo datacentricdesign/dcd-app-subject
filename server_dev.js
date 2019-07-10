@@ -2,6 +2,7 @@ var express = require("express");
 var dotenv = require("dotenv");
 var findconfig = require("find-config");
 var cors = require('cors')
+var bodyParser = require('body-parser')
 //import * as dcd from 'dcd-sdk-js'
 //import {Strategy,ThingService,PersonService} from 'dcd-sdk-js'
 var dcd = require('dcd-sdk-js')
@@ -20,6 +21,20 @@ const backends = {
 const baseUrl = process.env.BASE_URL || '';
 
 app.use(cors())
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+
+//Logout
+app.delete(baseUrl+"/oauth2/auth/sessions/login", //checkAuthentication,
+async (req, res, next) => {
+    const subject = req.query.subject
+    console.log('/oauth2/auth/sessions/login'+'?subject=' + subject)
+    const result = await dcd.PersonService.logout(subject,token)
+    //const result = await dcd.PersonService.revokeConsent(subject,token)
+    //const result = await dcd.GETRequest('https://dwd.tudelft.nl:443/oauth2/auth/sessions/login/revoke',token)
+    console.log(result)
+    res.send(result)
+});
 
 app.get(baseUrl+'/mapsKey'//,checkAuthentication
 ,(req, res) => {
@@ -89,6 +104,26 @@ app.get(baseUrl+'/api/user', //checkAuthentication,
         res.send(result)
         }
       );
+
+    app.post(baseUrl+'/api/things',//checkAuthentication,
+      async (req, res, next) => {
+          const jwt = req.query.jwt
+          const body = req.body
+          console.log('post','api/things/'+'?jwt=' + jwt,body)
+          const result = await dcd.ThingService.createThing(body,jwt,token)
+          res.send(result)
+          }
+        );
+
+    app.post(baseUrl+'/api/things/:thingId/properties',//checkAuthentication,
+        async (req, res, next) => {
+            const thingId = req.params.thingId
+            const body = req.body
+            console.log('post','api/things/'+thingId+'/properties',body)
+            const result = await dcd.ThingService.createProperty(thingId,body,token)
+            res.send(result)
+            }
+          );
 
 
 // Start up the Node server

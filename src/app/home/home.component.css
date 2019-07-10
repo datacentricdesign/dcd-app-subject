@@ -4,8 +4,6 @@
 }
 .thing-card{
     display: table-row;
-    min-width:600px;
-    min-height :200px;
     width: 46%;
     float:left;
     margin-left: 2%
@@ -18,9 +16,12 @@ table {
 .thing_buttons{
     text-align: right;
 }
+.card-body{
+  height: 200px;
+}
 
 .thing_table{
-height: 246px;
+  height: 200px;
   overflow: auto;
 }
 
@@ -38,4 +39,13 @@ height: 246px;
 .thing_nav {
   display: table-cell;
   float: right;
+}
+.add-thing{
+  text-align: center;
+  margin-bottom: 1%;
+  width: 100%;
+}
+
+input{
+  margin-top: 1%
 }

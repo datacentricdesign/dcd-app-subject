@@ -34,8 +34,8 @@ export class DoubleDimensionChartComponent {
      showXAxisLabel = true;
      showYAxisLabel = true;
      xAxisLabel = 'date';
-     yAxisLabel = 'price';
-     yAxisLabel2 = 'count';
+     yAxisLabel = '';
+     yAxisLabel2 = '';
      autoScale = true;
      timeLine = true;
      animations = false;
@@ -59,10 +59,29 @@ export class DoubleDimensionChartComponent {
         if(val.length>0){
                 this.multi =  []
                 for(let value of val){
-                this.multi.push({
-                name : value.dimension,
-                series:value.data
-                })
+                if(this.multi.length == 0){
+                  if(value.unit != undefined && value.unit != ''){
+                    this.yAxisLabel = value.dimension +' ('+value.unit+' )'
+                  }else{
+                    this.yAxisLabel = value.dimension +' (no unit)'
+                  }
+                  this.multi.push({
+                    name : value.dimension,
+                    series:value.data
+                    })
+
+                }else{
+                  if(value.unit != undefined && value.unit != ''){
+                    this.yAxisLabel2 = value.dimension +' ('+value.unit+' )'
+                  }else{
+                    this.yAxisLabel2 = value.dimension +' (no unit)'
+                  }
+                  this.multi.push({
+                    name : value.dimension,
+                    secondAxis:true,
+                    series:value.data
+                    })
+                }
                 }
             }
        }

@@ -126,7 +126,7 @@ export class ThingComponent implements OnInit {
 
 //Line chart
 // options
-showXAxis = true;
+/*showXAxis = true;
 showYAxis = true;
 gradient = false;
 showLegend = true;
@@ -134,25 +134,85 @@ showXAxisLabel = true;
 xAxisLabel = 'Date';
 showYAxisLabel = true;
 yAxisLabel = 'Value';
-timeline = true;
+timeline = true;*/
+
+gradient = false;
+showXAxis = true;
+showYAxis = true;
+showLegend = false;
+showXAxisLabel = true;
+showYAxisLabel = true;
+xAxisLabel = 'date';
+yAxisLabel = '';
+yAxisLabel2 = '';
+autoScale = true;
+timeLine = true;
+animations = false;
+tooltipDisabled = false;
+
 view=[1000, 500]
 
 onResize(event) {
   this.view = [event.target.innerWidth / 1.35, 400];
 }
-
 colorScheme = {
-  domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+  name: 'coolthree',
+  selectable: true,
+  group: 'Ordinal',
+  domain: [
+    '#01579b', '#7aa3e5', '#a8385d', '#00bfa5','#5AA454', '#A10A28', '#C7B42C', '#AAAAAA'
+  ]
 };
+
+firstunit:string
+dim1:string[]=[]
+dim2:string[]=[]
 
 handleChange(e) {
 // e = true or false => checkbox
 this.multi =  []
+this.dim1 = []
+this.dim2 = []
 for(let value of this.selectedDimensions){
-this.multi.push({
-name : value.dimension,
-series:value.data
-})
+  if(this.multi.length == 0){
+    this.firstunit = value.unit
+    this.dim1.push(value.dimension)
+    if(value.unit != undefined && value.unit != ''){
+      this.yAxisLabel = this.dim1.toString() +' ('+value.unit+' )'
+    }else{
+      this.yAxisLabel = this.dim1.toString() + ' (no unit)'
+    }
+    this.multi.push({
+      name : value.dimension,
+      series:value.data
+      })
+
+  }else{
+    if(this.firstunit != value.unit){
+      this.dim2.push(value.dimension)
+      if(value.unit != undefined && value.unit != ''){
+        this.yAxisLabel2 = this.dim2.toString() +' ('+value.unit+' )'
+      }else{
+        this.yAxisLabel2 = this.dim2.toString() + ' (no unit)'
+      }
+      this.multi.push({
+        name : value.dimension,
+        secondAxis:true,
+        series:value.data
+        })
+    }else{
+      this.dim1.push(value.dimension)
+      if(value.unit != undefined && value.unit != ''){
+        this.yAxisLabel = this.dim1.toString() +' ('+value.unit+' )'
+      }else{
+        this.yAxisLabel = this.dim1.toString() + ' (no unit)'
+      }
+      this.multi.push({
+        name : value.dimension,
+        series:value.data
+        })
+    }
+  }
 }
 }
 

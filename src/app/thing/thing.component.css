@@ -7,14 +7,6 @@ width:  100%;
 text-align: center;
 max-height: 500px;
 }
-.chart-container{
-    display: table-cell;
-    width: 70%;
-}
-.options-container{
-    display: table-cell;
-    width: 30%;
-}
 
 table {
     width: 100%;
@@ -42,3 +34,4 @@ table {
 .date-picker-container{
     margin-top: 20px;
 }
+

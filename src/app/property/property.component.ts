@@ -50,12 +50,10 @@ export class PropertyComponent implements OnInit {
              const from : number = 0
               this.http.get(server_url+'api/things/'+this.ChildThing.thing_id+'/properties/'+this.ChildProperty.property_id+'?from='+from+'&to='+to)
              .toPromise().then(data => {
-
               if(data['property'].values.length > 0){
               const first_date = new Date(data['property'].values[0][0])
               const last_date = new Date(data['property'].values[data['property'].values.length-1][0])
               this.rangeDates = [first_date,last_date]
-              this.values = data['property'].values
               }
               this.values = data['property'].values
               for(var i = 0; i < this.getDimensionSize(this.ChildProperty); i++){
@@ -165,78 +163,5 @@ export class PropertyComponent implements OnInit {
           }
         }
       }
-
-
-           //Radar Chart
-     /*radarChartOptions: RadialChartOptions
-     colors = [{backgroundColor: 'rgba(103, 58, 183, .1)',borderColor: 'rgb(103, 58, 183)',pointBackgroundColor: 'rgb(103, 58, 183)',pointBorderColor: '#fff',pointHoverBackgroundColor: '#fff',pointHoverBorderColor: 'rgba(103, 58, 183, .8)'},];
-     radarChartType: ChartType = 'radar';
-     radarChartLabels: Label[] = []
-     radarChartData: ChartDataSets[];
-
-     //BUBBLE CHART
-     view:any[]
-
-     colorScheme = {
-       name: 'coolthree',
-       selectable: true,
-       group: 'Ordinal',
-       domain: [
-         '#01579b', '#7aa3e5', '#a8385d', '#00bfa5'
-       ]
-     };
-     gradient = false;
-     showXAxis = true;
-     showYAxis = true;
-     showLegend = false;
-     showXAxisLabel = true;
-     showYAxisLabel = true;
-     xAxisLabel = 'date';
-     yAxisLabel = 'price';
-     yAxisLabel2 = 'count';
-     autoScale = true;
-     timeLine = true;
-     animations = false;
-     tooltipDisabled = false;
-   
-     // data for charts
-     multi = [{
-       name: 'first',
-       series: [{
-         name: new Date('2018-01-01T00:00:00'),
-         value: '100'
-       }, {
-         name: new Date('2018-02-01T00:00:00'),
-         value: '200'
-       }, {
-         name: new Date('2018-03-01T00:00:00'),
-         value: '150'
-       }, {
-         name: new Date('2018-04-01T00:00:00'),
-         value: '50'
-       }, {
-         name: new Date('2018-05-01T00:00:00'),
-         value: '100'
-       }]
-     }, {
-       name: 'second',
-       secondAxis: true,
-       series: [{
-         name: new Date('2018-01-01T00:00:00'),
-         value: '5'
-       }, {
-         name: new Date('2018-02-01T00:00:00'),
-         value: '4'
-       }, {
-         name: new Date('2018-03-01T00:00:00'),
-         value: '1'
-       }, {
-         name: new Date('2018-04-01T00:00:00'),
-         value: '3'
-       }, {
-         name: new Date('2018-05-01T00:00:00'),
-         value: '2'
-       }]
-     }];*/
 
 }

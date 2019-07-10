@@ -34,7 +34,6 @@ const DIST_FOLDER = join(process.cwd(), 'dist');
 
 //Oauth2
 const baseUrl = process.env.BASE_URL || '';
-
 const serverUrl = process.env.SERVER_URL;
 
 //GoogleMaps key :
@@ -158,6 +157,16 @@ res.redirect(req.session.redirectTo)
 }
 );
 
+//Logout
+app.delete(baseUrl+"/oauth2/auth/sessions/login", checkAuthentication,
+ async (req, res, next) => {
+  const subject = req.query.subject
+  console.log('/oauth2/auth/sessions/login'+'?subject=' + subject)
+  const result = await PersonService.logout(subject,req.user.accessToken)
+  console.log(result)
+  res.send(result)
+});
+
 //This shows home page TODO
 app.get(baseUrl+'/error', (req, res) => {
     res.render('error', {
@@ -176,7 +185,7 @@ app.get(baseUrl+'/mapsKey',checkAuthentication
     )
   });
 
-app.get(baseUrl+'/api/things', checkAuthentication,
+  app.get(baseUrl+'/api/things', checkAuthentication,
     async (req, res, next) => {
         console.log('api/things')
         const result = await ThingService.readAll(req.user.accessToken)
@@ -184,7 +193,7 @@ app.get(baseUrl+'/api/things', checkAuthentication,
     });
 
    app.get(baseUrl+'/api/things/:thingId', checkAuthentication,
-    async (req, res, next) => {
+     async (req, res, next) => {
         const thingId = req.params.thingId;
         console.log('api/things/'+thingId)
         const result = await ThingService.read(thingId,req.user.accessToken)
@@ -193,14 +202,14 @@ app.get(baseUrl+'/api/things', checkAuthentication,
 
 
     app.get(baseUrl+'/api/user', checkAuthentication,
-    async (req, res, next) => {
+     async (req, res, next) => {
         console.log('api/user')
         const result = await PersonService.readUser(req.user.accessToken)
         res.send(result)
     });
 
     app.get(baseUrl+'/api/persons/:userId', checkAuthentication,
-    async (req, res, next) => {
+     async (req, res, next) => {
         const userId = req.params.userId;
         console.log('api/user/'+userId)
         const result = await PersonService.readUserId(userId,req.user.accessToken)
@@ -208,7 +217,7 @@ app.get(baseUrl+'/api/things', checkAuthentication,
     });
 
     app.get(baseUrl+'/api/things/:thingId/properties/:propertyId', checkAuthentication,
-    async (req, res, next) => {
+     async (req, res, next) => {
       const thingId = req.params.thingId
       const propertyId = req.params.propertyId
       const from = req.query.from
@@ -219,7 +228,7 @@ app.get(baseUrl+'/api/things', checkAuthentication,
     });
 
     app.delete(baseUrl+'/api/things/:thingId',checkAuthentication,
-    async (req, res, next) => {
+     async (req, res, next) => {
         const thingId = req.params.thingId
         console.log('delete','api/things/'+thingId)
         const result = await ThingService.deleteThing(thingId,req.user.accessToken)
@@ -228,7 +237,7 @@ app.get(baseUrl+'/api/things', checkAuthentication,
       );
 
     app.delete(baseUrl+'/api/things/:thingId/properties/:propertyId',checkAuthentication,
-    async (req, res, next) => {
+     async (req, res, next) => {
         const thingId = req.params.thingId
         const propertyId = req.params.propertyId
         console.log('delete','api/things/'+thingId+'/properties/'+propertyId)
@@ -236,6 +245,26 @@ app.get(baseUrl+'/api/things', checkAuthentication,
         res.send(result)
         }
       );
+
+    app.post(baseUrl+'/api/things',checkAuthentication,
+      async (req, res, next) => {
+          const jwt = req.query.jwt
+          const body = req.body
+          console.log('post','api/things/'+'?jwt=' + jwt,body)
+          const result = await ThingService.createThing(body,jwt,req.user.accessToken)
+          res.send(result)
+          }
+        );
+
+      app.post(baseUrl+'/api/things/:thingId/properties',checkAuthentication,
+        async (req, res, next) => {
+            const thingId = req.params.thingId
+            const body = req.body
+            console.log('post','api/things/'+thingId+'/properties',body)
+            const result = await ThingService.createProperty(thingId,body,req.user.accessToken)
+            res.send(result)
+            }
+          );
 
     
 

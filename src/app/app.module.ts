@@ -5,7 +5,7 @@ import {FormsModule} from '@angular/forms';
 
 //Components
 import {AppComponent} from './app.component';
-import {HomeComponent} from './home/home.component';
+import {HomeComponent, DialogAddThing, DialogAddProperty, DialogJWT} from './home/home.component';
 import {AboutComponent} from './about/about.component';
 import {NotificationsComponent} from './notifications/notifications.component';
 import { NavbarComponent} from './navbar/navbar.component';
@@ -25,6 +25,9 @@ import {TransferHttpCacheModule} from '@nguniversal/common';
 // MatUI
 import {MatButtonModule} from '@angular/material/button';
 import {MatTableModule} from '@angular/material/table';
+import {MatSelectModule} from '@angular/material/select';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatInputModule} from '@angular/material';
 
 //PrimeNG
 import {DialogModule} from 'primeng/dialog';
@@ -32,6 +35,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CalendarModule} from 'primeng/calendar';
 import {SliderModule} from 'primeng/slider';
 import {CheckboxModule} from 'primeng/checkbox';
+import {InputTextModule} from 'primeng/inputtext';
 
 //Bootstrap
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -44,6 +48,9 @@ import { ChartsModule } from 'ng2-charts';
 
 //ngx charts 
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+
+//ngx clipboard 
+import { ClipboardModule } from 'ngx-clipboard';
 
 
 
@@ -61,7 +68,12 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     DoubleDimensionChartComponent,
     GoogleMapsComponent,
     LineChartComponent,
-    RadarChartComponent
+    RadarChartComponent,
+
+    DialogAddThing,
+    DialogAddProperty,
+    DialogJWT
+
     
   ],
   imports: [
@@ -86,14 +98,24 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     SliderModule,
     NgxChartsModule,
     NgbModule,
-    CheckboxModule
+    CheckboxModule,
+    InputTextModule,
+    MatSelectModule,
+    MatDialogModule,
+    MatInputModule,
+    ClipboardModule
     
     
   ],
   providers: [
   ],
   bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  entryComponents: [
+    DialogAddThing,
+    DialogAddProperty,
+    DialogJWT
+  ]
 })
 export class AppModule { }
 

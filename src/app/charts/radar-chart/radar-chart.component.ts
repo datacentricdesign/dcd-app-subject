@@ -20,7 +20,7 @@ export class RadarChartComponent {
 
     @Input() dimensions: Dimension[];
 
-         radarChartOptions: RadialChartOptions
+         radarChartOptions: RadialChartOptions = {responsive: true}
          colors = [{backgroundColor: 'rgba(103, 58, 183, .1)',borderColor: 'rgb(103, 58, 183)',pointBackgroundColor: 'rgb(103, 58, 183)',pointBorderColor: '#fff',pointHoverBackgroundColor: '#fff',pointHoverBorderColor: 'rgba(103, 58, 183, .8)'},];
          radarChartType: ChartType = 'radar';
          radarChartLabels: Label[] = []

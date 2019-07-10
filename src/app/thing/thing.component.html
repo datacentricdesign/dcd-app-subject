@@ -4,28 +4,23 @@
 <div class ="top-container">
     <div class = "chart-container">
 
-<ngx-charts-line-chart
-(window:resize)="onResize($event)"
-[view]="view"
-[scheme]="colorScheme"
-[results]="multi"
-[gradient]="gradient"
-[xAxis]="showXAxis"
-[yAxis]="showYAxis"
-[legend]="showLegend"
-[showXAxisLabel]="showXAxisLabel"
-[showYAxisLabel]="showYAxisLabel"
-[xAxisLabel]="xAxisLabel"
-[yAxisLabel]="yAxisLabel"
-[timeline]="timeline"
-
-
->
-</ngx-charts-line-chart>
-
-<!--[autoScale]="autoScale"
-(select)="onSelect($event)"-->
-
+            <app-double-axis-chart
+            [view]="view"
+            (window:resize)="onResize($event)"
+            [scheme]="colorScheme"
+            [results]="multi"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="showLegend"
+            [showXAxisLabel]="showXAxisLabel"
+            [yMainAxisShowLabel]="showYAxisLabel"
+            [ySecondaryAxisShowLabel]="showYAxisLabel"
+            [xAxisLabel]="xAxisLabel"
+            [yMainAxisLabel]="yAxisLabel"
+            [ySecondaryAxisLabel]="yAxisLabel2"
+            [timeline]="timeLine">
+          </app-double-axis-chart>
     </div>
     
 <div class="options-container">

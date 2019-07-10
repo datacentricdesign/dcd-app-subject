@@ -1,5 +1,9 @@
-    <div style ="width: 100%"></div>
-    <div class = "thing-container">
+ <div class = "thing-container">
+           <div class = "add-thing" >
+                <button mat-mini-fab color="grey" (click)="openDialogAddThing()"  >
+                                        <i class="fas fa-plus" ></i>
+                 </button>
+           </div>
             <div class = thing-card *ngFor="let thing of things"> <!-- Sort things -->
                     <div  class="card card-chart" id = card_i>
                             <div class="card-header card-header-success">
@@ -8,6 +12,9 @@
                                                                 <h4 class="card-title">{{thing.thing_name}}</h4>
                                                                 </div>
                                                                 <div class = "thing_nav">
+                                                                <button mat-icon-button color="grey" (click)="openDialogAddProperty(thing)"  >
+                                                                                                <i class="fas fa-plus" ></i>
+                                                                </button>
                                                                  <button mat-icon-button color="grey" (click)="nav_thing(thing)"  >
                                                                         <i class="fas fa-search" ></i>
                                                                 </button>
@@ -56,7 +63,7 @@
     </div>
 
 
-<p-dialog [(header)]="property_picked.property_name" [(visible)]="display_property" [modal]="true" [responsive]="true" [style]="{minHeight : '400px', height: '70%' , width: '60%', minWidth: '700px'}" [minY]="70" 
+<p-dialog [(header)]="property_picked.property_name" [(visible)]="display_property" [modal]="true" [responsive]="true" [style]="{width: '60%', minWidth: '700px'}" 
         [maximizable]="true" [baseZIndex]="10000">
 
         <div>

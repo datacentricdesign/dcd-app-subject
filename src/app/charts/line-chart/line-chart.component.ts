@@ -24,7 +24,7 @@ export class LineChartComponent {
     showXAxisLabel = true;
     xAxisLabel = 'Date';
     showYAxisLabel = true;
-    yAxisLabel = 'Value';
+    yAxisLabel = '';
     timeline = true;
     view:any
     multi = [{
@@ -65,15 +65,20 @@ export class LineChartComponent {
         //const val:Dimension[] = changes.values.currentValue
         console.log('got val: ', val);
  
-       /* if(val.length>0){
+        if(val.length>0){
                 this.multi =  []
                 for(let value of val){
+                  if(value.unit != undefined && value.unit != ''){
+                    this.yAxisLabel = value.dimension +' ('+value.unit+' )'
+                  }else{
+                    this.yAxisLabel = value.dimension +' (no unit)'
+                  }
                 this.multi.push({
                 name : value.dimension,
                 series:value.data
                 })
                 }
-        }*/
+        }
        }
 
 }

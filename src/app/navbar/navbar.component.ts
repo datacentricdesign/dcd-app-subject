@@ -23,6 +23,7 @@ import {isPlatformServer} from "@angular/common";
 export class NavbarComponent {
 
   name : string = ''
+  subject:string
   constructor(private http: HttpClient,@Inject(PLATFORM_ID) private platformId: Object,) {
     if (isPlatformServer(this.platformId)) {
       } else {
@@ -33,6 +34,7 @@ export class NavbarComponent {
   BrowserUniversalInit(){
   this.http.get(server_url+'api/user')
   .toPromise().then(data => {
+  this.subject = data['sub']
   const userId = data['sub'].split('dcd:persons:')[1]
   this.http.get(server_url+'api/persons/'+userId)
   .toPromise().then(data => {
@@ -40,6 +42,14 @@ export class NavbarComponent {
   });
   });
 
+  }
+
+  logout(){
+    this.http.delete(server_url+'oauth2/auth/sessions/login?subject='+this.subject)
+    .toPromise().then(data => {
+      console.log(data)
+      window.location.reload();
+      });
   }
     
 }
