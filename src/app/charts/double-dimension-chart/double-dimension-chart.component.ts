@@ -33,7 +33,7 @@ export class DoubleDimensionChartComponent {
      showLegend = false;
      showXAxisLabel = true;
      showYAxisLabel = true;
-     xAxisLabel = 'date';
+     xAxisLabel = 'Date';
      yAxisLabel = '';
      yAxisLabel2 = '';
      autoScale = true;

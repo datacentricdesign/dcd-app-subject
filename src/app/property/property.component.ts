@@ -4,9 +4,6 @@ import { Thing, Property,Dimension, server_url } from '.../../../classes'
 
 import {isPlatformServer} from "@angular/common";
 
-import { ChartDataSets, ChartType, RadialChartOptions,ChartOptions } from 'chart.js';
-import { Label } from 'ng2-charts';
-
 import {
     HttpClient,
     HttpHeaders,
@@ -42,10 +39,6 @@ export class PropertyComponent implements OnInit {
      }
  
      BrowserUniversalInit(){
-             this.http.get(server_url+'mapsKey')
-             .toPromise().then(data => {
-               this.apiKey=data['key']
-             })
              const to : number = (new Date).getTime();
              const from : number = 0
               this.http.get(server_url+'api/things/'+this.ChildThing.thing_id+'/properties/'+this.ChildProperty.property_id+'?from='+from+'&to='+to)
@@ -70,6 +63,10 @@ export class PropertyComponent implements OnInit {
              
              switch(this.ChildProperty.property_type) {
                  case "LOCATION": {
+                  this.http.get(server_url+'mapsKey')
+                  .toPromise().then(data => {
+                    this.apiKey=data['key']
+                  })
                      this.chart_type = "MAPS"
                      break
                  }

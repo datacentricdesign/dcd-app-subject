@@ -143,7 +143,6 @@ export class HomeComponent implements OnInit {
           thing_properties : data['thing'].properties
         })
         this.things.push(newthing)
-
         const jwt : string = data['thing'].keys.jwt
         this.openDialogJWT(newthing,jwt)
       })
@@ -196,7 +195,6 @@ export class HomeComponent implements OnInit {
     add_property(property:Property){
       this.http.post(server_url+'api/things/'+this.add_property_thing.thing_id+'/properties',property.json())
       .toPromise().then(data => {
-        console.log('here',data)
         this.add_property_to_things(data['property'].entityId,new Property({
           property_id : data['property'].id,
           property_name : data['property'].name,
