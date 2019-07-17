@@ -1,6 +1,6 @@
 import { Component, Inject,PLATFORM_ID,Input, SimpleChanges} from '@angular/core';
 
-import {Property,Dimension} from '.../../../classes'
+import {Property,Dimension} from '../../../classes'
 
 import {isPlatformServer} from "@angular/common";
 
@@ -52,6 +52,7 @@ export class DoubleDimensionChartComponent {
 
      ngOnChanges(changes: SimpleChanges) {
 
+      if(!(changes.dimensions === undefined)){
         const val = changes.dimensions.currentValue
         //const val:Dimension[] = changes.values.currentValue
         console.log('got val: ', val);
@@ -84,6 +85,8 @@ export class DoubleDimensionChartComponent {
                 }
                 }
             }
+          }
        }
+       
 
 }

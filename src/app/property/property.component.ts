@@ -1,6 +1,6 @@
 import { Component, Inject,PLATFORM_ID,Input, OnInit} from '@angular/core';
 
-import { Thing, Property,Dimension, server_url } from '.../../../classes'
+import { Thing, Property,Dimension, server_url } from '../../classes'
 
 import {isPlatformServer} from "@angular/common";
 
@@ -19,8 +19,8 @@ import {
 
 export class PropertyComponent implements OnInit {
 
-    @Input() ChildThing: Thing;
     @Input() ChildProperty: Property;
+    @Input() RangeTime: number[];
 
     chart_type : string;
     values : any[] = []
@@ -34,14 +34,23 @@ export class PropertyComponent implements OnInit {
          if (isPlatformServer(this.platformId)) {
            //server side
              } else {
-              this.BrowserUniversalInit()
+              if(this.RangeTime === undefined){
+                const from : number = 0
+                const to : number = (new Date).getTime();
+                this.BrowserUniversalInit(from,to)
+              }else{
+                const from : number = this.RangeTime[0]
+                const to : number = this.RangeTime[1];
+                this.BrowserUniversalInit(from,to)
+              }
+              
            }
      }
  
-     BrowserUniversalInit(){
-             const to : number = (new Date).getTime();
-             const from : number = 0
-              this.http.get(server_url+'api/things/'+this.ChildThing.thing_id+'/properties/'+this.ChildProperty.property_id+'?from='+from+'&to='+to)
+     BrowserUniversalInit(from:number,to:number){
+             //const to : number = (new Date).getTime();
+             //const from : number = 0
+              this.http.get(server_url+'api/things/'+this.ChildProperty.property_entitiy_id+'/properties/'+this.ChildProperty.property_id+'?from='+from+'&to='+to)
              .toPromise().then(data => {
               if(data['property'].values.length > 0){
               const first_date = new Date(data['property'].values[0][0])
@@ -54,12 +63,13 @@ export class PropertyComponent implements OnInit {
               const dim_unit = this.ChildProperty.property_dimensions[i].unit
               const index = i
               this.dimensions.push(new Dimension(
-                data['property'].name,
+                this.ChildProperty.property_name,
                 dim_name,
                 dim_unit,
                 this.getData(index,data['property'].values)
                 ))
               }
+            
              
              switch(this.ChildProperty.property_type) {
                  case "LOCATION": {
@@ -103,10 +113,10 @@ export class PropertyComponent implements OnInit {
       
               }
              })
-         }
+        }
  
 
-    getData(index,values:[]): {value:number,name:Date}[]{
+    getData(index,values:any[]): {value:number,name:Date}[]{
       var array :  {value:number,name:Date}[] = []
       for(var i = 0; i <= values.length; i++){
         if(i == values.length){
@@ -127,7 +137,7 @@ export class PropertyComponent implements OnInit {
         if(rangeDates[0] !== null && rangeDates[1]!== null){
             const from : number = rangeDates[0].getTime(); 
             const to : number = rangeDates[1].getTime() + 24*60*60*1000 ; 
-             this.http.get(server_url+'api/things/'+this.ChildThing.thing_id+'/properties/'+this.ChildProperty.property_id+'?from='+from+'&to='+to)
+             this.http.get(server_url+'api/things/'+this.ChildProperty.property_entitiy_id+'/properties/'+this.ChildProperty.property_id+'?from='+from+'&to='+to)
             .toPromise().then(data => {
               this.dimensions=[]
               this.values = data['property'].values
@@ -136,7 +146,7 @@ export class PropertyComponent implements OnInit {
                 const dim_unit = this.ChildProperty.property_dimensions[i].unit
                 const index = i
                 this.dimensions.push(new Dimension(
-                  data['property'].name,
+                  this.ChildProperty.property_name,
                   dim_name,
                   dim_unit,
                   this.getData(index,data['property'].values)

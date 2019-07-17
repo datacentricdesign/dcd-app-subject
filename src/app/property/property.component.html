@@ -5,19 +5,19 @@
 </div>
 
 <div class = "chart-container" *ngIf = "chart_type == 'MAPS'" class = "maps">
-        <app-google-maps [thing_name]="ChildThing.thing_name"[property] ="ChildProperty" [value] = "values"  [dimensions] = "dimensions" [apiKey]="apiKey"></app-google-maps>
+        <app-google-maps [property] ="ChildProperty" [values] = "values"  [dimensions] = "dimensions" [apiKey]="apiKey"></app-google-maps>
 </div>
 
 <div class = "chart-container" *ngIf = "chart_type == 'RADAR'" class = "maps">
-                <app-radar-chart [property] ="ChildProperty" [value] = "values" [dimensions] = "dimensions"></app-radar-chart>
+                <app-radar-chart [property] ="ChildProperty" [values] = "values" [dimensions] = "dimensions"></app-radar-chart>
 </div>
 
 <div class = "chart-container" *ngIf = "chart_type == 'DOUBLE'" class = "maps">
-                <app-double-dimension-chart [property] ="ChildProperty" [value] = "values"  [dimensions] = "dimensions"></app-double-dimension-chart>
+                <app-double-dimension-chart [property] ="ChildProperty" [values] = "values"  [dimensions] = "dimensions"></app-double-dimension-chart>
 </div>
 
 <div class = "chart-container" *ngIf = "chart_type == 'LINE'" class = "maps">
-                <app-line-chart [property] ="ChildProperty" [value] = "values"  [dimensions] = "dimensions" [apiKey]="apiKey"></app-line-chart>
+                <app-line-chart [property] ="ChildProperty" [values] = "values"  [dimensions] = "dimensions" [apiKey]="apiKey"></app-line-chart>
 </div>
 
 </div>

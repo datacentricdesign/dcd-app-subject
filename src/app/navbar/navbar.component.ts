@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {server_url } from '.../../../classes'
+import {server_url } from '../../classes'
 
 import {
   HttpClient,

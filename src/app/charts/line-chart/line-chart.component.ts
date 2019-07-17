@@ -1,6 +1,6 @@
 import { Component, Inject,PLATFORM_ID,Input,ViewChild, SimpleChanges} from '@angular/core';
 
-import {Property,Dimension} from '.../../../classes'
+import {Property,Dimension} from '../../../classes'
 
 import {isPlatformServer} from "@angular/common";
 
@@ -27,25 +27,7 @@ export class LineChartComponent {
     yAxisLabel = '';
     timeline = true;
     view:any
-    multi = [{
-        name: 'first',
-        series: [{
-          name: new Date('2018-01-01T00:00:00'),
-          value: '100'
-        }, {
-          name: new Date('2018-02-01T00:00:00'),
-          value: '200'
-        }, {
-          name: new Date('2018-03-01T00:00:00'),
-          value: '150'
-        }, {
-          name: new Date('2018-04-01T00:00:00'),
-          value: '50'
-        }, {
-          name: new Date('2018-05-01T00:00:00'),
-          value: '100'
-        }]
-      }];
+    multi = [];
 
       onResize(event) {
         this.view = [event.target.innerWidth / 1.35, 400];
@@ -61,6 +43,7 @@ export class LineChartComponent {
 
     ngOnChanges(changes: SimpleChanges) {
 
+      if(!(changes.dimensions === undefined)){
         const val = changes.dimensions.currentValue
         //const val:Dimension[] = changes.values.currentValue
         console.log('got val: ', val);
@@ -80,5 +63,6 @@ export class LineChartComponent {
                 }
         }
        }
+      }
 
 }

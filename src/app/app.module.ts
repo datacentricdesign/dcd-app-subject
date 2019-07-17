@@ -5,7 +5,8 @@ import {FormsModule} from '@angular/forms';
 
 //Components
 import {AppComponent} from './app.component';
-import {HomeComponent, DialogAddThing, DialogAddProperty, DialogJWT} from './home/home.component';
+import {HomeComponent} from './home/home.component';
+import {ThingsComponent, DialogAddThing, DialogAddProperty, DialogJWT} from './things/things.component'
 import {AboutComponent} from './about/about.component';
 import {NotificationsComponent} from './notifications/notifications.component';
 import { NavbarComponent} from './navbar/navbar.component';
@@ -69,6 +70,7 @@ import { ClipboardModule } from 'ngx-clipboard';
     GoogleMapsComponent,
     LineChartComponent,
     RadarChartComponent,
+    ThingsComponent,
 
     DialogAddThing,
     DialogAddProperty,

@@ -1,13 +1,14 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "outDir": "./dist",
+    "outDir": "../dist",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es5",
+    "module": "commonjs",
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -16,5 +17,9 @@
       "dom"
     ]
   },
-  "include": ["server.ts", "prerender.ts"]
+  "include": ["server.ts", "prerender.ts"],
+  "exclude": [
+    "api/**",
+    "app/**"
+  ]
 }

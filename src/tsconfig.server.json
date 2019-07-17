@@ -11,7 +11,9 @@
   },
   "exclude": [
     "test.ts",
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "api/**",
+    "app/**"
   ],
   // Add "angularCompilerOptions" with the AppServerModule you wrote
   // set as the "entryModule".

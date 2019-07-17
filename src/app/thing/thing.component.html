@@ -1,69 +1,72 @@
 <div class ="title-container">
-<h3>{{thing.thing_name}}</h3>
-</div>
-<div class ="top-container">
-    <div class = "chart-container">
-
-            <app-double-axis-chart
-            [view]="view"
-            (window:resize)="onResize($event)"
-            [scheme]="colorScheme"
-            [results]="multi"
-            [gradient]="gradient"
-            [xAxis]="showXAxis"
-            [yAxis]="showYAxis"
-            [legend]="showLegend"
-            [showXAxisLabel]="showXAxisLabel"
-            [yMainAxisShowLabel]="showYAxisLabel"
-            [ySecondaryAxisShowLabel]="showYAxisLabel"
-            [xAxisLabel]="xAxisLabel"
-            [yMainAxisLabel]="yAxisLabel"
-            [ySecondaryAxisLabel]="yAxisLabel2"
-            [timeline]="timeLine">
-          </app-double-axis-chart>
-    </div>
-    
-<div class="options-container">
-    <div class = table-values-container>
-            <table class="table table-striped">
-                    <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope ="col">Name</th>
-                      <th scope="col">Dimension</th>
-                      <th scope="col">Unit</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                            <tr *ngFor="let value of dimensions; index as i" >
-                                    <th scope="row">
-                                    <p-checkbox name="groupname" [value]="value" [(ngModel)]="selectedDimensions" (onChange)="handleChange($event)"></p-checkbox>
-                                    </th>
-                                    <td>{{value.property_name}}</td>
-                                    <td>{{value.dimension}}</td>
-                                    <td>{{value.unit}}</td>
-                                </tr>
-                    </tbody>
-                  </table>
-</div>
-<div class = date-picker-container>
-        <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" (onSelect)="getValues(rangeDates)"></p-calendar>
-</div>
-</div>
-
-</div>
-<div class = bottom-container>
-    <div class = property-card *ngFor="let property of thing.thing_properties"> <!-- Sort things -->
-      <div  class="card card-chart" id = card_i>
-              <div class="card-header card-header-info">
-                  <h4 class="card-title">{{property.property_name}}</h4>
+        <h3>{{thing.thing_name}}</h3>
+        </div>
+        <div class ="top-container">
+            <div class = "chart-container">
+        
+                    <app-double-axis-chart
+                    [view]="view"
+                    (window:resize)="onResize($event)"
+                    [scheme]="colorScheme"
+                    [results]="multi"
+                    [gradient]="gradient"
+                    [xAxis]="showXAxis"
+                    [yAxis]="showYAxis"
+                    [legend]="showLegend"
+                    [showXAxisLabel]="showXAxisLabel"
+                    [yMainAxisShowLabel]="showYAxisLabel"
+                    [ySecondaryAxisShowLabel]="showYAxisLabel"
+                    [xAxisLabel]="xAxisLabel"
+                    [yMainAxisLabel]="yAxisLabel"
+                    [ySecondaryAxisLabel]="yAxisLabel2"
+                    [timeline]="timeLine">
+                  </app-double-axis-chart>
+            </div>
+            
+        <div class="options-container">
+            <div class = table-values-container>
+                    <table class="table table-striped">
+                            <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope ="col">Name</th>
+                              <th scope="col">Dimension</th>
+                              <th scope="col">Unit</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                    <tr *ngFor="let value of dimensions; index as i" >
+                                            <th scope="row">
+                                            <p-checkbox name="groupname" [value]="value" [(ngModel)]="selectedDimensions" (onChange)="handleChange($event)"></p-checkbox>
+                                            </th>
+                                            <td>{{value.property_name}}</td>
+                                            <td>{{value.dimension}}</td>
+                                            <td>{{value.unit}}</td>
+                                        </tr>
+                            </tbody>
+                          </table>
+        </div>
+        <div class = date-picker-container>
+                <p-calendar *ngIf="showcalendar" [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" (onSelect)="getValues(rangeDates)"></p-calendar>
+                <p-calendar *ngIf="!showcalendar" [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" (onSelect)="getValues(rangeDates)"></p-calendar>
+        </div>
+        </div>
+        
+        </div>
+        <div class = bottom-container>
+            <div class = property-card *ngFor="let property of thing.thing_properties"> <!-- Sort things -->
+              <div  class="card card-chart" id = card_i>
+                      <div class="card-header card-header-info">
+                          <h4 class="card-title">{{property.property_name}}</h4>
+                      </div>
+                      <div class="card-body">
+                              <div class = "property-container">
+                                 <app-property [ChildProperty]="property" [RangeTime] = "RangeTime" ></app-property>
+                              </div>
+                      </div>
+                      <div class="card-footer">
+                      </div>
               </div>
-              <div class="card-body">
-                        <app-property [ChildThing]="thing" [ChildProperty]="property" ></app-property>
-              
-              </div>
-              <div class="card-footer">
-              </div>
-      </div>
-</div>
-</div>
+        </div>
+        </div>
+        
