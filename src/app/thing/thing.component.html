@@ -47,8 +47,8 @@
                           </table>
         </div>
         <div class = date-picker-container>
-                <p-calendar *ngIf="showcalendar" [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" (onSelect)="getValues(rangeDates)"></p-calendar>
-                <p-calendar *ngIf="!showcalendar" [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" (onSelect)="getValues(rangeDates)"></p-calendar>
+                <p-calendar *ngIf="showcalendar && !checked" [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" (onSelect)="getValues(rangeDates)"></p-calendar>
+                <p-calendar *ngIf="!showcalendar && !checked" [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" (onSelect)="getValues(rangeDates)"></p-calendar>
                 <mat-slide-toggle style ="float: right"
                                 [checked]="checked"
                                 (change)="toggle($event)"
@@ -75,5 +75,5 @@
                       </div>
               </div>
         </div>
-        </div>
+</div>
         

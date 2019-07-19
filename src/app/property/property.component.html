@@ -1,7 +1,7 @@
 <div class ="property-container">
 
         <div class = "calendar-container">
-                <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" (onSelect)="getValues(rangeDates)"></p-calendar>
+                <p-calendar *ngIf = !checked [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" (onSelect)="getValues(rangeDates)"></p-calendar>
                 <mat-slide-toggle style ="float: right"
                         [checked]="checked"
                         (change)="toggle($event)"
