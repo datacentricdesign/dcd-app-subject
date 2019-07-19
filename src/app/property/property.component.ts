@@ -182,7 +182,9 @@ export class PropertyComponent implements OnInit {
         this.checked = event.checked;
         if(event.checked){
           //set timeout
-          this.rangeDates[1] = new Date()
+          const now = new Date()
+          this.rangeDates[0] = new Date(now.getTime()-60000)
+          this.rangeDates[1] = now
           this.mode = "Real time values"
           this.refresh = setInterval(() => {
               this.getValues(this.rangeDates)
