@@ -18,7 +18,7 @@
     "generate:prerender": "cd dist && node prerender",
     "serve:prerender": "cd dist/browser && http-server",
     "serve:ssr": "node dist/src/server",
-    "prod": "npm run postinstall && npm run build:ssr && npm run serve:ssr",
+    "prod": "npm update && npm run postinstall && npm run build:ssr && npm run serve:ssr",
     "compile_@swimlane_ngx-charts": "babel node_modules/@swimlane/ngx-charts -d node_modules/@swimlane/ngx-charts --presets @babel/preset-env",
     "postinstall": "npm run compile_@swimlane_ngx-charts",
     "predev": "ng serve app",
