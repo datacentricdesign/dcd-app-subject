@@ -17,9 +17,6 @@
       "dom"
     ]
   },
-  "include": ["server.ts", "prerender.ts"],
-  "exclude": [
-    "api/**",
-    "app/**"
-  ]
+  "include": ["server.ts", "prerender.ts","api/index.ts"],
+  "exclude":["app/**/*.ts","classes.ts"]
 }

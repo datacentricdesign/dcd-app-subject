@@ -36,20 +36,21 @@ export function createNgRenderMiddleware(distPath: string, ngSetup: NgSetupOptio
   // Angular Express Engine
   app.engine('html', ngExpressEngine(ngSetup));
 
-  createRoutes(app)
+  dotenv.config({ path: findconfig('.env') })
+  const redirectUrl = process.env.BASE_URL || '';
+  createRoutes(app,"",redirectUrl)
 
   return app;
 }
 
-export function createRoutes(app){
+export function createRoutes(app,baseUrl,redirectUrl){
   dotenv.config({ path: findconfig('.env') })
 
-  //Oauth2
-  const baseUrl = process.env.BASE_URL || '';
-  const serverUrl = process.env.SERVER_URL;
-  
   //GoogleMaps key :
   const google_maps_key = process.env.MAPS_KEY
+
+  //Oauth2
+  const serverUrl = process.env.SERVER_URL;
   
   const strategyOptions = {
       authorizationURL: process.env.OAUTH2_AUTH_URL,
@@ -101,8 +102,7 @@ export function createRoutes(app){
         // The `isAuthenticated` is available because of Passport.js
         if (!req.isAuthenticated()) {
             req.session.redirectTo = req.url;
-          res.redirect(baseUrl+'/auth');
-          //res.redirect('/subject'+'/auth');
+          res.redirect(redirectUrl+'/auth');
             return
         }
         next()
@@ -122,12 +122,10 @@ export function createRoutes(app){
       res.render('index', { req });
   });
   
-  app.get(baseUrl+'/auth', passport.authenticate('oauth2'));
-  //app.get('/subject'+'/auth', passport.authenticate('oauth2'));
+  app.get(redirectUrl+'/auth', passport.authenticate('oauth2'));
   
   
-  app.get(baseUrl+'/auth/callback',
-  //app.get('/subject'+'/auth/callback',
+  app.get(redirectUrl+'/auth/callback',
   
   passport.authenticate('oauth2',
   {failureRedirect: '/auth'}),

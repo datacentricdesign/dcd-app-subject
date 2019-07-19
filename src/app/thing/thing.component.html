@@ -49,6 +49,13 @@
         <div class = date-picker-container>
                 <p-calendar *ngIf="showcalendar" [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" (onSelect)="getValues(rangeDates)"></p-calendar>
                 <p-calendar *ngIf="!showcalendar" [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" (onSelect)="getValues(rangeDates)"></p-calendar>
+                <mat-slide-toggle style ="float: right"
+                                [checked]="checked"
+                                (change)="toggle($event)"
+                                color = "primary"
+                                >
+                                 {{mode}}
+                </mat-slide-toggle>
         </div>
         </div>
         

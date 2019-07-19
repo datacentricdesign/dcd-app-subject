@@ -4,6 +4,8 @@ import { Thing, Property,Dimension, server_url } from '../../classes'
 
 import {isPlatformServer} from "@angular/common";
 
+import { MatSlideToggleChange } from '@angular/material';
+
 import {
     HttpClient,
     HttpHeaders,
@@ -27,6 +29,9 @@ export class PropertyComponent implements OnInit {
     dimensions : Dimension[] = []
     rangeDates: Date[]
     apiKey:string = ''
+    checked:boolean = false
+    mode : string = "Manual selected values"
+    refresh : any
         
      constructor(private http: HttpClient,@Inject(PLATFORM_ID) private platformId: Object,) {}
  
@@ -63,6 +68,7 @@ export class PropertyComponent implements OnInit {
               const dim_unit = this.ChildProperty.property_dimensions[i].unit
               const index = i
               this.dimensions.push(new Dimension(
+                this.ChildProperty.property_id,
                 this.ChildProperty.property_name,
                 dim_name,
                 dim_unit,
@@ -146,6 +152,7 @@ export class PropertyComponent implements OnInit {
                 const dim_unit = this.ChildProperty.property_dimensions[i].unit
                 const index = i
                 this.dimensions.push(new Dimension(
+                  this.ChildProperty.property_id,
                   this.ChildProperty.property_name,
                   dim_name,
                   dim_unit,
@@ -170,5 +177,26 @@ export class PropertyComponent implements OnInit {
           }
         }
       }
+
+      toggle(event: MatSlideToggleChange) {
+        this.checked = event.checked;
+        if(event.checked){
+          //set timeout
+          this.rangeDates[1] = new Date()
+          this.mode = "Real time values"
+          this.refresh = setInterval(() => {
+              this.getValues(this.rangeDates)
+            }, 5000);
+        }else{
+          //cleartimeout
+          this.mode = "Manual selected values"
+          clearInterval(this.refresh)
+        }
+    }
+
+    ngOnDestroy() {
+      clearInterval(this.refresh)
+    }
+
 
 }

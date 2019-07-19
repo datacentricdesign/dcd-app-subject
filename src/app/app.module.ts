@@ -29,6 +29,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatInputModule} from '@angular/material';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 //PrimeNG
 import {DialogModule} from 'primeng/dialog';
@@ -105,7 +106,8 @@ import { ClipboardModule } from 'ngx-clipboard';
     MatSelectModule,
     MatDialogModule,
     MatInputModule,
-    ClipboardModule
+    ClipboardModule,
+    MatSlideToggleModule
     
     
   ],

@@ -64,8 +64,9 @@ app.get('*.*', express.static(join(DIST_FOLDER, 'browser'), {
 }));
 
 // These routes use the Universal engine
-
-createRoutes(app)
+dotenv.config({ path: findconfig('.env') })
+const baseUrl = process.env.BASE_URL || '';
+createRoutes(app,baseUrl,baseUrl)
 
 
     

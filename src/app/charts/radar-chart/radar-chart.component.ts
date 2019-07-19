@@ -45,6 +45,7 @@ export class RadarChartComponent {
                this.showData = true
                this.index = val[0].data.length-1
 
+               this.radarChartLabels = []
                var last_data : number[] = []
                var maxnum : number = 0
 

@@ -2,7 +2,7 @@ import { Component, Inject, PLATFORM_ID, OnInit } from '@angular/core';
 import { isPlatformServer } from "@angular/common";
 import { Router} from '@angular/router';
 import { Thing,Property, Dimension, server_url } from '../../classes'
-
+import { MatSlideToggleChange } from '@angular/material';
 
 import {
   HttpClient,
@@ -27,6 +27,10 @@ export class ThingComponent implements OnInit {
     displayedColumns: string[] = ['name', 'type', 'settings'];
     RangeTime: number[];
     showcalendar:boolean = true
+    checked:boolean = false
+    mode : string = "Manual selected values"
+    refresh : any
+    first_from : Date
 
     constructor(
         private router: Router,
@@ -77,6 +81,7 @@ export class ThingComponent implements OnInit {
               .toPromise().then(data => {
                 if(data['property'].values.length > 0){
                 this.dimensions.push(new Dimension(
+                  property.property_id,
                   property.property_name,
                   dim_name,
                   dim_unit,
@@ -87,9 +92,11 @@ export class ThingComponent implements OnInit {
                   //this.rangeDates = [first_date,last_date]
                   console.log(first_date,last_date)
                   if(this.rangeDates === undefined){
+                    this.first_from = first_date
                     this.rangeDates = [first_date,last_date]
                   }else{
                     if(first_date.getTime()<this.rangeDates[0].getTime()){
+                      this.first_from = first_date
                       this.rangeDates[0]=first_date
                       this.showcalendar = !this.showcalendar
                     }
@@ -151,6 +158,7 @@ export class ThingComponent implements OnInit {
               .toPromise().then(data => {
                 if(data['property'].values.length > 0){
                 this.dimensions.push(new Dimension(
+                  property.property_id,
                   property.property_name,
                   dim_name,
                   dim_unit,
@@ -164,6 +172,37 @@ export class ThingComponent implements OnInit {
 
         }
       }
+    }
+
+    updateValues(rangeDates){
+      if(rangeDates.length == 2){
+        if(rangeDates[0] !== null && rangeDates[1]!== null){
+            const from : number = rangeDates[0].getTime(); 
+            const to : number = rangeDates[1].getTime() + 24*60*60*1000 ; 
+
+            for (let property of this.thing.thing_properties) {
+              for(var i = 0; i < this.getDimensionSize(property); i++){
+              const index = i
+              const dim_name =  property.property_dimensions[i].name
+
+              this.http.get(server_url+'api/things/'+property.property_entitiy_id+'/properties/'+property.property_id+'?from='+from+'&to='+to)
+              .toPromise().then(data => {
+                this.updateDimension(property.property_id,dim_name,this.getData(index,data['property'].values))
+              })
+              
+              }
+        };
+
+        }
+      }
+    }
+
+    updateDimension(property_id:string,dim_name,data:{value:number,name:Date}[]){
+      this.selectedDimensions.forEach(dim => {
+        if(dim.property_id == property_id && dim.dimension == dim_name){
+          dim.data = data
+        }
+      });
     }
 
 //Line chart
@@ -214,7 +253,7 @@ dim2:any[] = []
 
 handleChange(e) {
 // e = true or false => checkbox
-this.multi =  []
+this.multi = []
 this.dim1 = []
 this.dim2 = []
 for(let value of this.selectedDimensions){
@@ -292,5 +331,41 @@ toString(array:any[]):string{
 
 multi: any[] = [/*{name: 'Red',series: [{name: new Date(2017, 0, 1, 2, 34, 17),value: 294},{name: new Date(2017, 2, 1, 2, 34, 17),value:  264}]},*/]
 
+toggle(event: MatSlideToggleChange) {
+  this.checked = event.checked;
+  if(event.checked){
+    //set timeout
+    this.clearChart()
+    const now = new Date()
+    this.rangeDates[0] = new Date(now.getTime()-60000)
+    this.rangeDates[1] = now
+    this.mode = "Real time values"
+    //this.getValues(this.rangeDates)
+    this.refresh = setInterval(() => {
+        this.updateValues(this.rangeDates)
+        this.handleChange(true)
+      }, 5000);
+  }else{
+    //cleartimeout
+    this.clearChart()
+    this.rangeDates[0] = this.first_from
+    this.mode = "Manual selected values"
+    clearInterval(this.refresh)
+    this.getValues(this.rangeDates)
+  }
+}
+
+ngOnDestroy() {
+clearInterval(this.refresh)
+}
+
+clearChart(){
+  this.selectedDimensions = []
+  this.multi = []
+  this.dim1 = []
+  this.dim2 = []
+  this.yAxisLabel = "",
+  this.yAxisLabel2 = ""
+}
 
 }
