@@ -11,19 +11,19 @@
                 </mat-slide-toggle>
         </div>
         
-        <div class = "chart-container" *ngIf = "chart_type == 'MAPS'" class = "maps">
-                <app-google-maps [property] ="ChildProperty" [values] = "values"  [dimensions] = "dimensions" [apiKey]="apiKey"></app-google-maps>
+        <div class = "chart-container" *ngIf = "chart_type == 'MAPS'">
+                <app-google-maps [property] ="ChildProperty" [values] = "values"  [dimensions] = "dimensions" [apiKey]="apiKey" [checked]="checked"></app-google-maps>
         </div>
         
-        <div class = "chart-container" *ngIf = "chart_type == 'RADAR'" class = "maps">
+        <div class = "chart-container" *ngIf = "chart_type == 'RADAR'">
                         <app-radar-chart [property] ="ChildProperty" [values] = "values" [dimensions] = "dimensions"></app-radar-chart>
         </div>
         
-        <div class = "chart-container" *ngIf = "chart_type == 'DOUBLE'" class = "maps">
+        <div class = "chart-container" *ngIf = "chart_type == 'DOUBLE'">
                         <app-double-dimension-chart [property] ="ChildProperty" [values] = "values"  [dimensions] = "dimensions"></app-double-dimension-chart>
         </div>
         
-        <div class = "chart-container" *ngIf = "chart_type == 'LINE'" class = "maps">
+        <div class = "chart-container" *ngIf = "chart_type == 'LINE'">
                         <app-line-chart [property] ="ChildProperty" [values] = "values"  [dimensions] = "dimensions" [apiKey]="apiKey"></app-line-chart>
         </div>
         

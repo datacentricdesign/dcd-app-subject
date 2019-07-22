@@ -12,8 +12,6 @@ import {
 } from "@angular/common/http";
 
 @Component({
-    //changeDetection: ChangeDetectionStrategy.Default,
-    //encapsulation: ViewEncapsulation.Emulated,
     selector: 'app-thing',
     templateUrl: './thing.component.html',
     styleUrls: ['./thing.component.css']
@@ -71,8 +69,6 @@ export class ThingComponent implements OnInit {
     BrowserUniversalInit(from:number,to:number) {
         for (let property of this.thing.thing_properties) {
               for(var i = 0; i < this.getDimensionSize(property); i++){
-              //const to : number = (new Date).getTime(); //current UNIX timestamp (in ms)
-              //const from : number = 0 //to - 24*60*60*1000 //1 day before UNIX timestamp (in ms)
               const dim_name =  property.property_dimensions[i].name
               const dim_unit = property.property_dimensions[i].unit
               const index = i
@@ -89,7 +85,6 @@ export class ThingComponent implements OnInit {
                   ))
                   const first_date = new Date(data['property'].values[0][0])
                   const last_date = new Date(data['property'].values[data['property'].values.length-1][0])
-                  //this.rangeDates = [first_date,last_date]
                   console.log(first_date,last_date)
                   if(this.rangeDates === undefined){
                     this.first_from = first_date
@@ -142,6 +137,7 @@ export class ThingComponent implements OnInit {
 
 
     getValues(rangeDates){
+      this.clearChart()
       if(rangeDates.length == 2){
         if(rangeDates[0] !== null && rangeDates[1]!== null){
             this.dimensions = []
@@ -205,18 +201,6 @@ export class ThingComponent implements OnInit {
       });
     }
 
-//Line chart
-// options
-/*showXAxis = true;
-showYAxis = true;
-gradient = false;
-showLegend = true;
-showXAxisLabel = true;
-xAxisLabel = 'Date';
-showYAxisLabel = true;
-yAxisLabel = 'Value';
-timeline = true;*/
-
 gradient = false;
 showXAxis = true;
 showYAxis = true;
@@ -246,8 +230,6 @@ colorScheme = {
 };
 
 firstunit:string
-//dim1:string[]=[]
-//dim2:string[]=[]
 dim1:any[] = []
 dim2:any[] = []
 
@@ -259,7 +241,6 @@ this.dim2 = []
 for(let value of this.selectedDimensions){
   if(this.multi.length == 0){
     this.firstunit = value.unit
-    //this.dim1.push(value.dimension)
     this.addDim(value,this.dim1)
     if(value.unit != undefined && value.unit != ''){
       this.yAxisLabel = this.toString(this.dim1) +' ('+value.unit+')'
@@ -273,7 +254,6 @@ for(let value of this.selectedDimensions){
 
   }else{
     if(this.firstunit != value.unit){
-      //this.dim2.push(value.dimension)
       this.addDim(value,this.dim2)
       if(value.unit != undefined && value.unit != ''){
         this.yAxisLabel2 = this.toString(this.dim2) +' ('+value.unit+')'
@@ -286,7 +266,6 @@ for(let value of this.selectedDimensions){
         series:value.data
         })
     }else{
-      //this.dim1.push(value.dimension)
       this.addDim(value,this.dim1)
       if(value.unit != undefined && value.unit != ''){
         this.yAxisLabel = this.toString(this.dim1) +' ('+value.unit+')'
@@ -329,24 +308,21 @@ toString(array:any[]):string{
   }
 }
 
-multi: any[] = [/*{name: 'Red',series: [{name: new Date(2017, 0, 1, 2, 34, 17),value: 294},{name: new Date(2017, 2, 1, 2, 34, 17),value:  264}]},*/]
+multi: any[] = [/*{name: 'Red',series: [{name: new Date(2017, 0, 1, 2, 34, 17),value: 294}*/]
 
 toggle(event: MatSlideToggleChange) {
   this.checked = event.checked;
   if(event.checked){
-    //set timeout
     this.clearChart()
     const now = new Date()
     this.rangeDates[0] = new Date(now.getTime()-60000)
     this.rangeDates[1] = now
     this.mode = "Real time values"
-    //this.getValues(this.rangeDates)
     this.refresh = setInterval(() => {
         this.updateValues(this.rangeDates)
         this.handleChange(true)
       }, 5000);
   }else{
-    //cleartimeout
     this.clearChart()
     this.rangeDates[0] = this.first_from
     this.mode = "Manual selected values"
