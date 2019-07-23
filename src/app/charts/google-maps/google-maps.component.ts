@@ -1,8 +1,5 @@
-import { Component, Inject,PLATFORM_ID,Input,SimpleChanges} from '@angular/core';
-
+import { Component,Input,SimpleChanges} from '@angular/core';
 import {Property,Dimension} from '../../../classes'
-
-import {isPlatformServer} from "@angular/common";
 
 @Component({
     selector: 'app-google-maps',
@@ -27,7 +24,7 @@ export class GoogleMapsComponent {
     index : number
     sliderSize:number = 0
 
-    constructor(@Inject(PLATFORM_ID) private platformId: Object,) {}
+    constructor() {}
 
     ngOnChanges(changes: SimpleChanges) {
 

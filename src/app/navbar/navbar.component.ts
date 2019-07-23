@@ -1,13 +1,5 @@
 import {Component} from '@angular/core';
-import {server_url } from '../../classes'
-
-import {
-  HttpClient,
-  HttpHeaders,
-  HttpErrorResponse,
-  HttpParams,
-} from "@angular/common/http";
-
+import {HttpClientService} from '../httpclient.service'
 import {Inject} from '@angular/core';
 import { PLATFORM_ID} from '@angular/core';
 import {isPlatformServer} from "@angular/common";
@@ -18,36 +10,35 @@ import {isPlatformServer} from "@angular/common";
   styleUrls: ['./navbar.component.css']
 })
 
-
-
 export class NavbarComponent {
 
   name : string = ''
   subject:string
-  constructor(private http: HttpClient,@Inject(PLATFORM_ID) private platformId: Object,) {
+  constructor(private service: HttpClientService,@Inject(PLATFORM_ID) private platformId: Object,) {
     if (isPlatformServer(this.platformId)) {
+      console.log('Init Navbar component server'); 
       } else {
        this.BrowserUniversalInit()
     }
   }
 
   BrowserUniversalInit(){
-  this.http.get(server_url+'api/user')
-  .toPromise().then(data => {
-  this.subject = data['sub']
-  const userId = data['sub'].split('dcd:persons:')[1]
-  this.http.get(server_url+'api/persons/'+userId)
-  .toPromise().then(data => {
-  this.name =data['person'].name
-  });
-  });
-
+  this.service.get('api/user').subscribe(
+    data => {
+      this.subject = data['sub']
+      const userId = data['sub'].split('dcd:persons:')[1]
+      this.service.get('api/persons/'+userId).subscribe(
+        data => {
+          this.name = data['person'].name
+        }
+      )
+    }
+  )
   }
 
   logout(){
-    this.http.delete(server_url+'oauth2/auth/sessions/login?subject='+this.subject)
-    .toPromise().then(data => {
-      console.log(data)
+    this.service.delete('oauth2/auth/sessions/login?subject='+this.subject).subscribe(
+     data => {
       window.location.reload();
       });
   }

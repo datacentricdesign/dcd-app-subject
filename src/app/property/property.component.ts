@@ -1,17 +1,8 @@
 import { Component, Inject,PLATFORM_ID,Input, OnInit} from '@angular/core';
-
-import { Thing, Property,Dimension, server_url } from '../../classes'
-
+import {Property,Dimension} from '../../classes'
 import {isPlatformServer} from "@angular/common";
-
 import { MatSlideToggleChange } from '@angular/material';
-
-import {
-    HttpClient,
-    HttpHeaders,
-    HttpErrorResponse,
-    HttpParams,
-  } from "@angular/common/http";
+import {HttpClientService} from '../httpclient.service'
 
 @Component({
     selector: 'app-property',
@@ -33,11 +24,11 @@ export class PropertyComponent implements OnInit {
     mode : string = "Manual selected values"
     refresh : any
         
-     constructor(private http: HttpClient,@Inject(PLATFORM_ID) private platformId: Object,) {}
+     constructor(private service: HttpClientService,@Inject(PLATFORM_ID) private platformId: Object,) {}
  
      ngOnInit(): void {
          if (isPlatformServer(this.platformId)) {
-           //server side
+          console.log('Init Property component server'); 
              } else {
               if(this.RangeTime === undefined){
                 const from : number = 0
@@ -53,10 +44,8 @@ export class PropertyComponent implements OnInit {
      }
  
      BrowserUniversalInit(from:number,to:number){
-             //const to : number = (new Date).getTime();
-             //const from : number = 0
-              this.http.get(server_url+'api/things/'+this.ChildProperty.property_entitiy_id+'/properties/'+this.ChildProperty.property_id+'?from='+from+'&to='+to)
-             .toPromise().then(data => {
+              this.service.get('api/things/'+this.ChildProperty.property_entitiy_id+'/properties/'+this.ChildProperty.property_id+'?from='+from+'&to='+to).subscribe(
+              data => {
               if(data['property'].values.length > 0){
               const first_date = new Date(data['property'].values[0][0])
               const last_date = new Date(data['property'].values[data['property'].values.length-1][0])
@@ -79,8 +68,8 @@ export class PropertyComponent implements OnInit {
              
              switch(this.ChildProperty.property_type) {
                  case "LOCATION": {
-                  this.http.get(server_url+'mapsKey')
-                  .toPromise().then(data => {
+                  this.service.get('mapsKey').subscribe(
+                  data => {
                     this.apiKey=data['key']
                   })
                      this.chart_type = "MAPS"
@@ -143,8 +132,8 @@ export class PropertyComponent implements OnInit {
         if(rangeDates[0] !== null && rangeDates[1]!== null){
             const from : number = rangeDates[0].getTime(); 
             const to : number = rangeDates[1].getTime() + 24*60*60*1000 ; 
-             this.http.get(server_url+'api/things/'+this.ChildProperty.property_entitiy_id+'/properties/'+this.ChildProperty.property_id+'?from='+from+'&to='+to)
-            .toPromise().then(data => {
+             this.service.get('api/things/'+this.ChildProperty.property_entitiy_id+'/properties/'+this.ChildProperty.property_id+'?from='+from+'&to='+to).subscribe(
+              data => {
               this.dimensions=[]
               this.values = data['property'].values
               for(var i = 0; i < this.getDimensionSize(this.ChildProperty); i++){

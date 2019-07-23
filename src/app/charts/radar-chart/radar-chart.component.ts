@@ -1,10 +1,6 @@
-import { Component, Inject,PLATFORM_ID,Input, SimpleChanges} from '@angular/core';
-
+import { Component,Input, SimpleChanges} from '@angular/core';
 import {Property,Dimension} from '../../../classes'
-
-import {isPlatformServer} from "@angular/common";
-
-import { ChartDataSets, ChartType, RadialChartOptions,ChartOptions } from 'chart.js';
+import { ChartDataSets, ChartType, RadialChartOptions} from 'chart.js';
 import { Label } from 'ng2-charts';
 
 @Component({
@@ -15,9 +11,7 @@ import { Label } from 'ng2-charts';
 
 export class RadarChartComponent {
 
-
     @Input() property:Property
-
     @Input() dimensions: Dimension[];
 
          radarChartOptions: RadialChartOptions = {responsive: true}
@@ -30,14 +24,12 @@ export class RadarChartComponent {
          index : number = 0
          sliderSize:number = 0
 
-    constructor(@Inject(PLATFORM_ID) private platformId: Object,) {}
+    constructor() {}
 
     ngOnChanges(changes: SimpleChanges) {
 
       if(!(changes.dimensions === undefined)){
         const val:Dimension[] = changes.dimensions.currentValue
-        //const val:Dimension[] = changes.values.currentValue
-        console.log('got val: ', val);
         this.sliderSize = val[0].data.length -1
  
         if(val.length>0){

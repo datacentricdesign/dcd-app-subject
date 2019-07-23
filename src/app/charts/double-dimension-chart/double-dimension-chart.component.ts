@@ -1,8 +1,5 @@
-import { Component, Inject,PLATFORM_ID,Input, SimpleChanges} from '@angular/core';
-
+import { Component,Input, SimpleChanges} from '@angular/core';
 import {Property,Dimension} from '../../../classes'
-
-import {isPlatformServer} from "@angular/common";
 
 @Component({
     selector: 'app-double-dimension-chart',
@@ -12,9 +9,7 @@ import {isPlatformServer} from "@angular/common";
 
 export class DoubleDimensionChartComponent {
 
-
     @Input() property:Property
-
     @Input() dimensions: Dimension[];
 
     view:any[]
@@ -42,21 +37,18 @@ export class DoubleDimensionChartComponent {
      tooltipDisabled = false;
    
      // data for charts
-     multi = [];
+     multi : any = [{name: '',series: [{name: '',value: 0}]}];
 
      onResize(event) {
       this.view = [event.target.innerWidth / 1.35, 400];
   }
 
-     constructor(@Inject(PLATFORM_ID) private platformId: Object,) {}
+     constructor() {}
 
      ngOnChanges(changes: SimpleChanges) {
 
       if(!(changes.dimensions === undefined)){
-        const val = changes.dimensions.currentValue
-        //const val:Dimension[] = changes.values.currentValue
-        console.log('got val: ', val);
- 
+        const val = changes.dimensions.currentValue 
         if(val.length>0){
                 this.multi =  []
                 for(let value of val){
@@ -84,6 +76,8 @@ export class DoubleDimensionChartComponent {
                     })
                 }
                 }
+            }else{
+              this.multi = [{name: '',series: [{name: '',value: 0}]}]
             }
           }
        }

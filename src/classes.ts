@@ -1,5 +1,3 @@
-//export const server_url = "http://localhost:8080/designer/"
-export const server_url = ""
 
 export class Dimension {
 

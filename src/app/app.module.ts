@@ -22,6 +22,7 @@ import {RadarChartComponent} from './charts/radar-chart/radar-chart.component'
 //Http
 import {HttpClientModule} from '@angular/common/http';
 import {TransferHttpCacheModule} from '@nguniversal/common';
+import {HttpClientService} from './httpclient.service'
 
 // MatUI
 import {MatButtonModule} from '@angular/material/button';
@@ -112,6 +113,7 @@ import { ClipboardModule } from 'ngx-clipboard';
     
   ],
   providers: [
+    HttpClientModule
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -1,5 +1,4 @@
 import { Component, Inject, Optional,PLATFORM_ID, OnInit} from '@angular/core';
-
 import {isPlatformServer} from "@angular/common";
 
 
@@ -19,13 +18,14 @@ export class HomeComponent implements OnInit {
 
     ngOnInit(): void {
       if (isPlatformServer(this.platformId)) {
-        console.log('Home component server :', this.token,this.serverUrl); // host on the server  
+        console.log('Init Home component server', 'token : ' + this.token, 'serverUrl : '+this.serverUrl); // host on the server 
         } else {
          this.BrowserUniversalInit()
       }
     }
 
     BrowserUniversalInit(){
+      console.log('Init Home component browser')
     }
 
   }

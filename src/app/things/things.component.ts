@@ -1,21 +1,9 @@
 import { Component, Inject,PLATFORM_ID, OnInit} from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-
-import { Thing,Property,PropertyType,server_url } from '../../classes'
-
+import { Thing,Property,PropertyType} from '../../classes'
 import { Router} from '@angular/router';
-import { timeout} from 'rxjs/operators';
-
-
-import {
-  HttpClient,
-  HttpHeaders,
-  HttpErrorResponse,
-  HttpParams,
-} from "@angular/common/http";
-
+import {HttpClientService} from '../httpclient.service'
 import {isPlatformServer} from "@angular/common";
-
 
 @Component({
     selector: 'app-things',
@@ -32,7 +20,7 @@ export class ThingsComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private http: HttpClient,
+    private service: HttpClientService,
     @Inject(PLATFORM_ID) private platformId: Object,
     public dialog: MatDialog
   ) {
@@ -41,7 +29,7 @@ export class ThingsComponent implements OnInit {
 
     ngOnInit(): void {
       if (isPlatformServer(this.platformId)) {
-        console.log('Things component server :'); // host on the server  
+        console.log('Init Things component server'); 
         } else {
          this.BrowserUniversalInit()
       }
@@ -52,16 +40,14 @@ export class ThingsComponent implements OnInit {
     }
 
     FillArrayThings(things : Thing[]) : void{
-      this.http.get(server_url+'api/things')
-      .toPromise().then(data => {
+      this.service.get('api/things').subscribe(
+        data => {
         data['things'].forEach(thing => {
-          this.http.get(server_url+'api/things/'+thing.id)
-        .toPromise().then(data => {
+          this.service.get('api/things/'+thing.id).subscribe(
+        data => {
         things.push(new Thing(data['thing']))
         });
       });
-    }).catch(err => {
-      console.log('Error FillArray', err);
     })
     ;
     }
@@ -102,8 +88,8 @@ export class ThingsComponent implements OnInit {
 
     delete_thing(thing:Thing){
       if ( confirm( "Delete " + thing.thing_name +" ?" ) ) {
-       this.http.delete(server_url+'api/things/'+thing.thing_id)
-       .toPromise().then(data => {
+       this.service.delete('api/things/'+thing.thing_id).subscribe(
+       data => {
          window.location.reload(); //TODO make a reload req ?
        })
     }
@@ -111,8 +97,8 @@ export class ThingsComponent implements OnInit {
 
     delete_property(property:Property){
       if ( confirm( "Delete "+property.property_name+" ?" ) ) {
-        this.http.delete(server_url+'api/things/'+property.property_entitiy_id+'/properties/'+property.property_id)
-       .toPromise().then(data => {
+        this.service.delete('api/things/'+property.property_entitiy_id+'/properties/'+property.property_id).subscribe(
+        data => {
          window.location.reload(); //TODO make a reload req ?
        })
      }
@@ -124,9 +110,8 @@ export class ThingsComponent implements OnInit {
     }
 
     add_thing(thing:Thing){
-      this.http.post(server_url+'api/things?jwt='+true,thing.json())
-      .pipe(timeout(60000))
-      .toPromise().then(data => {
+      this.service.post('api/things?jwt='+true,thing.json()).subscribe(
+        data => {
         const newthing : Thing  = new Thing(data['thing'])
         this.things.push(newthing)
         const jwt : string = data['thing'].keys.jwt
@@ -179,8 +164,8 @@ export class ThingsComponent implements OnInit {
     }
 
     add_property(property:Property){
-      this.http.post(server_url+'api/things/'+this.add_property_thing.thing_id+'/properties',property.json())
-      .toPromise().then(data => {
+      this.service.post('api/things/'+this.add_property_thing.thing_id+'/properties',property.json()).subscribe(
+        data => {
         this.add_property_to_things(data['property'].entityId,new Property(data['property']))
       })
     }

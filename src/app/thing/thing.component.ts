@@ -1,15 +1,9 @@
 import { Component, Inject, PLATFORM_ID, OnInit } from '@angular/core';
 import { isPlatformServer } from "@angular/common";
 import { Router} from '@angular/router';
-import { Thing,Property, Dimension, server_url } from '../../classes'
+import { Thing,Property, Dimension} from '../../classes'
 import { MatSlideToggleChange } from '@angular/material';
-
-import {
-  HttpClient,
-  HttpHeaders,
-  HttpErrorResponse,
-  HttpParams,
-} from "@angular/common/http";
+import {HttpClientService} from '../httpclient.service'
 
 @Component({
     selector: 'app-thing',
@@ -32,13 +26,13 @@ export class ThingComponent implements OnInit {
 
     constructor(
         private router: Router,
-        private http: HttpClient,
+        private service: HttpClientService,
         @Inject(PLATFORM_ID)
         private platformId: Object) {
     }
     ngOnInit(): void {
         if (isPlatformServer(this.platformId)) {
-            // server side
+          console.log('Init Thing component server'); 
         }
         else {
             if(history.state.data === undefined){
@@ -57,7 +51,6 @@ export class ThingComponent implements OnInit {
                   const to : number = (new Date).getTime();
                   this.BrowserUniversalInit(from,to);
                 }else{
-                  console.log('history range',history.state.range)
                   this.RangeTime = history.state.range
                   const from : number = history.state.range[0]
                   const to : number = history.state.range[1]
@@ -73,8 +66,8 @@ export class ThingComponent implements OnInit {
               const dim_unit = property.property_dimensions[i].unit
               const index = i
 
-              this.http.get(server_url+'api/things/'+property.property_entitiy_id+'/properties/'+property.property_id+'?from='+from+'&to='+to)
-              .toPromise().then(data => {
+              this.service.get('api/things/'+property.property_entitiy_id+'/properties/'+property.property_id+'?from='+from+'&to='+to).subscribe(
+                data => {
                 if(data['property'].values.length > 0){
                 this.dimensions.push(new Dimension(
                   property.property_id,
@@ -85,7 +78,6 @@ export class ThingComponent implements OnInit {
                   ))
                   const first_date = new Date(data['property'].values[0][0])
                   const last_date = new Date(data['property'].values[data['property'].values.length-1][0])
-                  console.log(first_date,last_date)
                   if(this.rangeDates === undefined){
                     this.first_from = first_date
                     this.rangeDates = [first_date,last_date]
@@ -150,8 +142,8 @@ export class ThingComponent implements OnInit {
               const dim_unit = property.property_dimensions[i].unit
               const index = i
 
-              this.http.get(server_url+'api/things/'+property.property_entitiy_id+'/properties/'+property.property_id+'?from='+from+'&to='+to)
-              .toPromise().then(data => {
+              this.service.get('api/things/'+property.property_entitiy_id+'/properties/'+property.property_id+'?from='+from+'&to='+to).subscribe(
+                data => {
                 if(data['property'].values.length > 0){
                 this.dimensions.push(new Dimension(
                   property.property_id,
@@ -181,8 +173,8 @@ export class ThingComponent implements OnInit {
               const index = i
               const dim_name =  property.property_dimensions[i].name
 
-              this.http.get(server_url+'api/things/'+property.property_entitiy_id+'/properties/'+property.property_id+'?from='+from+'&to='+to)
-              .toPromise().then(data => {
+              this.service.get('api/things/'+property.property_entitiy_id+'/properties/'+property.property_id+'?from='+from+'&to='+to).subscribe(
+                data => {
                 this.updateDimension(property.property_id,dim_name,this.getData(index,data['property'].values))
               })
               
@@ -308,7 +300,7 @@ toString(array:any[]):string{
   }
 }
 
-multi: any[] = [/*{name: 'Red',series: [{name: new Date(2017, 0, 1, 2, 34, 17),value: 294}*/]
+multi: any[] = [{name: '',series: [{name: '',value: 0}]}]
 
 toggle(event: MatSlideToggleChange) {
   this.checked = event.checked;
