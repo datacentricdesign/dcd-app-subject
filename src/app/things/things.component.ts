@@ -271,15 +271,15 @@ export class DialogAddProperty {
 @Component({
   selector: 'dialog-add-jwt',
   template: `
-  <h1 mat-dialog-title>JWT {{data.thing.thing_name}}</h1>
+  <h1 mat-dialog-title>{{data.thing.thing_name}} ({{data.thing.thing_id}})</h1>
   <div mat-dialog-content>
   <mat-form-field>
-    <input matInput type="text"[value]="data.jwt"  #inputTarget readonly>
+    <input matInput placeholder="JWT" type="text"[value]="data.jwt"  #inputTarget readonly>
   </mat-form-field>
   </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [ngxClipboard]="inputTarget" [mat-dialog-close]="data" cdkFocusInitial>Copy</button>
+  <button mat-button [ngxClipboard]="inputTarget" [mat-dialog-close]="data" cdkFocusInitial>Copy JWT</button>
 </div>
   `
 })
