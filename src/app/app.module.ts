@@ -2,6 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {FormsModule} from '@angular/forms';
+import {DcdUiAngularModule} from 'dcd-ui-angular';
 
 //Components
 import {AppComponent} from './app.component';
@@ -16,7 +17,6 @@ import {ThingComponent} from "./thing/thing.component";
 import {DoubleAxisChartComponent} from './charts/double-axis-chart/double-axis-chart.component';
 import {DoubleDimensionChartComponent} from './charts/double-dimension-chart/double-dimension-chart.component';
 import {GoogleMapsComponent} from './charts/google-maps/google-maps.component';
-import {LineChartComponent} from './charts/line-chart/line-chart.component'
 import {RadarChartComponent} from './charts/radar-chart/radar-chart.component'
 
 //Http
@@ -54,6 +54,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 //ngx clipboard 
 import { ClipboardModule } from 'ngx-clipboard';
+import {LineChartComponent} from 'dcd-ui-angular';
 
 
 
@@ -108,7 +109,8 @@ import { ClipboardModule } from 'ngx-clipboard';
     MatDialogModule,
     MatInputModule,
     ClipboardModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+      DcdUiAngularModule
     
     
   ],
