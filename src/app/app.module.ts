@@ -57,6 +57,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 
 //@datacentricdesign/dcd-ui-angular
 import {DcdUiAngularModule} from '@datacentricdesign/dcd-ui-angular'
+//import {RadarChartComponent} from '@datacentricdesign/dcd-ui-angular'
 
 
 
@@ -111,8 +112,7 @@ import {DcdUiAngularModule} from '@datacentricdesign/dcd-ui-angular'
     MatInputModule,
     ClipboardModule,
     MatSlideToggleModule,
-    //DcdUiAngularModule
-    
+    DcdUiAngularModule 
     
   ],
   providers: [
