@@ -1,10 +1,9 @@
 {
   "name": "dcd-data-subject",
-  "version": "0.0.1",
-  "description": "",
+  "version": "0.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/datacentricdesign/dcd-data-subject"
+    "url": ""
   },
   "scripts": {
     "ng": "ng",
@@ -12,20 +11,16 @@
     "build": "ng build dcd-data-subject --prod --build-optimizer=false",
     "lint": "ng lint dcd-designer",
     "build:client-and-server-bundles": "npm run build && ng run dcd-data-subject:server:production",
-    "build:prerender": "npm run build:client-and-server-bundles && npm run compile:server && npm run generate:prerender",
-    "build:ssr": "npm run build:client-and-server-bundles && npm run compile:server",
-    "compile:server": "tsc -p src/server_prod.tsconfig.json",
-    "generate:prerender": "cd dist && node prerender",
-    "serve:prerender": "cd dist/browser && http-server",
-    "serve:ssr": "node dist/src/server",
-    "prod": "npm run postinstall && npm run build:ssr && npm run serve:ssr",
-    "compile_@swimlane_ngx-charts": "babel node_modules/@swimlane/ngx-charts -d node_modules/@swimlane/ngx-charts --presets @babel/preset-env",
-    "postinstall": "npm run compile_@swimlane_ngx-charts",
+    "build:ssr": "npm run build:client-and-server-bundles",
+    "serve:ssr": "node ./dist/server/main.js",
+    "prod": "npm run build:ssr && npm run serve:ssr",
     "predev": "ng serve app",
-    "dev": "node ./dist/app/server/main.js"
+    "dev": "npm run serve:ssr",
+    "compile_@swimlane_ngx-charts": "babel node_modules/@swimlane/ngx-charts -d node_modules/@swimlane/ngx-charts --presets @babel/preset-env",
+    "postinstall": "npm run compile_@swimlane_ngx-charts"
   },
   "pre-commit": [],
-  "private": false,
+  "private": true,
   "dependencies": {
     "@agm/core": "~1.0.0-beta.7",
     "@angular/animations": "~8.1.0",
@@ -60,8 +55,8 @@
     "cors": "~2.8.5",
     "d3-scale": "~3.0.0",
     "d3-shape": "~1.3.5",
-    "dcd-sdk-js": "~0.0.41",
-    "dcd-ui-angular": "0.0.2",
+    "@datacentricdesign/sdk-js": "~0.0.1",
+    "@datacentricdesign/dcd-ui-angular": "0.0.11",
     "dotenv": "~8.0.0",
     "express": "~4.17.0",
     "express-session": "~1.16.2",
