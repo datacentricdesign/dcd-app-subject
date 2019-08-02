@@ -13,6 +13,9 @@ import { MODULE_MAP } from '@nguniversal/module-map-ngfactory-loader';
 import { ServerAPIOptions, createApi } from './api';
 import { environment } from './environments/environment';
 
+import * as dotenv from 'dotenv'
+import * as findconfig from 'find-config'
+dotenv.config({ path: findconfig('.env') })
 
 // WARN: don't remove export of AppServerModule.
 // Removing export below will break replaceServerBootstrap() transformer
@@ -46,7 +49,6 @@ export const getServerAPIOptions: () => ServerAPIOptions = () => ({
   distPath: BROWSER_DIST_PATH,
   ngSetup: getNgRenderMiddlewareOptions(),
 });
-
 
 let requestListener = createApi(getServerAPIOptions());
 

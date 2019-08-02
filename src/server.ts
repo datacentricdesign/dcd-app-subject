@@ -1,6 +1,7 @@
 import 'zone.js/dist/zone-node';
+import 'reflect-metadata';
 export {AppServerModule} from './app/app.server.module';
-import { enableProdMode, ComponentFactoryResolver } from '@angular/core';
+import { enableProdMode} from '@angular/core';
 
 // Express Engine
 import { renderModuleFactory } from '@angular/platform-server'
@@ -29,7 +30,7 @@ const DIST_FOLDER = join(process.cwd(), 'dist');
 const serverUrl = process.env.SERVER_URL;
 
 // * NOTE :: leave this as require() since this file is built Dynamically from webpack
-const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('../server/main');
+const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('./app/app.server.module.ngfactory');
 
   //const template = readFileSync(join(__dirname, '..', 'dist', 'browser', 'index.html')).toString();
   const template = readFileSync(join(__dirname, '..','browser','subject', 'index.html')).toString();
@@ -66,12 +67,11 @@ app.get('*.*', express.static(join(DIST_FOLDER, 'browser'), {
 // These routes use the Universal engine
 dotenv.config({ path: findconfig('.env') })
 const BASE_URL  = process.env.BASE_URL || '';
-createRoutes(app,BASE_URL,BASE_URL)
-
-
-    
+createRoutes(app,BASE_URL,BASE_URL)    
 
 // Start up the Node server
 app.listen(PORT, () => {
   console.log(`Node Express server listening on http://localhost:${PORT}${BASE_URL}`);
 });
+
+export default app;
