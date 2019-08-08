@@ -11,7 +11,7 @@ enableProdMode();
 // Import module map for lazy loading
 import {provideModuleMap} from '@nguniversal/module-map-ngfactory-loader';
 import {renderModuleFactory} from '@angular/platform-server';
-import {ROUTES} from '../static.paths';
+import {ROUTES} from './static.paths';
 
 // * NOTE :: leave this as require() since this file is built Dynamically from webpack
 const {AppServerModuleNgFactory, LAZY_MODULE_MAP} = require('./server/main');
@@ -19,9 +19,8 @@ const {AppServerModuleNgFactory, LAZY_MODULE_MAP} = require('./server/main');
 const BROWSER_FOLDER = join(process.cwd(), 'browser');
 
 // Load the index.html file containing referances to your application bundle.
-//const index = readFileSync(join('browser', 'index.html'), 'utf8')
-const index = readFileSync(join('browser', 'subject', 'index.html'), 'utf8')
-//.replace('<head>', `<head><base href="'/subject/">`); // not sure if it's important
+const index = readFileSync(join('browser', 'index.html'), 'utf8');
+
 let previousRender = Promise.resolve();
 
 // Iterate each route path

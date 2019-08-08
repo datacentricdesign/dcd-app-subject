@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {HttpClientService} from '../httpclient.service'
+import {HttpClientService} from '@datacentricdesign/ui-angular'
 import {Inject} from '@angular/core';
 import { PLATFORM_ID} from '@angular/core';
 import {isPlatformServer} from "@angular/common";
@@ -37,7 +37,7 @@ export class NavbarComponent {
   }
 
   logout(){
-    this.service.delete('oauth2/auth/sessions/login?subject='+this.subject).subscribe(
+    this.service.delete('api/logout?subject='+this.subject).subscribe(
      data => {
       window.location.reload();
       });

@@ -1,45 +1,19 @@
-import { ApplicationRef, NgModuleRef, enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import 'hammerjs';
+import 'hammerjs'
+import {enableProdMode} from '@angular/core';
+import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 
-import { createNewHosts } from '@angularclass/hmr';
-
-import { AppBrowserModule } from './app/app.browser.module';
-import { environment } from './environments/environment';
-
+import {AppModule} from './app/app.module';
+import {environment} from './environments/environment';
 
 if (environment.production) {
   enableProdMode();
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+  platformBrowserDynamic().bootstrapModule(AppModule);
+});
+
 import { defineCustomElements as defineCustomElementsGoogleMaps } from 'web-google-maps/dist/loader'; //Map
 
 defineCustomElementsGoogleMaps(window); //Map
-
-async function main(): Promise<NgModuleRef<AppBrowserModule>> {
-  const ngModuleRef = await platformBrowserDynamic().bootstrapModule(AppBrowserModule);
-  const appRef = ngModuleRef.injector.get(ApplicationRef);
-
-  if (module['hot']) {
-    module['hot'].accept();
-
-    module['hot'].dispose(async () => {
-      const elements = appRef.components.map(c => c.location.nativeElement);
-      const makeVisible = createNewHosts(elements);
-
-      ngModuleRef.destroy();
-
-      makeVisible();
-    });
-  }
-
-  console.log('AppBrowserModule boostraped!', ngModuleRef);
-
-  return ngModuleRef;
-}
-
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', main);
-} else {
-  main();
-}
