@@ -16,7 +16,7 @@
     "build:ssr": "npm run build:client-and-server-bundles && npm run compile:server",
     "compile:server": "tsc -p server.tsconfig.json",
     "serve:ssr": "node dist/server",
-    "prod": "npm run build:ssr && npm run serve:ssr",
+    "prod": "npm run postinstall && npm run build:ssr && npm run serve:ssr",
     "dev": "ng run dcd-data-subject:server:production && npm run compile:server && npm run serve:ssr",
     "compile_@swimlane_ngx-charts": "babel node_modules/@swimlane/ngx-charts -d node_modules/@swimlane/ngx-charts --presets @babel/preset-env",
     "postinstall": "npm run compile_@swimlane_ngx-charts"
