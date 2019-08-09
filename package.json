@@ -37,7 +37,7 @@
     "@angular/platform-server": "8.1.3",
     "@angular/router": "8.1.3",
     "@datacentricdesign/sdk-js": "0.0.2",
-    "@datacentricdesign/ui-angular": "0.0.23",
+    "@datacentricdesign/ui-angular": "0.0.32",
     "@nguniversal/common": "^6.0.0",
     "@nguniversal/express-engine": "^6.0.0",
     "@nguniversal/module-map-ngfactory-loader": "^6.0.0",
