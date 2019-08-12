@@ -9,7 +9,6 @@
     "ng": "ng",
     "serve": "ng serve --base-href /subject/",
     "build": "ng build --base-href /subject/",
-    "build:dev": "ng build --base-href /subject/ --watch",
     "build:prod": "ng build --prod --base-href /subject/",
     "build:client-and-server-bundles": "npm run build:prod && ng run dcd-data-subject:server:production",
     "build:prerender": "npm run build:client-and-server-bundles && npm run compile:server && npm run generate:prerender",
@@ -17,9 +16,13 @@
     "compile:server": "tsc -p server.tsconfig.json",
     "serve:ssr": "node dist/server",
     "prod": "npm run postinstall && npm run build:ssr && npm run serve:ssr",
-    "dev": "ng run dcd-data-subject:server:production && npm run compile:server && npm run serve:ssr",
+    "watch:browser": "ng build --prod --base-href /subject/ --optimization=true --watch",
+    "watch:browser://doesn't works hmr": "ng build --base-href /subject/ --watch",
+    "predev": "ng run dcd-data-subject:server:production && npm run compile:server",
+    "dev": "nodemon dist/server",
     "compile_@swimlane_ngx-charts": "babel node_modules/@swimlane/ngx-charts -d node_modules/@swimlane/ngx-charts --presets @babel/preset-env",
-    "postinstall": "npm run compile_@swimlane_ngx-charts"
+    "compile_angular-vertical-timeline": "babel node_modules/angular-vertical-timeline -d node_modules/angular-vertical-timeline --presets @babel/preset-env",
+    "postinstall": "npm run compile_@swimlane_ngx-charts && npm run compile_angular-vertical-timeline"
   },
   "pre-commit": [],
   "private": true,
@@ -36,8 +39,8 @@
     "@angular/platform-browser-dynamic": "8.1.3",
     "@angular/platform-server": "8.1.3",
     "@angular/router": "8.1.3",
-    "@datacentricdesign/sdk-js": "0.0.2",
-    "@datacentricdesign/ui-angular": "0.0.32",
+    "@datacentricdesign/sdk-js": "0.0.6",
+    "@datacentricdesign/ui-angular": "0.0.39",
     "@nguniversal/common": "^6.0.0",
     "@nguniversal/express-engine": "^6.0.0",
     "@nguniversal/module-map-ngfactory-loader": "^6.0.0",
@@ -55,7 +58,9 @@
     "path": "~0.12.7",
     "reflect-metadata": "^0.1.10",
     "rxjs": "6.3.3",
-    "zone.js": "~0.9.1"
+    "zone.js": "~0.9.1",
+    "nodemon": "^1.19.1",
+    "domino": "^2.1.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "0.801.3",

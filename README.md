@@ -9,7 +9,7 @@
 
 2 terminals :
 
-- `npm run build:watch` in one
+- `npm run watch:browser` in one
 - `npm run dev` in another
 - go to `http://localhost:8080/subject`
 - refresh page each change

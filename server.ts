@@ -26,6 +26,19 @@ const app = express();
 
 const DIST_FOLDER = join(process.cwd(), 'dist');
 
+//Domino for window undefined
+const domino = require('domino');
+const fs = require('fs');
+const template = fs.readFileSync(join(DIST_FOLDER, 'browser','subject','index.html')).toString();
+const win = domino.createWindow(template);
+global['window'] = win;
+global['document'] = win.document;
+global['DOMTokenList'] = win.DOMTokenList;
+global['Node'] = win.Node;
+global['Text'] = win.Text;
+global['HTMLElement'] = win.HTMLElement;
+global['navigator'] = win.navigator;
+
 // * NOTE :: leave this as require() since this file is built Dynamically from webpack
 const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('./server/main');
 
