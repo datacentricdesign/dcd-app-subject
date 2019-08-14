@@ -19,8 +19,7 @@ import {TransferHttpCacheModule} from '@nguniversal/common';
 import {MatButtonModule} from '@angular/material/button';
 
 //@datacentricdesign/ui-angular
-import {UiAngularModule, HttpClientService} from '@datacentricdesign/ui-angular'
-
+import {UiAngularModule} from '@datacentricdesign/ui-angular';
 
 
 @NgModule({
@@ -48,7 +47,6 @@ import {UiAngularModule, HttpClientService} from '@datacentricdesign/ui-angular'
     UiAngularModule
   ],
   providers: [
-    HttpClientService
   ],
   bootstrap: [AppComponent]
 })
