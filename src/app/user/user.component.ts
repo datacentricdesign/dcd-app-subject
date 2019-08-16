@@ -1,10 +1,6 @@
-import { Component, Inject, Optional,PLATFORM_ID, OnInit} from '@angular/core';
-
-import {isPlatformServer} from "@angular/common";
+import { Component,OnInit} from '@angular/core';
 
 @Component({
-    //changeDetection: ChangeDetectionStrategy.Default,
-    //encapsulation: ViewEncapsulation.Emulated,
     selector: 'app-user',
     templateUrl: './user.component.html',
     styleUrls: ['./user.component.css']
@@ -12,22 +8,8 @@ import {isPlatformServer} from "@angular/common";
 
 export class UserComponent implements OnInit{
 
-    constructor(
-        //private service: ClientService, 
-        //private http: HttpClient,
-        @Inject(PLATFORM_ID) private platformId: Object
-      ) {
-        }
+    constructor() {}
 
-    ngOnInit(): void {
-        if (isPlatformServer(this.platformId)) {
-            console.log('Home component server :'); // host on the server  
-            } else {
-             this.BrowserUniversalInit()
-          }
-    }
-
-    BrowserUniversalInit(){
-      }
+    ngOnInit(): void {}
 
 }

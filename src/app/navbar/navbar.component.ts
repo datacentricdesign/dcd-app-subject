@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HttpClientService} from '@datacentricdesign/ui-angular'
 import {Inject} from '@angular/core';
 import { PLATFORM_ID} from '@angular/core';
@@ -10,16 +10,19 @@ import {isPlatformServer} from "@angular/common";
   styleUrls: ['./navbar.component.css']
 })
 
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
 
   name : string = ''
   subject:string
+
   constructor(private service: HttpClientService,@Inject(PLATFORM_ID) private platformId: Object,) {
     if (isPlatformServer(this.platformId)) {
       console.log('Init Navbar component server'); 
       } else {
        this.BrowserUniversalInit()
     }
+  }
+  ngOnInit(): void {
   }
 
   BrowserUniversalInit(){
