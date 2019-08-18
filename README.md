@@ -25,6 +25,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-
-- TODO: Display the list of Designer Tasks
-- TODO: Display the timeline of status for a Resource
