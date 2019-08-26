@@ -1,0 +1,34 @@
+.task-list-container{
+    width: 86%;
+    margin: 0 auto;
+}
+
+.task-info-top {
+    display: inline-table;
+    width:  100%;
+    text-align: center
+}
+
+.task-info-types{
+    display: table-row;
+    float: left;
+    width: 30%;
+    margin-right: 3%
+}
+
+.task-info-from{
+    display: table-row;
+    width: 30%;
+    float: left;
+}
+
+.task-info-to{
+    display: table-row;
+    width: 30%;
+    float: left;
+    margin-left: 3%
+}
+
+.task-info-description{
+text-align: center
+}

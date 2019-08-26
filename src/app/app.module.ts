@@ -3,11 +3,12 @@ import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { DatePipe } from '@angular/common'
 
 //Components
 import {AppComponent} from './app.component';
 import {HomeComponent} from './home/home.component';
-import {NotificationsComponent} from './notifications/notifications.component';
+import {TasksComponent} from './tasks/tasks.component';
 import { NavbarComponent} from './navbar/navbar.component';
 import {UserComponent} from './user/user.component';
 
@@ -21,10 +22,17 @@ import {MatCardModule} from '@angular/material/card';
 import {MatTableModule} from '@angular/material/table';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatInputModule} from '@angular/material';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 //prime-ng
 import {ButtonModule} from 'primeng/button';
 import {DialogModule} from 'primeng/dialog';
+import {CalendarModule} from 'primeng/calendar';
+import {MultiSelectModule} from 'primeng/multiselect';
+import {SelectButtonModule} from 'primeng/selectbutton';
+
+//Vertical timeline
+import { VerticalTimelineModule } from 'angular-vertical-timeline';
 
 //@datacentricdesign/ui-angular
 import {UiAngularModule} from '@datacentricdesign/ui-angular';
@@ -38,7 +46,7 @@ import {UiAngularModule} from '@datacentricdesign/ui-angular';
   declarations: [
     AppComponent,
     HomeComponent,
-    NotificationsComponent,
+    TasksComponent,
     NavbarComponent,
     UserComponent
   ],
@@ -48,7 +56,7 @@ import {UiAngularModule} from '@datacentricdesign/ui-angular';
     RouterModule.forRoot([
       {path : 'page/home', component : HomeComponent, pathMatch: 'full' },
       {path : 'page/user', component : UserComponent, pathMatch: 'full' },
-      {path : 'page/notifications', component : NotificationsComponent, pathMatch: 'full'},
+      {path : 'page/tasks', component : TasksComponent, pathMatch: 'full'},
       {path : '**',redirectTo: '/page/home',pathMatch: 'full'},
     ]),
     TransferHttpCacheModule,
@@ -62,9 +70,15 @@ import {UiAngularModule} from '@datacentricdesign/ui-angular';
     ReactiveFormsModule,
     MatInputModule,
     ButtonModule,
-    DialogModule
+    DialogModule,
+    VerticalTimelineModule,
+    CalendarModule,
+    MatFormFieldModule,
+    MultiSelectModule,
+    SelectButtonModule
   ],
   providers: [
+    DatePipe,
     //HttpClientService
   ],
   bootstrap: [AppComponent]

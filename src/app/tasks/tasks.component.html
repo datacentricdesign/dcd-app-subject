@@ -1,0 +1,81 @@
+<h3 style = "text-align: center">Tasks</h3>
+    <div class ="task-list-container">
+        <mat-card>
+                TaskList
+                <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                  <th scope="col">#</th>
+                                  <th scope="col">Date</th>
+                                  <th scope ="col">Name</th>
+                                  <th scope="col">ActorId</th>
+                                  <th scope="col">Status</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                        <tr *ngFor="let task of tasks; index as i" >
+                                                <td>{{i+1}}</td>
+                                                <td>{{task.getDate()}}</td>
+                                                <td>{{task.name}}</td>
+                                                <td>{{task.actor_entity_id}}</td>
+                                                <td>{{getLastStatus(task)}}</td>
+                                                <th scope="row">
+                                                        <button mat-icon-button color="primary" (click)="showDialog_Task(task)"  >
+                                                                <i class="fas fa-search" ></i>
+                                                        </button>
+                                                </th>
+                                        </tr>
+                                </tbody>
+                        </table>
+        </mat-card>
+    </div>
+
+    <p-dialog [(header)]="task_picked.name" [(visible)]="display_task" [modal]="true" [responsive]="true" [style]="{width: '80%', minWidth: '1000px'}" 
+    [maximizable]="true" [baseZIndex]="10000">
+    <div class = "task-info">
+        <div class = "task-info-top">
+                        <div class = "task-info-types">
+                                        <mat-form-field class="example-full-width">
+                                                        <input matInput type="text" placeholder="Types requested" [ngModel]="task_picked.types" readonly>
+                                        </mat-form-field>
+                               </div>
+                               <div class = "task-info-from">
+                                        <mat-form-field class="example-full-width">
+                                                        <input matInput type="text" placeholder="From" [ngModel]="getDate(task_picked.from).toString()" readonly>
+                                                </mat-form-field>
+                               </div>
+                               <div class = "task-info-to">
+                                        <mat-form-field class="example-full-width">
+                                                        <input matInput type="text" placeholder="To" [ngModel]="getDate(task_picked.to).toString()"readonly>
+                                        </mat-form-field>
+                               </div>
+        </div>
+       <div class = "task-info-description">
+        <textarea style="width: 100% ; overflow: scroll;" placeholder="Description" rows="3" [ngModel]=task_picked.description readonly></textarea>
+       </div>
+    </div>
+    <div class = "task-milestones">
+            <h3 style="text-align: center">Milestones</h3>
+                <vertical-timeline *ngIf="display_task"> 
+                <vertical-timeline-card *ngFor="let milestone of task_picked.resources[0].milestones" [dateValue]="getDate(milestone.timestamp)">
+                                <div class = "milestone-status">
+                                                        Status  :    {{milestone.status}}
+                                </div>
+                                
+                                <div class = "milestone-shared-properties">
+                                                        {{milestone.shared_properties.join()}}
+                                </div>    
+                 </vertical-timeline-card>
+
+                 <vertical-timeline-card [dateValue]="now">
+                                <h4>Next step</h4>
+                                <p-multiSelect *ngIf = "done" [options]="properties_concerned" [(ngModel)]="new_shared_properties" [panelStyle]="{minWidth:'12em'}"></p-multiSelect>
+                                <p-selectButton (onChange)="AddMilestone(task_picked)" [options]="actions" [(ngModel)]="new_status"></p-selectButton>
+                </vertical-timeline-card>
+
+                
+                </vertical-timeline>
+    </div>
+    <p-footer>
+   </p-footer>
+</p-dialog>
