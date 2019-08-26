@@ -58,13 +58,15 @@
             <h3 style="text-align: center">Milestones</h3>
                 <vertical-timeline *ngIf="display_task"> 
                 <vertical-timeline-card *ngFor="let milestone of task_picked.resources[0].milestones" [dateValue]="getDate(milestone.timestamp)">
+                        <div style="overflow: auto">
                                 <div class = "milestone-status">
                                                         Status  :    {{milestone.status}}
                                 </div>
                                 
                                 <div class = "milestone-shared-properties">
                                                         {{milestone.shared_properties.join()}}
-                                </div>    
+                                </div>   
+                        </div>    
                  </vertical-timeline-card>
 
                  <vertical-timeline-card [dateValue]="now">
