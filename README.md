@@ -1,4 +1,8 @@
-# dcd-data-subject
+# DCD App - Subject
+
+![GitHub package.json version](https://img.shields.io/github/package-json/v/datacentricdesign/dcd-app-subject)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/datacentricdesign/dcd-app-subject)
+![Docker Build Status](https://img.shields.io/docker/build/datacentricdesign/dcd-app-subject)
 
 ## production mode
 
