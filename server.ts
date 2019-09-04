@@ -142,7 +142,7 @@ app.get(redirectUrl+'/auth', passport.authenticate('oauth2'));
 app.get(redirectUrl+'/auth/callback',
   
 passport.authenticate('oauth2',
-  {failureRedirect: '/auth'}),
+  {failureRedirect: '/auth', failWithError: true}),
   (req, res) => {
   // After success, redirect to the page we came from originally
   console.log('/auth/callback ' + req['session'].redirectTo);
