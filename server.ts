@@ -68,8 +68,7 @@ const PORT = process.env.PORT || 8080;
 
 const baseUrl = process.env.BASE_URL || '';
 
-const redirectUrl = process.env.BASE_URL || '';
-// const redirectUrl = "/subject"
+const redirectUrl = process.env.OAUTH2_REDIRECT_URL;
 
 const google_maps_key = process.env.MAPS_KEY;
 
@@ -120,7 +119,7 @@ const checkAuthentication = (req, res, next) => {
         // The `isAuthenticated` is available because of Passport.js
         if (!req.isAuthenticated()) {
             req.session.redirectTo = req.url;
-          res.redirect(redirectUrl + '/auth');
+          res.redirect(baseUrl + '/auth');
             return;
         }
         next();
@@ -140,9 +139,9 @@ async (req, res, next) => {
       res.render('index', { req });
 });
 
-app.get(redirectUrl + '/auth', passport.authenticate('oauth2'));
+app.get(baseUrl + '/auth', passport.authenticate('oauth2'));
 
-app.get(redirectUrl + '/auth/callback',
+app.get(redirectUrl,
 
 passport.authenticate('oauth2',
   {failureRedirect: '/auth', failWithError: true}),
