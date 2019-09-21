@@ -6,8 +6,6 @@ import { ngExpressEngine } from '@nguniversal/express-engine';
 // Import module map for lazy loading
 import { provideModuleMap } from '@nguniversal/module-map-ngfactory-loader';
 
-
-
 // .env
 import * as dotenv from 'dotenv';
 import * as findconfig from 'find-config';
@@ -68,7 +66,7 @@ const PORT = process.env.PORT || 8080;
 
 const baseUrl = process.env.BASE_URL || '';
 
-const redirectUrl = process.env.OAUTH2_REDIRECT_URL;
+const redirectPath = new URL(process.env.OAUTH2_REDIRECT_URL).pathname;
 
 const google_maps_key = process.env.MAPS_KEY;
 
@@ -141,7 +139,7 @@ async (req, res, next) => {
 
 app.get(baseUrl + '/auth', passport.authenticate('oauth2'));
 
-app.get(redirectUrl,
+app.get(redirectPath,
 
 passport.authenticate('oauth2',
   {failureRedirect: '/auth', failWithError: true}),
