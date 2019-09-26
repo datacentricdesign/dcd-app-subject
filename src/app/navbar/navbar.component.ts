@@ -42,7 +42,7 @@ export class NavbarComponent implements OnInit {
   logout(){
     this.service.delete('api/logout?subject='+this.subject).subscribe(
      data => {
-      window.location.reload();
+        this.service.get('/oauth2/sessions/logout');
       });
   }
     
