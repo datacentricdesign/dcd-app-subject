@@ -8,7 +8,7 @@
   "scripts": {
     "ng": "ng",
     "serve": "ng serve --base-href /subject/",
-    "build": "ng build --base-href /subject/",
+    "build": "ng build --sourceMap=false --base-href /subject/",
     "build:prod": "ng build --prod --base-href /subject/",
     "build:client-and-server-bundles": "npm run build:prod && ng run dcd-data-subject:server:production",
     "build:prerender": "npm run build:client-and-server-bundles && npm run compile:server && npm run generate:prerender",
@@ -16,7 +16,7 @@
     "compile:server": "tsc -p server.tsconfig.json",
     "serve:ssr": "node dist/server",
     "prod": "npm run postinstall && npm run build:ssr && npm run serve:ssr",
-    "watch:browser": "ng build --prod --base-href /subject/ --optimization=true --watch",
+    "watch:browser": "ng build --prod --extract-css=true --sourceMap=false --aot --build-optimizer=true --vendor-chunk=true --base-href /subject/ --optimization=true --watch",
     "watch:browser://doesn't works hmr": "ng build --base-href /subject/ --watch",
     "predev": "ng run dcd-data-subject:server:production && npm run compile:server",
     "dev": "nodemon dist/server",

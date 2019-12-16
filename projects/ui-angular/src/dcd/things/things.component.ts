@@ -202,6 +202,7 @@ export class ThingsComponent implements OnInit {
           '000'
       )
       .subscribe((data) => {
+        console.log(data.headers);
         console.log(data);
         this.exportToCsv(property.name, data);
       });
@@ -215,7 +216,7 @@ export class ThingsComponent implements OnInit {
 
     const csvContent = rows['property'].values.join('\n');
 
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const blob = new Blob([csvContent], { type: 'text/csv; charset=utf-8;' });
     if (navigator.msSaveBlob) {
       // IE 10+
       navigator.msSaveBlob(blob, filename);
