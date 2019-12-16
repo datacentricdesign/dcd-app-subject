@@ -1,0 +1,24 @@
+<div class="card card-stats">
+  <div class="card-header card-header-danger card-header-icon">
+    <div class="card-icon">
+      <i class="fas fa-user"></i>
+    </div>
+    <p class="card-category">Profile</p>
+    <h3 class="card-title">{{name}}</h3>
+    <div class="card-body">
+      <mat-form-field class="example-full-width">
+        <input matInput type="text" placeholder="Name" [(ngModel)]="name"
+               readonly>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Person ID" [(ngModel)]="email" readonly>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Email" [(ngModel)]="person_id" readonly>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Subject" [(ngModel)]="subject" readonly>
+      </mat-form-field>
+    </div>
+  </div>
+</div>

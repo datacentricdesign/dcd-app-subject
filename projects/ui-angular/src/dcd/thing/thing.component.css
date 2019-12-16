@@ -1,0 +1,42 @@
+.title-container {
+  text-align: center;
+}
+
+.top-container {
+  display: table;
+  width: 100%;
+  text-align: center;
+  max-height: 500px;
+}
+
+table {
+  width: 100%;
+}
+
+.bottom-container {
+  display: inline-table;
+  width: 100%;
+}
+
+.property-card {
+  display: table-row;
+  min-width: 600px;
+  min-height: 200px;
+  width: 46%;
+  float: left;
+  margin-left: 2%
+}
+
+.table-values-container {
+  height: 350px;
+  overflow: auto;
+}
+
+.date-picker-container {
+  margin-top: 20px;
+}
+
+.property-container {
+  overflow: auto;
+}
+

@@ -1,0 +1,67 @@
+<h3 style='text-align: center' *ngIf='data_collections.length == 0'>]
+  No values available
+</h3>
+<div class="thing-container">
+  <vertical-timeline>
+    <vertical-timeline-card *ngFor="let collection of data_collections"
+                            [dateValue]="collection.from">
+      <div class="thing_header">
+        <div class="thing_title">
+          <h4>{{getName(collection)}}</h4>
+        </div>
+        <div class="thing_nav">
+          <button mat-icon-button color="grey" (click)="nav_thing(collection)">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+      <div class=thing_table>
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">ID</th>
+            <th scope="col">Type</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let property of collection.properties; index as i">
+            <td>{{property.name}}</td>
+            <td>{{property.id}}</td>
+            <td>{{property.type}}</td>
+            <td>
+              <button mat-icon-button color="primary"
+                      (click)="showDialog_property(property)">
+                <i class="fas fa-clone"></i>
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </vertical-timeline-card>
+
+    <vertical-timeline-card [dateValue]="now">
+      <h4>Now</h4>
+    </vertical-timeline-card>
+
+  </vertical-timeline>
+</div>
+
+<p-dialog [(header)]="property_picked.name" [(visible)]="display_property"
+          [modal]="true" [responsive]="true"
+          [style]="{width: '60%', minWidth: '700px'}"
+          [maximizable]="true" [baseZIndex]="10000">
+
+  <div>
+    <dcd-property *ngIf=display_property
+                  [property]="property_picked"></dcd-property>
+  </div>
+  <p-footer>
+    <div class="property_description">
+       <span>
+           <i class="fas fa-info-circle"></i> {{descriptionP(property_picked)}}
+       </span>
+    </div>
+  </p-footer>
+</p-dialog>

@@ -1,0 +1,36 @@
+<div class="chart-container" #container>
+  <dcd-double-axis-chart
+    [view]="[container.offsetWidth,400]"
+    (window:resize)="onResize($event)"
+    [scheme]="colorScheme"
+    [results]="multi"
+    [gradient]="gradient"
+    [xAxis]="showXAxis"
+    [yAxis]="showYAxis"
+    [legend]="showLegend"
+    [showXAxisLabel]="showXAxisLabel"
+    [yMainAxisShowLabel]="showYAxisLabel"
+    [ySecondaryAxisShowLabel]="showYAxisLabel"
+    [xAxisLabel]="xAxisLabel"
+    [yMainAxisLabel]="yAxisLabel"
+    [ySecondaryAxisLabel]="yAxisLabel2"
+    [autoScale]="autoScale"
+    [timeline]="timeLine"
+    [tooltipDisabled]="tooltipDisabled"
+    [animations]="animations">
+  </dcd-double-axis-chart>
+</div>
+
+<div *ngIf="showData">
+  <div class='date-container'>{{date}}</div>
+  <div class='data-container'>
+    <div *ngFor="let dim of property_dimensions; let i = index"
+         class="data-container-i">
+      {{dim.name}} = {{property_values[index_slider][i + 1]}} {{dim.unit}}
+    </div>
+  </div>
+  <div class='date-slider-container'>
+    <p-slider [style]="{'width':'100%'}" (onChange)="handleChange($event)"
+              [(max)]="sliderSize"></p-slider>
+  </div>
+</div>

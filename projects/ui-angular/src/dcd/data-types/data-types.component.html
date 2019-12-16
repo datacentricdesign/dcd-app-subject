@@ -1,0 +1,72 @@
+<h3 style='text-align: center' *ngIf='str_things.length == 0'>No properties
+  available</h3>
+<div class="thing-container">
+  <div class=thing-card *ngFor="let thing of str_things"> <!-- Sort things -->
+    <div class="card card-chart" id=card_i>
+      <div class="card-header card-header-primary">
+        <div class="thing_header">
+          <div class="thing_title">
+            <h4 class="card-title">{{thing.name}}</h4>
+          </div>
+          <div class="thing_nav">
+            <button mat-icon-button color="grey" (click)="nav_thing(thing)">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <h5 *ngIf=!HasProperty(thing)>No property available</h5>
+        <div *ngIf=HasProperty(thing) class=thing_table>
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">ID</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let property of thing.properties; index as i">
+              <td>{{property.name}}</td>
+              <td>{{property.id}}</td>
+              <td>
+                <button mat-icon-button color="primary"
+                        (click)="showDialog_property(property)">
+                  <i class="fas fa-clone"></i>
+                </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="stats">
+                            <span>
+                             <i
+                               class="fas fa-info-circle"></i> {{descriptionT(thing)}}
+                            </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog [(header)]="property_picked.name" [(visible)]="display_property"
+          [modal]="true" [responsive]="true"
+          [style]="{width: '60%', minWidth: '700px'}"
+          [maximizable]="true" [baseZIndex]="10000">
+
+  <div>
+    <dcd-property *ngIf=display_property
+                  [property]="property_picked"></dcd-property>
+  </div>
+  <p-footer>
+    <div class="property_description">
+                     <span>
+                                     <i
+                                       class="fas fa-info-circle"></i> {{descriptionP(property_picked)}}
+                     </span>
+    </div>
+  </p-footer>
+</p-dialog>
