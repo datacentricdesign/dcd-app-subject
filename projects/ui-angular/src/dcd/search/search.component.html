@@ -1,0 +1,65 @@
+<div class="card card-search">
+  <div class="card-header card-header-danger card-header-icon">
+    <div class="card-icon">
+      <i class="fas fa-user"></i>
+    </div>
+    <p class="card-category">Persons</p>
+    <h3 class="card-title">{{total_persons}}</h3>
+  </div>
+</div>
+<div class="card card-search">
+  <div class="card-header card-header-success card-header-icon">
+    <div class="card-icon">
+      <i class="fas fa-mobile"></i>
+    </div>
+    <p class="card-category">Things</p>
+    <h3 class="card-title">{{total_things}}</h3>
+  </div>
+</div>
+<div class="card card-search">
+  <div class="card-header card-header-info card-header-icon">
+    <div class="card-icon">
+      <i class="fas fa-poll"></i>
+    </div>
+    <p class="card-category">Properties</p>
+    <h3 class="card-title">{{total_properties}}</h3>
+  </div>
+  <div class="card-body">
+    <h4 style="text-align: left">Stats of {{stat_types.join()}} values :</h4>
+    <div class="stat-progress-bar"> Entities {{EntitiesPercentage()}} %
+      ({{type_range_entities}}/{{type_total_entities}})
+      <mat-progress-bar
+        [value]="EntitiesPercentage()">
+      </mat-progress-bar>
+    </div>
+    <div class="stat-progress-bar">Properties {{PropertiesPercentage()}} %
+      ({{type_range_properties}}/{{type_total_properties}})
+      <mat-progress-bar
+        [value]="PropertiesPercentage()">
+      </mat-progress-bar>
+
+    </div>
+    <div class="stat-progress-bar">Values {{ValuesPercentage()}} %
+      ({{type_range_values}}/{{type_total_values}})
+      <mat-progress-bar
+        [value]="ValuesPercentage()">
+      </mat-progress-bar>
+    </div>
+
+  </div>
+  <div class="card-footer">
+    <mat-form-field style="text-align: center">
+      <mat-label>Type</mat-label>
+      <mat-select [(ngModel)]="stat_types" (selectionChange)="OnChange()"
+                  multiple>
+        <mat-option *ngFor="let type of GetPropertyType()" [value]="type">
+          {{type}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <p-calendar [maxDate]="dateTime" placeholder="Range (default : all time)"
+                [(ngModel)]="stat_range" selectionMode="range"
+                [readonlyInput]="true" (onSelect)="OnChange()"></p-calendar>
+  </div>
+</div>
