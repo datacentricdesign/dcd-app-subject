@@ -163,10 +163,6 @@ export class ThingsComponent implements OnInit {
   }
 
   add_property(property: {}) {
-    console.log('in the post service');
-    console.log(this.add_property_thing.id);
-    console.log(property);
-
     this.service
       .post(
         'api/things/' + this.add_property_thing.id + '/properties',
@@ -232,6 +228,36 @@ export class ThingsComponent implements OnInit {
         document.body.removeChild(link);
       }
     }
+  }
+
+  openDialogAddPem(thing: Thing) {
+    this.add_property_thing = thing;
+    const dialogRef = this.dialog.open(DialogAddPem, {
+      width: '500px',
+      data: { pem: '', thing: thing }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.addPem(result.pem, result.thing);
+      }
+    });
+  }
+
+  addPem(pKey: String, thing: Thing) {
+    const key =
+      '-----BEGIN PUBLIC KEY-----' +
+      '\n' +
+      pKey +
+      '\n' +
+      '-----END PUBLIC KEY-----';
+    console.log(key);
+
+    this.service
+      .put('api/things/' + thing.id + '/pem', { pem: key })
+      .subscribe((data) => {
+        console.log(data);
+      });
   }
 }
 
@@ -392,5 +418,45 @@ export class DialogAddProperty {
       res.push(type);
     }
     return res;
+  }
+}
+
+// Dialog to update public key
+@Component({
+  selector: 'dialog-add-pem',
+  template: `
+    <h1 mat-dialog-title>Update Public key for {{ data.thing.name }}</h1>
+    <div mat-dialog-content>
+      <mat-form-field>
+        <textarea
+          rows="15"
+          cols="70"
+          matInput
+          [(ngModel)]="data.pem"
+          placeholder="Enter Your Public Key"
+        ></textarea>
+      </mat-form-field>
+    </div>
+
+    <div mat-dialog-actions>
+      <button mat-button (click)="onNoClick()">No Thanks</button>
+      <button
+        *ngIf="data.pem"
+        mat-button
+        [mat-dialog-close]="data"
+        cdkFocusInitial
+      >
+        Upload
+      </button>
+    </div>
+  `
+})
+export class DialogAddPem {
+  constructor(
+    public dialogRef: MatDialogRef<DialogAddThing>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData
+  ) {}
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }

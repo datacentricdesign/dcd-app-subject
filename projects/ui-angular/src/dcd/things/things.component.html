@@ -1,5 +1,4 @@
 <div class="thing-container">
-
   <!-- Header -->
   <div class="add-thing">
     <button mat-mini-fab color="grey" (click)="openDialogAddThing()">
@@ -8,22 +7,33 @@
   </div>
 
   <!-- NO things Available -->
-  <h3 style='text-align: center' *ngIf='things.length == 0'>No thing
-    availaible</h3>
+  <h3 style="text-align: center" *ngIf="things.length == 0">
+    No thing availaible
+  </h3>
 
   <!-- Content Body / Thing Cards -->
-  <div class=thing-card *ngFor="let thing of things">
+  <div class="thing-card" *ngFor="let thing of things">
     <!-- Sort things -->
-    <div class="card card-chart" id=card_i>
+    <div class="card card-chart" id="card_i">
       <div class="card-header card-header-success">
-
         <!-- Card Header -->
         <div class="thing_header">
           <div class="thing_title">
-            <h4 class="card-title">{{thing.name}} ({{thing.id}})</h4>
+            <h4 class="card-title">{{ thing.name }} ({{ thing.id }})</h4>
           </div>
           <div class="thing_nav">
-            <button mat-icon-button color="grey" (click)="openDialogAddProperty(thing)">
+            <button
+              mat-icon-button
+              color="grey"
+              (click)="openDialogAddPem(thing)"
+            >
+              <i class="fas fa-key"></i>
+            </button>
+            <button
+              mat-icon-button
+              color="grey"
+              (click)="openDialogAddProperty(thing)"
+            >
               <i class="fas fa-plus"></i>
             </button>
             <button mat-icon-button color="grey" (click)="nav_thing(thing)">
@@ -34,8 +44,8 @@
       </div>
       <!-- Card Body -->
       <div class="card-body">
-        <h5 *ngIf=!HasProperty(thing)>No property available</h5>
-        <div *ngIf=HasProperty(thing) class=thing_table>
+        <h5 *ngIf="!HasProperty(thing)">No property available</h5>
+        <div *ngIf="HasProperty(thing)" class="thing_table">
           <table class="table table-striped">
             <thead>
               <tr>
@@ -45,13 +55,21 @@
             </thead>
             <tbody>
               <tr *ngFor="let property of thing.properties; index as i">
-                <td>{{property.name}} ({{property.id}})</td>
-                <td>{{property.type}}</td>
+                <td>{{ property.name }} ({{ property.id }})</td>
+                <td>{{ property.type }}</td>
                 <td>
-                  <button mat-icon-button color="grey" (click)="export_data(property)">
+                  <button
+                    mat-icon-button
+                    color="grey"
+                    (click)="export_data(property)"
+                  >
                     <i class="fas fa-download"></i>
                   </button>
-                  <button mat-icon-button color="primary" (click)="showDialog_property(property)">
+                  <button
+                    mat-icon-button
+                    color="primary"
+                    (click)="showDialog_property(property)"
+                  >
                     <i class="fas fa-clone"></i>
                   </button>
                 </td>
@@ -64,7 +82,7 @@
       <div class="card-footer">
         <div class="stats">
           <span>
-            <i class="fas fa-info-circle"></i> {{descriptionT(thing)}}
+            <i class="fas fa-info-circle"></i> {{ descriptionT(thing) }}
           </span>
         </div>
         <div class="thing_delete">
@@ -78,20 +96,33 @@
 </div>
 
 <!-- Property Dialog -->
-<p-dialog [(header)]="property_picked.name" [(visible)]="display_property" [modal]="true" [responsive]="true"
-  [style]="{width: '60%', minWidth: '700px'}" [maximizable]="true" [baseZIndex]="10000">
-
+<p-dialog
+  [(header)]="property_picked.name"
+  [(visible)]="display_property"
+  [modal]="true"
+  [responsive]="true"
+  [style]="{ width: '60%', minWidth: '700px' }"
+  [maximizable]="true"
+  [baseZIndex]="10000"
+>
   <div>
-    <dcd-property *ngIf=display_property [property]="property_picked"></dcd-property>
+    <dcd-property
+      *ngIf="display_property"
+      [property]="property_picked"
+    ></dcd-property>
   </div>
   <p-footer>
     <div class="property_description">
       <span>
-        <i class="fas fa-info-circle"></i> {{descriptionP(property_picked)}}
+        <i class="fas fa-info-circle"></i> {{ descriptionP(property_picked) }}
       </span>
     </div>
     <div class="property_delete">
-      <button mat-icon-button color="grey" (click)="delete_property(property_picked)">
+      <button
+        mat-icon-button
+        color="grey"
+        (click)="delete_property(property_picked)"
+      >
         <i class="fas fa-trash"></i>
       </button>
     </div>

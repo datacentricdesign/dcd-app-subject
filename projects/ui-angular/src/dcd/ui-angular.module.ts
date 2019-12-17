@@ -58,7 +58,8 @@ import {
   ThingsComponent,
   DialogAddThing,
   DialogAddProperty,
-  DialogJWT
+  DialogJWT,
+  DialogAddPem
 } from './things/things.component';
 import { DataCollectionsComponent } from './data-collections/data-collections.component';
 import { SearchComponent } from './search/search.component';
@@ -81,6 +82,7 @@ import { DataTypesComponent } from './data-types/data-types.component';
     DialogAddThing,
     DialogAddProperty,
     DialogJWT,
+    DialogAddPem,
     DataCollectionsComponent,
     SearchComponent,
     PersonComponent,
@@ -132,7 +134,7 @@ import { DataTypesComponent } from './data-types/data-types.component';
     PersonComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  entryComponents: [DialogAddThing, DialogAddProperty, DialogJWT],
+  entryComponents: [DialogAddThing, DialogAddProperty, DialogJWT, DialogAddPem],
   providers: [DatePipe]
 })
 export class UiAngularModule {}

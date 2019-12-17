@@ -1,14 +1,14 @@
 .thing-container {
   display: inline-table;
   width: 100%;
-  margin-left: 1%
+  margin-left: 1%;
 }
 
 .thing-card {
   display: table-row;
   width: 46%;
   float: left;
-  margin-left: 2%
+  margin-left: 2%;
 }
 
 table {
@@ -34,7 +34,7 @@ table {
 
 .thing_header {
   display: table;
-  width: 100%
+  width: 100%;
 }
 
 .thing_title {
@@ -55,7 +55,6 @@ table {
 .thing_download {
   float: right;
 }
-
-input {
-  margin-top: 1%
+t input {
+  margin-top: 1%;
 }
