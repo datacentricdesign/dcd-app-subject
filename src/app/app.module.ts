@@ -27,7 +27,7 @@ import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 
 //@datacentricdesign/ui-angular
-import { UiAngularModule } from '../../projects/ui-angular/src/dcd/ui-angular.module';
+import { UiAngularModule } from '../app/dcd/ui-angular.module';
 
 //To DELETE
 /*import {HttpClientService} from './http-client.service'*/

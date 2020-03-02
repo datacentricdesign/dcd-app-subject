@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClientService} from '@datacentricdesign/ui-angular'
+import {HttpClientService} from '../dcd/http-client.service'
 import {Inject} from '@angular/core';
 import { PLATFORM_ID} from '@angular/core';
 import {isPlatformServer} from "@angular/common";
