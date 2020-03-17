@@ -1,0 +1,61 @@
+<div class="property-container">
+
+  <div class="calendar-container">
+    <p-calendar [maxDate]="dateTime" *ngIf="showcalendar && !checked"
+                [(ngModel)]="rangeDates" selectionMode="range"
+                [readonlyInput]="true"
+                (onSelect)="getValues(rangeDates)"></p-calendar>
+    <p-calendar [maxDate]="dateTime" *ngIf="!showcalendar && !checked"
+                [(ngModel)]="rangeDates" selectionMode="range"
+                [readonlyInput]="true"
+                (onSelect)="getValues(rangeDates)"></p-calendar>
+    <mat-slide-toggle style="float: right"
+                      [checked]="checked"
+                      (change)="toggle($event)"
+                      color="primary"
+    >
+      {{mode}}
+    </mat-slide-toggle>
+  </div>
+
+  <div class="chart-container" *ngIf="propertyType == 'LOCATION'">
+    <dcd-property-location
+      [property_values]="values"
+      [property_dimensions]="property.dimensions"
+      [property_entity_id]="property.entity_id"
+      [apiKey]="apiKey"
+      [checked]="checked">
+    </dcd-property-location>
+  </div>
+
+  <div class="chart-container" *ngIf="propertyType == 'X_DIMENSIONS'">
+    <dcd-property-x-dimensions
+      [property_values]="values"
+      [property_dimensions]="property.dimensions"
+      [property_type]="property.type"
+    >
+    </dcd-property-x-dimensions>
+  </div>
+
+  <div class="chart-container" *ngIf="propertyType == 'TWO_DIMENSIONS'">
+    <dcd-property-two-dimensions
+      [property_values]="values"
+      [property_dimensions]="property.dimensions"
+    >
+    </dcd-property-two-dimensions>
+  </div>
+
+  <div class="chart-container" *ngIf="propertyType == 'ONE_DIMENSION'">
+    <dcd-property-one-dimension
+      [property_dimensions]="property.dimensions"
+      [property_values]="values">
+    </dcd-property-one-dimension>
+  </div>
+
+  <div class="chart-container" *ngIf="propertyType == 'TEXT'">
+    <dcd-property-text
+      [property_values]="values">
+    </dcd-property-text>
+  </div>
+
+</div>

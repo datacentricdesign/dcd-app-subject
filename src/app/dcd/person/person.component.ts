@@ -1,23 +1,22 @@
-import {Component, OnInit} from '@angular/core';
-import {HttpClientService} from '../dcd/http-client.service'
-import {Inject} from '@angular/core';
-import { PLATFORM_ID} from '@angular/core';
+import { Component, Inject, PLATFORM_ID, OnInit} from '@angular/core';
+import {HttpClientService} from '../http-client.service'
 import {isPlatformServer} from "@angular/common";
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  selector: 'dcd-person',
+  templateUrl: './person.component.html',
+  styleUrls: ['./person.component.css']
 })
-
-export class NavbarComponent implements OnInit {
+export class PersonComponent implements OnInit {
 
   name : string = ''
-  subject:string
+  subject:string = ''
+  person_id : string = ''
+  email : string = ''
 
   constructor(private service: HttpClientService,@Inject(PLATFORM_ID) private platformId: Object,) {
     if (isPlatformServer(this.platformId)) {
-      console.log('Init Navbar component server'); 
+      console.log('Init User component server');
       } else {
        this.BrowserUniversalInit()
     }
@@ -30,6 +29,8 @@ export class NavbarComponent implements OnInit {
     data => {
       this.subject = data['sub']
       const userId = data['sub'].split('dcd:persons:')[1]
+      this.person_id = userId
+      this.email = userId
       this.service.get('api/persons/'+userId).subscribe(
         data => {
           this.name = data['person'].name
@@ -39,11 +40,4 @@ export class NavbarComponent implements OnInit {
   )
   }
 
-  logout(){
-    this.service.delete('api/logout?subject='+this.subject).subscribe(
-     data => {
-      window.location.reload();
-      });
-  }
-    
 }
