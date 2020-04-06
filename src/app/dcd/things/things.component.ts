@@ -2,7 +2,7 @@ import { Component, Inject, PLATFORM_ID, Input, OnInit } from '@angular/core';
 import {
   MatDialog,
   MatDialogRef,
-  MAT_DIALOG_DATA
+  MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { Thing, Property, PropertyType } from '../classes';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { isPlatformServer } from '@angular/common';
 @Component({
   selector: 'dcd-things',
   templateUrl: './things.component.html',
-  styleUrls: ['./things.component.css']
+  styleUrls: ['./things.component.css'],
 })
 export class ThingsComponent implements OnInit {
   things: Thing[] = [];
@@ -100,7 +100,7 @@ export class ThingsComponent implements OnInit {
 
   nav_thing(thing: Thing) {
     this.router.navigate(['/page/thing'], {
-      state: { data: thing.json() }
+      state: { data: thing.json() },
     });
   }
 
@@ -116,7 +116,7 @@ export class ThingsComponent implements OnInit {
   openDialogJWT(thing: Thing, jwt: string): void {
     const dialogRef = this.dialog.open(DialogJWT, {
       width: '250px',
-      data: { thing: thing, jwt: jwt }
+      data: { thing: thing, jwt: jwt },
     });
 
     dialogRef.afterClosed().subscribe((result) => {});
@@ -125,7 +125,7 @@ export class ThingsComponent implements OnInit {
   openDialogAddThing(): void {
     const dialogRef = this.dialog.open(DialogAddThing, {
       width: '250px',
-      data: { name: '', type: '', description: '', pem: '' }
+      data: { name: '', type: '', description: '', pem: '' },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -135,11 +135,41 @@ export class ThingsComponent implements OnInit {
             name: result.name,
             type: result.type,
             description: result.description,
-            pem: result.pem
+            pem: result.pem,
           })
         );
       }
     });
+  }
+
+  openDialogAddPem(thing: Thing) {
+    this.add_property_thing = thing;
+    const dialogRef = this.dialog.open(DialogAddPem, {
+      width: '500px',
+      data: { pem: '', thing: thing },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.addPem(result.pem, result.thing);
+      }
+    });
+  }
+
+  addPem(pKey: String, thing: Thing) {
+    const key =
+      '-----BEGIN PUBLIC KEY-----' +
+      '\n' +
+      pKey +
+      '\n' +
+      '-----END PUBLIC KEY-----';
+    console.log(key);
+
+    this.service
+      .put('api/things/' + thing.id + '/pem', { pem: key })
+      .subscribe((data) => {
+        console.log(data);
+      });
   }
 
   add_property_thing: Thing;
@@ -148,7 +178,7 @@ export class ThingsComponent implements OnInit {
     this.add_property_thing = thing;
     const dialogRef = this.dialog.open(DialogAddProperty, {
       width: '250px',
-      data: { name: '', type: '', description: '', thing: thing }
+      data: { name: '', type: '', description: '', thing: thing },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -156,17 +186,13 @@ export class ThingsComponent implements OnInit {
         this.add_property({
           name: result.name,
           type: result.type,
-          description: result.description
+          description: result.description,
         });
       }
     });
   }
 
   add_property(property: {}) {
-    console.log('in the post service');
-    console.log(this.add_property_thing.id);
-    console.log(property);
-
     this.service
       .post(
         'api/things/' + this.add_property_thing.id + '/properties',
@@ -285,7 +311,7 @@ export interface DialogData {
         Create
       </button>
     </div>
-  `
+  `,
 })
 export class DialogAddThing {
   constructor(
@@ -326,7 +352,7 @@ export class DialogAddThing {
         Copy JWT
       </button>
     </div>
-  `
+  `,
 })
 export class DialogJWT {
   constructor(
@@ -375,7 +401,7 @@ export class DialogJWT {
         Create
       </button>
     </div>
-  `
+  `,
 })
 export class DialogAddProperty {
   constructor(
