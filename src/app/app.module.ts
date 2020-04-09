@@ -38,7 +38,7 @@ import { UiAngularModule } from '../app/dcd/ui-angular.module';
     HomeComponent,
     NotificationsComponent,
     NavbarComponent,
-    UserComponent
+    UserComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'my-app' }),
@@ -49,9 +49,9 @@ import { UiAngularModule } from '../app/dcd/ui-angular.module';
       {
         path: 'page/notifications',
         component: NotificationsComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
-      { path: '**', redirectTo: '/page/home', pathMatch: 'full' }
+      { path: '**', redirectTo: '/page/home', pathMatch: 'full' },
     ]),
     TransferHttpCacheModule,
     MatButtonModule,
@@ -64,11 +64,11 @@ import { UiAngularModule } from '../app/dcd/ui-angular.module';
     ReactiveFormsModule,
     MatInputModule,
     ButtonModule,
-    DialogModule
+    DialogModule,
   ],
   providers: [
     //HttpClientService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

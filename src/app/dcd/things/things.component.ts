@@ -142,10 +142,11 @@ export class ThingsComponent implements OnInit {
     });
   }
 
-  openDialogAddPem(thing: Thing) {
-    this.add_property_thing = thing;
+  add_property_thing: Thing;
+  add_pem_thing: Thing;
+
+  openDialogAddPem(thing: Thing): void {
     const dialogRef = this.dialog.open(DialogAddPem, {
-      width: '500px',
       data: { pem: '', thing: thing },
     });
 
@@ -171,8 +172,6 @@ export class ThingsComponent implements OnInit {
         console.log(data);
       });
   }
-
-  add_property_thing: Thing;
 
   openDialogAddProperty(thing: Thing): void {
     this.add_property_thing = thing;
@@ -419,5 +418,45 @@ export class DialogAddProperty {
       res.push(type);
     }
     return res;
+  }
+}
+
+// Dialog to update public key
+@Component({
+  selector: 'dialog-add-pem',
+  template: `
+    <h1 mat-dialog-title>Update Public key for {{ data.thing.name }}</h1>
+    <div mat-dialog-content>
+      <mat-form-field>
+        <textarea
+          rows="15"
+          cols="70"
+          matInput
+          [(ngModel)]="data.pem"
+          placeholder="Enter Your Public Key"
+        ></textarea>
+      </mat-form-field>
+    </div>
+
+    <div mat-dialog-actions>
+      <button mat-button (click)="onNoClick()">No Thanks</button>
+      <button
+        *ngIf="data.pem"
+        mat-button
+        [mat-dialog-close]="data"
+        cdkFocusInitial
+      >
+        Upload
+      </button>
+    </div>
+  `,
+})
+export class DialogAddPem {
+  constructor(
+    public dialogRef: MatDialogRef<DialogAddPem>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData
+  ) {}
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }

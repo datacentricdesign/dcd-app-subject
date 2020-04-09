@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 
+// tslint:disable-next-line: comment-format
 //@angular/material
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
@@ -13,36 +14,37 @@ import { MatInputModule } from '@angular/material';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
-//prime-ng
+// prime-ng
 import { SliderModule } from 'primeng/slider';
 import { DialogModule } from 'primeng/dialog';
 import { CalendarModule } from 'primeng/calendar';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 
+// tslint:disable-next-line: comment-format
 //Bootstrap
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-//ng2-charts
+// ng2-charts
 import { ChartsModule } from 'ng2-charts';
 import { PropertyOneDimensionComponent } from './property-one-dimension/property-one-dimension.component';
 
-//@swimlane/ngx-charts
+// @swimlane/ngx-charts
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
-//ngx-clipboard
+// ngx-clipboard
 import { ClipboardModule } from 'ngx-clipboard';
 
-//Google Maps
+// Google Maps
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-//Http
+// Http
 import { HttpClientModule } from '@angular/common/http';
 
-//Vertical timeline
+// Vertical timeline
 import { VerticalTimelineModule } from 'angular-vertical-timeline';
 
-//Components
+// Components
 import { UiAngularComponent } from './ui-angular.component';
 import { DoubleAxisChartComponent } from './double-axis-chart/double-axis-chart.component';
 import { PropertyXDimensionsComponent } from './property-x-dimensions/property-x-dimensions.component';
@@ -58,7 +60,8 @@ import {
   ThingsComponent,
   DialogAddThing,
   DialogAddProperty,
-  DialogJWT
+  DialogJWT,
+  DialogAddPem,
 } from './things/things.component';
 import { DataCollectionsComponent } from './data-collections/data-collections.component';
 import { SearchComponent } from './search/search.component';
@@ -81,16 +84,17 @@ import { DataTypesComponent } from './data-types/data-types.component';
     DialogAddThing,
     DialogAddProperty,
     DialogJWT,
+    DialogAddPem,
     DataCollectionsComponent,
     SearchComponent,
     PersonComponent,
     DataTypesComponent,
-    PropertyTextComponent
+    PropertyTextComponent,
   ],
   imports: [
     CommonModule,
     RouterModule.forRoot([
-      { path: 'page/thing', component: ThingComponent, pathMatch: 'full' }
+      { path: 'page/thing', component: ThingComponent, pathMatch: 'full' },
     ]),
     SliderModule,
     ChartsModule,
@@ -112,7 +116,7 @@ import { DataTypesComponent } from './data-types/data-types.component';
     NgbModule,
     FormsModule,
     VerticalTimelineModule,
-    MatProgressBarModule
+    MatProgressBarModule,
   ],
   exports: [
     UiAngularComponent,
@@ -129,10 +133,10 @@ import { DataTypesComponent } from './data-types/data-types.component';
     SearchComponent,
     PropertyVideoComponent,
     PropertyClassComponent,
-    PersonComponent
+    PersonComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  entryComponents: [DialogAddThing, DialogAddProperty, DialogJWT],
-  providers: [DatePipe]
+  entryComponents: [DialogAddThing, DialogAddProperty, DialogJWT, DialogAddPem],
+  providers: [DatePipe],
 })
 export class UiAngularModule {}
