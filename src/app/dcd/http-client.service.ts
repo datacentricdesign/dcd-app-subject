@@ -3,7 +3,7 @@ import { Observable, of, throwError } from 'rxjs';
 import {
   HttpClient,
   HttpHeaders,
-  HttpErrorResponse
+  HttpErrorResponse,
 } from '@angular/common/http';
 
 import { catchError, map, mergeMap, retryWhen, delay } from 'rxjs/operators';
@@ -11,18 +11,18 @@ import { catchError, map, mergeMap, retryWhen, delay } from 'rxjs/operators';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*'
-  })
+    'Access-Control-Allow-Origin': '*',
+  }),
 };
 
 const httpOptionsCSV = {
   headers: new HttpHeaders({
-    Accept: 'text/csv'
-  })
+    Accept: 'text/csv',
+  }),
 };
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HttpClientService {
   constructor(private http: HttpClient) {}
