@@ -26,5 +26,6 @@ webpack.records.json
 *.metadata.json
 *.shim.ngstyle.ts
 
-*.env
+.env
 
+development.env
